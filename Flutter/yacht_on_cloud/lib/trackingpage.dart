@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:menu_page/SetAlert.dart';
-import 'package:menu_page/template.dart';
+
 import 'package:provider/provider.dart';
 
+import 'SetAlert.dart';
 import 'navigation_provider.dart';
+import 'template.dart';
 
 void main() {
   runApp(const TrackingPage());
