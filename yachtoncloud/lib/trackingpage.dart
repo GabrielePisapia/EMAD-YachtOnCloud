@@ -88,7 +88,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                   },
                   child: Text(
                     'Imposta notifica di movimento',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
               ),
