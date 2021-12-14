@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/example/yacht_on_cloud/BuildConfig.java
- com.example.yacht_on_cloud.BuildConfig
