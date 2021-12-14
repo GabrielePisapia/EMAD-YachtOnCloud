@@ -352,16 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Powered by',
-                      style: TextStyle(
-                          color: Colors.white,
-                          letterSpacing: 1.0,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
+                  children: [],
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),

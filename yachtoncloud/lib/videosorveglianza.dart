@@ -50,7 +50,7 @@ class _mainVideoState extends State<mainVideo> {
           gradient: LinearGradient(
               colors: [
                 const Color(0xFF00CCFF),
-                Colors.red,
+                Colors.blue,
               ],
               begin: const FractionalOffset(0.0, 2.0),
               end: const FractionalOffset(1.0, 0.0),
