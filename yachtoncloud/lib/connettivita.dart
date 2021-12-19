@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:provider/provider.dart';
-
 import 'navigation_provider.dart';
 import 'template.dart';
 
@@ -10,15 +14,22 @@ void main() {
   runApp(const Connettivita());
 }
 
+class ChartData {
+        ChartData(String x, double y, Color? color) {
+          this.x = x;
+          this.y = y;
+          this.color = color!;
+        }
+            late final String x;
+            late final double y;
+            late final Color color;
+    }
+
 class SecondRoute extends StatelessWidget {
   const SecondRoute({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> gradientColors = [
-      const Color(0xFFFF8F00),
-      const Color(0xFFFFA737),
-    ];
 
     return Template(
       appBarTitle: 'Yacht on Cloud',
@@ -138,17 +149,381 @@ class Connettivita extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => NavigationProvider(),
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
+    Widget build(BuildContext context) {
+    return getBody(context);
+  }
+
+
+Widget getBody(BuildContext context) {
+
+   final List<Color> gradientColors = [
+      const Color(0xFFFF8F00),
+      const Color(0xFFFFA737),
+    ];
+
+    final List<ChartData> chartData = [
+            ChartData('Consumati', 150, Colors.blue),
+            ChartData('Restanti', 50, Color(0xFFFF5E00)),
+        ];
+    final _myList = List.generate(5, (index) => 'dispositivo num. $index');
+    ScrollController _controller = new ScrollController();
+    
+    _scrollListener() {
+      if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(()  {//you can do anything here
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+      }
+    }
+  @override
+   void initState() {
+      _controller = ScrollController();
+      _controller.addListener(_scrollListener);//the listener for up and down. 
+     super.initState();
+    }
+    
+    var size = MediaQuery.of(context).size;
+
+    return Template(
+      appBarTitle: "Yacht on Cloud",
+      boxDecoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              const Color(0xFF00CCFF),
+              const Color(0xFF3366FF),
+            ],
+            begin: const FractionalOffset(0.0, 2.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 20,
           ),
-          debugShowCheckedModeBanner: false,
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        ),
-      );
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Container(
+              width: double.infinity,
+              height: 250,
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFFFF5E00).withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                      // changes position of shadow
+                    ),
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "TIM - Promozione bella",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "\200GB",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: Container(
+                        width: (size.width - 20),
+                        height: 150,
+                        child: LineChart(
+                          LineChartData(
+                            gridData: FlGridData(
+                                show: true,
+                                drawHorizontalLine: true,
+                                getDrawingHorizontalLine: (value) {
+                                  return FlLine(
+                                    color: Colors.white,
+                                    strokeWidth: 0.1,
+                                  );
+                                }),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 22,
+                                getTextStyles: (value) =>  const TextStyle(color: Colors.white, fontSize: 12),
+                                    //const TextStyle(color: Colors.white, fontSize: 12),
+                                getTitles: (value) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return 'LUN';
+                                    case 3:
+                                      return 'GIO';
+                                    case 6:
+                                      return 'DOM';
+                                  }
+                                  return '';
+                                },
+                                margin: 8,
+                              ),
+                              leftTitles: SideTitles(
+                                showTitles: true,
+                                getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 12,),
+                                getTitles: (value) {
+                                  switch (value.toInt()) {
+                                    case 1:
+                                      return '10GB';
+                                    case 3:
+                                      return '50GB';
+                                    case 5:
+                                      return '100GB';
+                                  }
+                                  return '';
+                                },
+                                reservedSize: 35,
+                                margin: 10,
+                              ),
+                            ),
+                            borderData: FlBorderData(
+                              show: false,
+                            ),
+                            minX: 0,
+                            maxX: 8,
+                            minY: 0,
+                            maxY: 6,
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: [
+                                  FlSpot(0, 1.2),
+                                  FlSpot(2.1, 2.2),
+                                  FlSpot(2.8, 4.7),
+                                  FlSpot(4.9, 2.1),
+                                  FlSpot(6, 4),
+                                  FlSpot(8, 5.7),
+                                ],
+                                isCurved: true,
+                                colors: gradientColors,
+                                barWidth: 3,
+                                isStrokeCapRound: true,
+                                dotData: FlDotData(
+                                  show: false,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: [ Container(
+                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                  width: (size.width - 40),
+                  height: 190,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF00CCFF).withOpacity(0.01),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 25, top: 20, bottom: 5),
+                    child: Column(
+                      //mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding( padding: EdgeInsets.only(bottom: 5), 
+                            child: Text(
+                              'Dispositivi connessi',
+                              style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox( height: 114, child: CustomScrollView(
+                            controller: _controller,
+                              slivers: [
+                                SliverList(
+                                   delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    return SizedBox( height: 45, width: (size.width - 10) / 2, child:Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50.0),
+                                      ),
+                                      child: ListTile(
+                                        visualDensity: VisualDensity(horizontal: -3, vertical: -4),
+                                        leading:  Container(
+                                          height: double.infinity,
+                                          child:
+                                             Container(padding: const EdgeInsets.all(0.0), child: Icon(Icons.smartphone, size: 19.0, color: Colors.white)),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(30.0)),
+                                        tileColor: Colors.orange[300],
+                                        title: Text(
+                                          _myList[index],
+                                          style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal),
+                                        ),
+                                        //subtitle: Text('${person.age}'),
+                                      ),
+                                    ));
+                                  },
+                                  childCount: _myList.length,
+                                ))
+                              ],
+                            ))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            Container(
+                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                  width: (size.width - 40),
+                  height: 203,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF00CCFF).withOpacity(0.01),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ]),
+                  child: Column(
+                      //mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding( padding: const EdgeInsets.only(
+                                left: 25, right: 25, top: 20, bottom: 5),
+                                child: Text(
+                              'Consumi',
+                              style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                            )),
+                            SizedBox( height: 150,
+                              child: SfCircularChart(
+                                legend: Legend(
+                                  toggleSeriesVisibility: false,
+                                  isVisible: true,
+                                  textStyle: TextStyle(
+                                    letterSpacing: 1.0,
+                                    color: Colors.white,
+                                  )),
+                                series: <CircularSeries>[
+                                // Renders doughnut chart
+                                DoughnutSeries<ChartData, String>(
+                                dataSource: chartData,
+                                pointColorMapper:(ChartData data,  _) => data.color,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y,
+                                //explode: true,
+                                //explodeIndex: 1,
+                                dataLabelSettings: DataLabelSettings(
+                                    isVisible: true,
+                                    textStyle: TextStyle(
+                                      letterSpacing: 1.0,
+                                      color: Colors.white,
+                                    ),
+                                    // Positioning the data label
+                                    labelPosition: ChartDataLabelPosition.outside,
+                                )
+                            )
+                        ]
+                    )
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+            ]
+          ),
+          TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(18.0),
+                         side: BorderSide(color: Colors.blue)))),
+              onPressed: null,
+              child: Text(
+                'Impostazioni connettività',
+                style: TextStyle(color: Colors.white),
+              ),
+          ),
+        ],
+      ),
+    )])));
+}
 }
 
 class MyHomePage extends StatefulWidget {
@@ -454,7 +829,7 @@ class LineTitles {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 35,
-          getTextStyles: (context, value) => const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -470,7 +845,7 @@ class LineTitles {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
+          getTextStyles: (value) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 15,
@@ -489,3 +864,4 @@ class LineTitles {
         ),
       );
 }
+
