@@ -156,7 +156,7 @@ class navdrawerTest extends StatelessWidget {
         ));
     switch (index) {
       case 0:
-        navigateTo(const Connettivita());
+        navigateTo(Connettivita());
         break;
       case 1:
         navigateTo(mainVideo(

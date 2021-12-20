@@ -7,21 +7,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:provider/provider.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 import 'navigation_provider.dart';
 import 'template.dart';
 
-void main() {
-  runApp(const Connettivita());
-}
-
 class ChartData {
-        ChartData(String x, double y, Color? color) {
+        ChartData(String x, int y, Color? color) {
           this.x = x;
           this.y = y;
           this.color = color!;
         }
             late final String x;
-            late final double y;
+            late final int y;
             late final Color color;
     }
 
@@ -53,7 +50,7 @@ class SecondRoute extends StatelessWidget {
               Text(
                 'Dettagli connettivià',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: textColor,
                     letterSpacing: 2.0,
                     fontSize: 20,
                     fontWeight: FontWeight.normal),
@@ -62,7 +59,7 @@ class SecondRoute extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text('Nome rete',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: textColor,
                         letterSpacing: 2.0,
                         fontSize: 17,
                         fontWeight: FontWeight.normal)),
@@ -89,7 +86,7 @@ class SecondRoute extends StatelessWidget {
             Text(
               'TIM',
               style: TextStyle(
-                  color: Colors.white,
+                  color: textColor,
                   letterSpacing: 2.0,
                   fontSize: 20,
                   fontWeight: FontWeight.normal),
@@ -100,7 +97,7 @@ class SecondRoute extends StatelessWidget {
               'Nome promozione e dettagli promozione',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.white,
+                  color: textColor,
                   letterSpacing: 2.0,
                   fontSize: 17,
                   fontWeight: FontWeight.normal),
@@ -119,7 +116,7 @@ class SecondRoute extends StatelessWidget {
                     Text(
                       'Powered by',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: textColor,
                           letterSpacing: 1.0,
                           fontSize: 20.0,
                           fontWeight: FontWeight.normal),
@@ -144,8 +141,13 @@ class SecondRoute extends StatelessWidget {
   }
 }
 
-class Connettivita extends StatelessWidget {
-  const Connettivita({Key? key}) : super(key: key);
+class Connettivita extends StatefulWidget {
+  @override
+  _ConnettivitaState createState() => _ConnettivitaState();
+}
+
+class _ConnettivitaState extends State<Connettivita> {
+  //const Connettivita({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -157,36 +159,35 @@ class Connettivita extends StatelessWidget {
 Widget getBody(BuildContext context) {
 
    final List<Color> gradientColors = [
-      const Color(0xFFFF8F00),
-      const Color(0xFFFFA737),
+      chartColor1,
+      chartColor2,
     ];
 
     final List<ChartData> chartData = [
-            ChartData('Consumati', 150, Colors.blue),
-            ChartData('Restanti', 50, Color(0xFFFF5E00)),
+            ChartData('Consumati', 150, chartColor1),
+            ChartData('Restanti', 50, chartColor2),
         ];
     final _myList = List.generate(5, (index) => 'dispositivo num. $index');
-    ScrollController _controller = new ScrollController();
-    
+    ScrollController _controller = ScrollController();
+
     _scrollListener() {
       if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
-      setState(()  {//you can do anything here
+      setState(() {//you can do anything here
       });
     }
     if (_controller.offset <= _controller.position.minScrollExtent &&
         !_controller.position.outOfRange) {
       setState(() {//you can do anything here
-      });
+        });
       }
     }
-  @override
-   void initState() {
+
+    void initState() {
       _controller = ScrollController();
       _controller.addListener(_scrollListener);//the listener for up and down. 
-     super.initState();
+      super.initState();
     }
-    
     var size = MediaQuery.of(context).size;
 
     return Template(
@@ -194,8 +195,8 @@ Widget getBody(BuildContext context) {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              const Color(0xFF00CCFF),
-              const Color(0xFF3366FF),
+              backgroundColor1,
+              backgroundColor2,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -204,25 +205,29 @@ Widget getBody(BuildContext context) {
       ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-        child: Column(
+        child: /*Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [SingleChildScrollView(
+          children: [*/SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 6, right: 6),
             child: Container(
               width: double.infinity,
               height: 250,
               decoration: BoxDecoration(
-                  color: Colors.blue,
+                  gradient: LinearGradient(
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFFFF5E00).withOpacity(0.01),
+                      color: shadowCard.withOpacity(0.01),
                       spreadRadius: 5,
                       blurRadius: 3,
                       // changes position of shadow
@@ -282,7 +287,7 @@ Widget getBody(BuildContext context) {
                               bottomTitles: SideTitles(
                                 showTitles: true,
                                 reservedSize: 22,
-                                getTextStyles: (value) =>  const TextStyle(color: Colors.white, fontSize: 12),
+                                getTextStyles: (value) =>  const TextStyle(color: textColor, fontSize: 12),
                                     //const TextStyle(color: Colors.white, fontSize: 12),
                                 getTitles: (value) {
                                   switch (value.toInt()) {
@@ -299,7 +304,7 @@ Widget getBody(BuildContext context) {
                               ),
                               leftTitles: SideTitles(
                                 showTitles: true,
-                                getTextStyles: (value) => const TextStyle(color: Colors.white, fontSize: 12,),
+                                getTextStyles: (value) => const TextStyle(color: textColor, fontSize: 12,),
                                 getTitles: (value) {
                                   switch (value.toInt()) {
                                     case 1:
@@ -360,11 +365,11 @@ Widget getBody(BuildContext context) {
                   width: (size.width - 40),
                   height: 190,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Color(0xFF00CCFF).withOpacity(0.01),
+                          color: shadowCard.withOpacity(0.01),
                           spreadRadius: 10,
                           blurRadius: 3,
                           // changes position of shadow
@@ -385,7 +390,7 @@ Widget getBody(BuildContext context) {
                             child: Text(
                               'Dispositivi connessi',
                               style: TextStyle(
-                                    color: Colors.white,
+                                    color: textColor,
                                     letterSpacing: 1.0,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold),
@@ -406,15 +411,15 @@ Widget getBody(BuildContext context) {
                                         leading:  Container(
                                           height: double.infinity,
                                           child:
-                                             Container(padding: const EdgeInsets.all(0.0), child: Icon(Icons.smartphone, size: 19.0, color: Colors.white)),
+                                             Container(padding: const EdgeInsets.all(0.0), child: Icon(Icons.smartphone, size: 19.0, color: textColor)),
                                         ),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(30.0)),
-                                        tileColor: Colors.orange[300],
+                                        tileColor: listElementColor,
                                         title: Text(
                                           _myList[index],
                                           style: TextStyle(
-                                    color: Colors.white,
+                                    color: textColor,
                                     letterSpacing: 1.0,
                                     fontSize: 15,
                                     fontWeight: FontWeight.normal),
@@ -441,11 +446,11 @@ Widget getBody(BuildContext context) {
                   width: (size.width - 40),
                   height: 203,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Color(0xFF00CCFF).withOpacity(0.01),
+                          color: shadowCard.withOpacity(0.01),
                           spreadRadius: 10,
                           blurRadius: 3,
                           // changes position of shadow
@@ -485,8 +490,6 @@ Widget getBody(BuildContext context) {
                                 pointColorMapper:(ChartData data,  _) => data.color,
                                 xValueMapper: (ChartData data, _) => data.x,
                                 yValueMapper: (ChartData data, _) => data.y,
-                                //explode: true,
-                                //explodeIndex: 1,
                                 dataLabelSettings: DataLabelSettings(
                                     isVisible: true,
                                     textStyle: TextStyle(
@@ -509,242 +512,26 @@ Widget getBody(BuildContext context) {
           ),
           TextButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              backgroundColor: MaterialStateProperty.all(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                          borderRadius: BorderRadius.circular(18.0),
                          side: BorderSide(color: Colors.blue)))),
-              onPressed: null,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SecondRoute()),
+                );
+              },
               child: Text(
                 'Impostazioni connettività',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColor),
               ),
           ),
         ],
       ),
-    )])));
+    /*)]*/)));
 }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final _myList = List.generate(5, (index) => ' dispositivo num. $index');
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Color> gradientColors = [
-      const Color(0xFFFF8F00),
-      const Color(0xFFFFA737),
-    ];
-
-    return Template(
-      appBarTitle: "Yacht on Cloud",
-      boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              const Color(0xFF00CCFF),
-              const Color(0xFF3366FF),
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
-      ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Row(children: [
-                Expanded(
-                    child: Text(
-                  'Nome rete:',
-                  style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing: 2.0,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal),
-                )),
-                Text(
-                  'Yacht5ghz:',
-                  style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing: 2.0,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal),
-                ),
-                Expanded(
-                    child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Ink(
-                            decoration: const ShapeDecoration(
-                              color: Color(0xFFFFA737),
-                              shape: CircleBorder(),
-                            ),
-                            child: IconButton(
-                                icon: Icon(Icons.settings),
-                                color: Color(0xFFFF8F00),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SecondRoute()),
-                                  );
-                                }))))
-              ]),
-            ),
-
-            SizedBox(height: 10.0),
-
-            Center(
-              child: Text(
-                'Dispositivi collegati',
-                style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 2.0,
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal),
-              ),
-            ),
-
-            SizedBox(height: 15.0),
-
-            Container(
-                height: 100,
-                child: CustomScrollView(
-                  slivers: [
-                    SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          child: ListTile(
-                            leading: Icon(Icons.smartphone),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
-                            tileColor: Colors.orange[300],
-                            title: Text(
-                              _myList[index],
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  letterSpacing: 2.0,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            //subtitle: Text('${person.age}'),
-                          ),
-                        );
-                      },
-                      childCount: _myList.length,
-                    ))
-                  ],
-                )),
-
-            SizedBox(height: 45.0),
-
-            Center(
-              child: Text(
-                'Consumi',
-                style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 2.0,
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal),
-              ),
-            ),
-
-            SizedBox(height: 25.0),
-
-            Container(
-                height: 200,
-                width: 450,
-                child: LineChart(LineChartData(
-                    minX: 1,
-                    maxX: 5,
-                    minY: 0,
-                    maxY: 10,
-                    titlesData: LineTitles.getTitleData(),
-                    gridData: FlGridData(
-                      show: true,
-                      getDrawingHorizontalLine: (value) {
-                        return FlLine(
-                          color: const Color(0xFF005B96),
-                          strokeWidth: 1,
-                        );
-                      },
-                      drawVerticalLine: true,
-                      getDrawingVerticalLine: (value) {
-                        return FlLine(
-                          color: const Color(0xFF005B96),
-                          strokeWidth: 1,
-                        );
-                      },
-                    ),
-                    borderData: FlBorderData(
-                      show: true,
-                      border:
-                          Border.all(color: const Color(0xFF005B96), width: 1),
-                    ),
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: [
-                          FlSpot(1, 3),
-                          FlSpot(2, 2),
-                          FlSpot(3, 5),
-                          FlSpot(5, 2.5),
-                        ],
-                        isCurved: true,
-                        colors: gradientColors,
-                        barWidth: 3,
-                        // dotData: FlDotData(show: false),
-                        belowBarData: BarAreaData(
-                          show: true,
-                          colors: gradientColors
-                              .map((color) => color.withOpacity(0.4))
-                              .toList(),
-                        ),
-                      ),
-                    ]))),
-
-            SizedBox(height: 15.0),
-
-            //Space from different widget
-
-            //SizedBox(height: 30.0),
-
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [],
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Image.asset('assets/linear.png', height: 160, width: 250),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class NavDrawer extends StatelessWidget {
