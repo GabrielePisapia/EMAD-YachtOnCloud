@@ -22,11 +22,44 @@ class ChartData {
             late final Color color;
     }
 
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({Key? key}) : super(key: key);
+class DetailsConnettivita extends StatefulWidget {
+  @override
+  _DetailsConnettivitaState createState() => _DetailsConnettivitaState();
+}
+
+class _DetailsConnettivitaState extends State<DetailsConnettivita> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool _obscureText = true;
+    void _togglevisibility() {
+    setState(() {
+     _obscureText = !_obscureText;
+    });
+  }
+    var size = MediaQuery.of(context).size;
+
+     ScrollController _controller = ScrollController();
+
+    _scrollListener() {
+      if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {//you can do anything here
+        });
+      }
+    }
+
+    void initState() {
+      _controller = ScrollController();
+      _controller.addListener(_scrollListener);//the listener for up and down. 
+      super.initState();
+    }
 
     return Template(
       appBarTitle: 'Yacht on Cloud',
@@ -41,103 +74,85 @@ class SecondRoute extends StatelessWidget {
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
-      child: Padding(
+      child: SingleChildScrollView(
+      child:Padding(
         padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
         child: Column(
           children: [
-            Center(
-                child: Column(children: [
-              Text(
-                'Dettagli connettivià',
-                style: TextStyle(
-                    color: textColor,
-                    letterSpacing: 2.0,
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal),
-              ),
-              SizedBox(height: 10.0),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text('Nome rete',
-                    style: TextStyle(
-                        color: textColor,
-                        letterSpacing: 2.0,
-                        fontSize: 17,
-                        fontWeight: FontWeight.normal)),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.orange[300])),
-                    onPressed: () {
-                      // Navigate back to first route when tapped.
-                    },
-                    child: Text('Modifica nome')),
-              ])
-            ])),
-
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.orange[300])),
-                onPressed: () {
-                  // Navigate back to first route when tapped.
-                },
-                child: Text('Modifica password')),
-
-            Text(
-              'TIM',
-              style: TextStyle(
-                  color: textColor,
-                  letterSpacing: 2.0,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal),
-            ),
-
-            SizedBox(height: 15.0),
-            Text(
-              'Nome promozione e dettagli promozione',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: textColor,
-                  letterSpacing: 2.0,
-                  fontSize: 17,
-                  fontWeight: FontWeight.normal),
-            ),
-            SizedBox(height: 15.0),
-
-            //Space from different widget
-
-            //SizedBox(height: 30.0),
-
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Powered by',
-                      style: TextStyle(
-                          color: textColor,
-                          letterSpacing: 1.0,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.normal),
+            Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: TextFormField(
+                        initialValue: 'Yachtz25',
+                        decoration: InputDecoration(
+                          hintText: 'Yachtz25',
+                          fillColor: listElementColor,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Image.asset('assets/linear.png', height: 160, width: 250),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+             SizedBox(
+              height: 20,
+          ), 
+            Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: TextFormField(
+                            autocorrect: false,
+                            obscureText: _obscureText,
+                            initialValue: 'Password',
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                            icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              _togglevisibility();
+                            },
+                        ),
+                          hintText: 'Password',
+                          fillColor: listElementColor,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                        ),
+                      ),
+                    ),  
+                    SizedBox(
+              height: 10,
+          ), 
+                    TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(buttonColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(18.0),
+                         side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DetailsConnettivita()),
+                );
+              },
+              child: Text(
+                'Conferma modifiche',
+                style: TextStyle(color: textColor),
+              ),
+          ),        
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
@@ -147,7 +162,6 @@ class Connettivita extends StatefulWidget {
 }
 
 class _ConnettivitaState extends State<Connettivita> {
-  //const Connettivita({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -212,6 +226,40 @@ Widget getBody(BuildContext context) {
         children: [
           SizedBox(
             height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 6, right: 6),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                      // changes position of shadow
+                    ),
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Center( child: Text(
+                            "YachtZ25",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold),
+                  )),
+              )),
+          ),
+          SizedBox(
+              height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 6, right: 6),
@@ -520,7 +568,7 @@ Widget getBody(BuildContext context) {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SecondRoute()),
+                  MaterialPageRoute(builder: (context) => DetailsConnettivita()),
                 );
               },
               child: Text(
