@@ -10,6 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'navigation_provider.dart';
 import 'template.dart';
+import 'package:flutter/foundation.dart';
+
+bool _obscureText = true;
 
 class ChartData {
         ChartData(String x, int y, Color? color) {
@@ -31,13 +34,6 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
 
   @override
   Widget build(BuildContext context) {
-
-    bool _obscureText = true;
-    void _togglevisibility() {
-    setState(() {
-     _obscureText = !_obscureText;
-    });
-  }
     var size = MediaQuery.of(context).size;
 
      ScrollController _controller = ScrollController();
@@ -79,14 +75,46 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
         padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
         child: Column(
           children: [
-            Container(
+             Container(
+              //width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                      // changes position of shadow
+                    ),
+                  ]),
+              child: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Center( child: Text(
+                            "Impostazioni",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold),
+                  )),
+              ),
+          ),
+           SizedBox(
+              height: 20,
+          ), 
+          Container(
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: TextFormField(
-                        initialValue: 'Yachtz25',
+                        //initialValue: 'Yachtz25',
                         decoration: InputDecoration(
                           hintText: 'Yachtz25',
                           fillColor: listElementColor,
@@ -114,10 +142,13 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                             icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () {
-                              _togglevisibility();
-                            },
-                        ),
+                            onPressed: ()  {
+                              setState(() {
+                                debugPrint('prechange: '+ _obscureText.toString());
+                              _obscureText = !_obscureText;
+                             debugPrint('postchange: '+ _obscureText.toString());
+                            
+                            });}),
                           hintText: 'Password',
                           fillColor: listElementColor,
                           filled: true,
@@ -178,8 +209,8 @@ Widget getBody(BuildContext context) {
     ];
 
     final List<ChartData> chartData = [
-            ChartData('Consumati', 150, chartColor1),
-            ChartData('Restanti', 50, chartColor2),
+            ChartData('Consumati', 75, chartColor1),
+            ChartData('Restanti', 125, chartColor2),
         ];
     final _myList = List.generate(5, (index) => 'dispositivo num. $index');
     ScrollController _controller = ScrollController();
@@ -492,7 +523,7 @@ Widget getBody(BuildContext context) {
             Container(
                   margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                   width: (size.width - 40),
-                  height: 203,
+                  height: 190,
                   decoration: BoxDecoration(
                       color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
@@ -513,7 +544,7 @@ Widget getBody(BuildContext context) {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding( padding: const EdgeInsets.only(
-                                left: 25, right: 25, top: 20, bottom: 5),
+                                left: 25, right: 25, top: 20, bottom: 0),
                                 child: Text(
                               'Consumi',
                               style: TextStyle(
@@ -522,14 +553,16 @@ Widget getBody(BuildContext context) {
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold),
                             )),
-                            SizedBox( height: 150,
+                            SizedBox( height: 140,
+                            width: (size.width - 40),
                               child: SfCircularChart(
                                 legend: Legend(
                                   toggleSeriesVisibility: false,
                                   isVisible: true,
                                   textStyle: TextStyle(
+                                    fontSize: 10.2,
                                     letterSpacing: 1.0,
-                                    color: Colors.white,
+                                    color: textColor,
                                   )),
                                 series: <CircularSeries>[
                                 // Renders doughnut chart
@@ -541,8 +574,9 @@ Widget getBody(BuildContext context) {
                                 dataLabelSettings: DataLabelSettings(
                                     isVisible: true,
                                     textStyle: TextStyle(
+                                      fontSize: 10,
                                       letterSpacing: 1.0,
-                                      color: Colors.white,
+                                      color: textColor,
                                     ),
                                     // Positioning the data label
                                     labelPosition: ChartDataLabelPosition.outside,
@@ -564,7 +598,7 @@ Widget getBody(BuildContext context) {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                          borderRadius: BorderRadius.circular(18.0),
-                         side: BorderSide(color: Colors.blue)))),
+                         side: BorderSide(color: buttonColor)))),
               onPressed: () {
                 Navigator.push(
                   context,
