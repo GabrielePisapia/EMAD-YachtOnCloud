@@ -13,6 +13,7 @@ import 'template.dart';
 import 'package:flutter/foundation.dart';
 
 bool _obscureText = true;
+bool isSwitched = true;
 
 class ChartData {
         ChartData(String x, int y, Color? color) {
@@ -62,8 +63,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              const Color(0xFF00CCFF),
-              Colors.red,
+              backgroundColor1,
+              backgroundColor2,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -71,11 +72,10 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
             tileMode: TileMode.clamp),
       ),
       child: SingleChildScrollView(
-      child:Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-        child: Column(
-          children: [
-             Container(
+      child:  Padding(
+        padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
+        child: Container(
+          height: 360,
               //width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -92,8 +92,10 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                       // changes position of shadow
                     ),
                   ]),
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 10),
                 child: Center( child: Text(
                             "Impostazioni",
                             style: TextStyle(
@@ -103,12 +105,43 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                     fontWeight: FontWeight.bold),
                   )),
               ),
-          ),
            SizedBox(
               height: 20,
           ), 
-          Container(
-                      width: double.infinity,
+           Padding( padding:  EdgeInsets.only(left: 20, right: 20), 
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Expanded(child: Image.asset(
+                      isSwitched ? 'assets/wifiON.png' : 'assets/wifiOFF.png',
+                      height: 50,
+                      width: 50,
+                    )),
+                    
+                    Expanded( child: Column(children: [
+                      Center( child: Text(
+                            "Status: " + (isSwitched ? "Attivo" : "Disattivo"),
+                            style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                  )),
+                      Switch(
+            value: isSwitched,
+            onChanged: (value) {
+              setState(() {
+                isSwitched = value;
+                print(isSwitched);
+              });
+            },
+            activeTrackColor: Colors.lightGreenAccent,
+            activeColor: Colors.green,
+          ),
+                    ],))
+                  ])),
+           SizedBox(
+              height: 20,
+          ), 
+          Padding( padding:  EdgeInsets.only(left: 20, right: 20), child: Container(
+                      //width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
@@ -125,11 +158,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                   BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
-                    ),
+                    )),
              SizedBox(
               height: 20,
           ), 
-            Container(
+            Padding( padding:  EdgeInsets.only(left: 20, right: 20), child: Container(
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
@@ -158,7 +191,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                   BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
-                    ),  
+                    )),  
                     SizedBox(
               height: 10,
           ), 
@@ -182,7 +215,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
           ),        
           ],
         ),
-      ),
+      )),
     ));
   }
 }
@@ -548,7 +581,7 @@ Widget getBody(BuildContext context) {
                                 child: Text(
                               'Consumi',
                               style: TextStyle(
-                                    color: Colors.white,
+                                    color: textColor,
                                     letterSpacing: 1.0,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold),
