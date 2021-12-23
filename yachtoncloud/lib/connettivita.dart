@@ -72,10 +72,31 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
             tileMode: TileMode.clamp),
       ),
       child: SingleChildScrollView(
-      child:  Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 20.0),
-        child: Container(
-          height: 360,
+      child: Column(children:[ Padding(
+        padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
+        child: Column(children:[
+        Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child:Align( alignment: Alignment.centerLeft, child: Text(
+                            "YachtZ25",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                  ))),
+                  Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(bottom: 7), 
+                            child: Text(
+                              'Status rete',
+                              style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          )), 
+                  Container(
+          height: 100,
               //width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -93,22 +114,9 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                     ),
                   ]),
               child: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 10),
-                child: Center( child: Text(
-                            "Impostazioni",
-                            style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold),
-                  )),
-              ),
-           SizedBox(
-              height: 20,
-          ), 
-           Padding( padding:  EdgeInsets.only(left: 20, right: 20), 
+          children: [ 
+            
+           Padding( padding:  EdgeInsets.only(top: 20, left: 20, right: 20), 
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Expanded(child: Image.asset(
                       isSwitched ? 'assets/wifiON.png' : 'assets/wifiOFF.png',
                       height: 50,
@@ -135,12 +143,41 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
             activeTrackColor: Colors.lightGreenAccent,
             activeColor: Colors.green,
           ),
-                    ],))
-                  ])),
-           SizedBox(
-              height: 20,
+                    ]))
+                  ]))])),
+                  SizedBox(
+              height: 15,
           ), 
-          Padding( padding:  EdgeInsets.only(left: 20, right: 20), child: Container(
+          Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(bottom: 7), 
+                            child: Text(
+                              'Nome e password',
+                              style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          )), 
+          Container(
+          height: 160,
+              //width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                      // changes position of shadow
+                    ),
+                  ]),
+              child:Column( children: [ 
+                Padding( padding:  EdgeInsets.only(top: 20, left: 20, right: 20), child: Container(
                       //width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
@@ -191,11 +228,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                   BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
-                    )),  
-                    SizedBox(
-              height: 10,
-          ), 
-                    TextButton(
+                    )),      
+          ],
+        ),
+        )])),
+      TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -212,11 +249,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                 'Conferma modifiche',
                 style: TextStyle(color: textColor),
               ),
-          ),        
-          ],
-        ),
-      )),
-    ));
+          ),]),
+      ));
   }
 }
 
@@ -288,42 +322,19 @@ Widget getBody(BuildContext context) {
           children: [*/SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
-            height: 10,
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: 6, right: 6),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      cardsColor1,
-                      cardsColor2,
-                  ]),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowCard.withOpacity(0.01),
-                      spreadRadius: 5,
-                      blurRadius: 3,
-                      // changes position of shadow
-                    ),
-                  ]),
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                child: Center( child: Text(
+                padding: EdgeInsets.only(left: 10),
+                child: Align( alignment: Alignment.centerLeft, child: Text(
                             "YachtZ25",
                             style: TextStyle(
                                     color: Colors.white,
                                     letterSpacing: 1.0,
-                                    fontSize: 23,
+                                    fontSize: 25,
                                     fontWeight: FontWeight.bold),
                   )),
-              )),
           ),
           SizedBox(
-              height: 20,
+              height: 10,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 6, right: 6),
@@ -468,14 +479,25 @@ Widget getBody(BuildContext context) {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-              children: [ Container(
+              children: [
+                Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(left: 10, bottom: 7), 
+                            child: Text(
+                              'Dispositivi connessi',
+                              style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          )), 
+                Container(
                   margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                   width: (size.width - 40),
-                  height: 190,
+                  height: 160,
                   decoration: BoxDecoration(
                       color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
@@ -498,16 +520,6 @@ Widget getBody(BuildContext context) {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding( padding: EdgeInsets.only(bottom: 5), 
-                            child: Text(
-                              'Dispositivi connessi',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                            ),
-                          ),
                           SizedBox( height: 114, child: CustomScrollView(
                             controller: _controller,
                               slivers: [
@@ -551,12 +563,22 @@ Widget getBody(BuildContext context) {
                   ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
+              Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(left: 10, bottom: 7), 
+                            child: Text(
+                              'Consumi',
+                              style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          )),
             Container(
                   margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                   width: (size.width - 40),
-                  height: 190,
+                  height: 150,
                   decoration: BoxDecoration(
                       color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
@@ -576,16 +598,6 @@ Widget getBody(BuildContext context) {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding( padding: const EdgeInsets.only(
-                                left: 25, right: 25, top: 20, bottom: 0),
-                                child: Text(
-                              'Consumi',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                            )),
                             SizedBox( height: 140,
                             width: (size.width - 40),
                               child: SfCircularChart(
