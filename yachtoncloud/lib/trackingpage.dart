@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 import 'navigation_provider.dart';
 
 void main() {
@@ -50,60 +52,113 @@ class _MyHomePageState extends State<TrackingPage_> {
 
   @override
   Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+
+    TileLayerOptions openStreetMap = TileLayerOptions(
+                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                    attributionBuilder: (_) {
+                      return Text("© OpenSeaMap and OpenStreetMap");
+                    },
+                  );
+
+    TileLayerOptions openSeaMarks = TileLayerOptions(
+                    urlTemplate: "http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+                    backgroundColor: Colors.transparent
+                  );
+
     return Template(
       appBarTitle: "Yacht on Cloud",
       child: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
+        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Text(
                 'Attualmente ti trovi qui:',
-                style: TextStyle(fontSize: 22, color: Colors.white),
+                style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
               child: Center(
                 child: Container(
-                    width: 450,
-                    height: 300,
-                    child: Image.asset('assets/gpsmap.jpg')),
+                   decoration: BoxDecoration(
+                      color: cardsColor1,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowCard.withOpacity(0.01),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ]),
+              width: size.width - 20,
+              height: size.height - 250,
+              child: FlutterMap(
+                options: MapOptions(
+                  center: LatLng(40.55, 14.216667),
+                  zoom: 11,
+                ),
+                layers: [
+                  //openSeaMarks,
+                  openStreetMap,
+                  openSeaMarks,
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        width: 20.0,
+                        height: 20.0,
+                        point: LatLng(40.55, 14.216667),
+                        builder: (ctx) =>
+                        Container(
+                          child: FlutterLogo(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ),
               ),
             ),
             Center(
-              child: Container(
-                height: 45,
-                width: 230,
-                decoration: BoxDecoration(
-                    color: Colors.orange[300],
-                    borderRadius: BorderRadius.circular(20)),
-                child: TextButton(
-                  onPressed: () {
+              child: TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(buttonColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(18.0),
+                         side: BorderSide(color: buttonColor)))),
+              onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const SetAlertPage(),
                     ));
                     // Respond to button press
                   },
-                  child: Text(
-                    'Imposta notifica di movimento',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ),
+              child: Text(
+                'Imposta notifica di movimento',
+                style: TextStyle(color: textColor),
               ),
-            ),
+          )),
           ],
         ),
       ),
-      boxDecoration: BoxDecoration(
+      boxDecoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              const Color(0XFF6dd5ed),
-              const Color(0XFF2193b0),
+              Color(0XFF6dd5ed),
+              Color(0XFF2193b0),
             ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
+            begin: FractionalOffset(0.0, 2.0),
+            end: FractionalOffset(1.0, 0.0),
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
