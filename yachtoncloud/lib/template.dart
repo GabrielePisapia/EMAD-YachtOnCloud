@@ -19,6 +19,7 @@ class Template extends StatelessWidget {
     return Container(
       decoration: this.boxDecoration,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset:
             false, //risolto problema bottom overflow setalert
         //backgroundColor: const Color(0xFF005B96),

@@ -70,12 +70,13 @@ class _MyHomePageState extends State<TrackingPage_> {
 
     return Template(
       appBarTitle: "Yacht on Cloud",
-      child: Padding(
+      child: /*Padding(
         padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child:*/ new Stack(
+          alignment: AlignmentDirectional.topCenter,
+          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            /*Center(
               child: Text(
                 'Attualmente ti trovi qui:',
                 style: TextStyle(
@@ -84,11 +85,11 @@ class _MyHomePageState extends State<TrackingPage_> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
               ),
-            ),
-            Padding(
+            ),*/
+            /*Padding(
               padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
               child: Center(
-                child: Container(
+                child:*/ Positioned( child: Container(
                    decoration: BoxDecoration(
                       color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
@@ -100,8 +101,8 @@ class _MyHomePageState extends State<TrackingPage_> {
                           // changes position of shadow
                         ),
                       ]),
-              width: size.width - 20,
-              height: size.height - 250,
+              width: double.infinity,
+              height: double.infinity,
               child: FlutterMap(
                 options: MapOptions(
                   center: LatLng(40.55, 14.216667),
@@ -119,17 +120,21 @@ class _MyHomePageState extends State<TrackingPage_> {
                         point: LatLng(40.55, 14.216667),
                         builder: (ctx) =>
                         Container(
-                          child: FlutterLogo(),
+                          child: Image.asset(
+                            'assets/yacht.png',
+                            height: 40,
+                            width: 40,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
               )
-            ),
-              ),
-            ),
-            Center(
+            )),
+             // ),
+            //),
+            Positioned( top: size.height - 100, child: Center(
               child: TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(buttonColor),
@@ -147,10 +152,10 @@ class _MyHomePageState extends State<TrackingPage_> {
                 'Imposta notifica di movimento',
                 style: TextStyle(color: textColor),
               ),
-          )),
+          ))),
           ],
         ),
-      ),
+      //),
       boxDecoration: const BoxDecoration(
         gradient: LinearGradient(
             colors: [

@@ -72,8 +72,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
             tileMode: TileMode.clamp),
       ),
       child: SingleChildScrollView(
-      child: Column(children:[ Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 5.0),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
         child: Column(children:[
         Padding(
                 padding: EdgeInsets.only(bottom: 10),
@@ -228,11 +228,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                   BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
-                    )),      
+                    )),     
           ],
         ),
-        )])),
-      TextButton(
+        ),
+        Padding( padding: EdgeInsets.only(top: 5), child: TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -249,7 +249,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                 'Conferma modifiche',
                 style: TextStyle(color: textColor),
               ),
-          ),]),
+          )), ])),
       ));
   }
 }
@@ -315,12 +315,12 @@ Widget getBody(BuildContext context) {
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-        child: /*Column(
+      child: /*Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [*/SingleChildScrollView(
-      child: Column(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 0.0),
+        child: Column(
         children: [
           Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -635,9 +635,7 @@ Widget getBody(BuildContext context) {
                       ],
                     ),
                   ),
-            ]
-          ),
-          TextButton(
+                  TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -655,6 +653,9 @@ Widget getBody(BuildContext context) {
                 style: TextStyle(color: textColor),
               ),
           ),
+            ]
+          ),
+          
         ],
       ),
     /*)]*/)));

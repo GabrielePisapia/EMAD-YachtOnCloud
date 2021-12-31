@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
-
+import 'package:yachtoncloud/theme/colors.dart';
 import 'navigation_provider.dart';
 
 void main() {
@@ -72,24 +72,27 @@ onChange(int value) {
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
+      child: SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
+        padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Text(
-                'Benvenuto nell \'area per impostare un alert. A seconda delle impostazioni selezionate, ti avvertiremo se la tua imbarcazione sorpasserà i limiti indicati',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-            ),
-            SizedBox(height: 20),
+            Align( alignment: Alignment.centerLeft, child: Text(
+                            "Notifica di movimento",
+                            style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                  )),
+            SizedBox(height: 10),
             Center(
                 child: Text(
               'Imposta miglia:',
               style: TextStyle(color: Colors.white, fontSize: 20),
             )),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             RadioListTile<int>(
               value: 1,
               groupValue: val,
@@ -178,17 +181,28 @@ onChange(int value) {
                     color: Colors.orange[300],
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'IMPOSTA',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(buttonColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(18.0),
+                         side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SetAlertPage(),
+                    ));
+                    // Respond to button press
+                  },
+              child: Text(
+                'Imposta notifica di movimento',
+                style: TextStyle(color: textColor),
+              ),
+          )
               ),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
 }
