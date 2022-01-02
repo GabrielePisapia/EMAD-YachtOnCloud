@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "917535715661",
+    "project_id": "yachtoncloud",
+    "storage_bucket": "yachtoncloud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917535715661:android:3ae169ed77868f06430704",
+        "android_client_info": {
+          "package_name": "com.example.yachtoncloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "917535715661-ahrp9mdtgbvmmslo057lgr69qngea9mt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuK75bsMjOjm4xLdZ8xbVHSgZp0sEGMHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "917535715661-ahrp9mdtgbvmmslo057lgr69qngea9mt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

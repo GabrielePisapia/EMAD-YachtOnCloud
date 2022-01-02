@@ -2,16 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yachtoncloud/main.dart';
+import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/registration.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:yachtoncloud/tempstateloginReg.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'navigation_provider.dart';
-
-void main() {
-  runApp(const Login());
-}
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -40,6 +38,32 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+  final _auth = FirebaseAuth.instance;
+
+  Future<String> SignIn(String email, String pass) async {
+    String esito = "";
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: pass);
+      esito = "Ok";
+      print("TRY RIUSCITO, VALORE DI ESITO: " + esito);
+      return esito;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("Account inesistente");
+        esito = "Account inesistente";
+        return esito;
+      } else if (e.code == "wrong-password") {
+        esito = "Password sbagliata";
+        return esito;
+      } else {
+        return "Errore generico di login";
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TemplateLogReg(
@@ -81,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           hintText: 'Email',
                           fillColor: Colors.orange[400],
@@ -102,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Password',
@@ -134,9 +160,25 @@ class _LoginPageState extends State<LoginPage> {
                                 MaterialStateProperty.all(Colors.orange),
                           ),
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const MyApp(),
-                            ));
+                            String esito = "";
+                            SignIn(emailController.text,
+                                    passwordController.text)
+                                .then((val) {
+                              esito = val;
+                              print(esito);
+                              if (esito == "Ok") {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AssociaBox(title: '')));
+                              } else {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LoginPage(title: "titolo")));
+                              }
+                            });
+
                             // Respond to button press
                           },
                           child: Text(
@@ -206,7 +248,8 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => registrationPage(),
+                              builder: (context) =>
+                                  registrationPage(error2: ""),
                             ));
                       },
                   ))
