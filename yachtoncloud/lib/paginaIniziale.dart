@@ -49,97 +49,227 @@ class AssociaBox extends StatefulWidget {
 
 class _AssociaBoxState extends State<AssociaBox> {
   // ignore: unused_field
-  int _counter = 0;
-  int crnLevel = 0;
-  String testo =
-      'Benvenuto, per cominciare ad utilizzare Yacht on Cloud, puoi utilizzare il seguente link ed associare una nuova box';
-  String newText = "Benvenuto, Checo Legend Perez";
+  var createGrid = 0;
+  void bb() {
+    print('Clicked Clicked');
 
-  // ignore: unused_element
+    setState(() {
+      createGrid = 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var cardTextStyle = TextStyle(
+        fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold);
+    var textList = [
+      "Videosorveglianza",
+      "Impostazioni \nvideosorveglianza",
+      "Storico \nregistrazioni",
+      "Connettività",
+      "Impostazioni \nconnettività",
+      "Tracking GPS",
+      "Notifica di movimento"
+    ];
+    var assetsList = [
+      "video-camera.png",
+      "setting.png",
+      "list.png",
+      "smartphone.png",
+      "settingwifi.png",
+      "compass.png",
+      "job.png"
+    ];
+
+    var myGridView = new GridView.builder(
+        itemCount: assetsList.length,
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemBuilder: (context, index) {
+          return new GestureDetector(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 10,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/${assetsList[index]}",
+                    width: 100,
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    textList[index],
+                    style: cardTextStyle,
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+
     return Template(
-        boxDecoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-                const Color(0xFF00CCFF),
-                const Color(0xFF3366FF),
-              ],
-              begin: const FractionalOffset(0.0, 2.0),
-              end: const FractionalOffset(1.0, 0.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
-        ),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(35.0, 70.0, 35.0, 0.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  _counter == 0 ? testo.toString() : newText.toString(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing: 2.0,
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal),
-                ),
+      appBarTitle: 'Yacht on Cloud',
+      boxDecoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              const Color(0XFF6dd5ed),
+              const Color(0XFF2193b0),
+            ],
+            begin: const FractionalOffset(0.0, 2.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              height: 200.0,
+              decoration: new BoxDecoration(
+                color: Color(0xff508FF7),
+                boxShadow: [
+                  new BoxShadow(
+                    blurRadius: 40.0,
+                  )
+                ],
+                borderRadius: new BorderRadius.vertical(
+                    bottom: new Radius.elliptical(
+                        MediaQuery.of(context).size.width, 100.0)),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/Yacht-bro.png',
-                      height: 300,
-                      width: 250,
+            ),
+            /*Container(
+              height: size.height * 3,
+              decoration: BoxDecoration(
+                  color: Colors.white70,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 1.0), //(x,y)
+                      blurRadius: 5.0,
                     ),
+                  ],
+                  image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: AssetImage("assets/top_header.png"),
+                  )),
+            ),*/
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 64,
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Dashboard",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    createGrid == 1
+                        ? Expanded(child: myGridView)
+                        : Center(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              elevation: 60,
+                              child: InkWell(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      "assets/qr-code.png",
+                                      width: 200,
+                                      height: 150,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Associa box",
+                                      style: cardTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                /*onTap: ()async {
+                                  showDialog(context: context, builder: builder)
+                                  bb();
+                                },*/
+                                onTap: () async {
+                                  // mark the function as async
+                                  print('tap');
+                                  // Show PopUp
+
+                                  // await the dialog
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: const Text(
+                                              "Associazione box riuscita",
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 19)),
+                                        ),
+                                        actions: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: Image.asset(
+                                                  "assets/check.png",
+                                                  width: 80,
+                                                  height: 80,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    // Doesn't run
+                                  );
+
+                                  bb();
+                                },
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
-              //Divider(height: 60.0, color: Colors.grey[500]),
-
-              //Space from different widget
-              SizedBox(height: 10.0),
-
-              Container(
-                alignment: Alignment.center,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Colors.amber,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _counter == 1 ? _counter = 0 : _counter = 1;
-                    });
-                  },
-                  child: Text(
-                    'Associa Box',
-                    style: TextStyle(
-                        fontSize: 20,
-                        decoration: TextDecoration.underline,
-                        letterSpacing: 2.0),
-                  ),
-                ),
-                /*child: Text(
-                'Associa una nuova box',
-                style: TextStyle(
-                    color: Colors.orange[600],
-                    letterSpacing: 1.0,
-                    fontSize: 20.0,
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.normal),
-              ),*/
-              ),
-
-              SizedBox(height: 30.0),
-            ],
-          ),
+            )
+          ],
         ),
-        appBarTitle: "Yacht on Cloud");
+      ),
+    );
   }
 }
