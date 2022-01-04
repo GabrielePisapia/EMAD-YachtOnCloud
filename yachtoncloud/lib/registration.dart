@@ -34,12 +34,26 @@ class _RegistrationPageState extends State<registrationPage> {
   String validate(String nome, String cognome, String confpass, String pass) {
     RegExp regExp = new RegExp("^([A-Za-z][A-Za-z ,.'`-]{2,30})\$",
         caseSensitive: false, multiLine: false);
-
+    print("DEBUG: "+nome+" "+ cognome+ " "+ pass);
     String temp = "";
+    if(nome==""){
+      temp="Il nome non può essere vuoto";
+      return temp;
+    }
+    if(cognome==""){
+      temp="Il cognome non può essere vuoto";
+      return temp;
+    }
+    if(pass=="" || confpass==""){
+      temp="La password non può essere vuota";
+      return temp;
+    }
+  
     if (pass != confpass) {
       temp = "Le password non corrispondono";
       return temp;
     }
+
     if (!regExp.hasMatch(nome)) {
       temp = "Nome non ammissibile";
       return temp;
@@ -56,14 +70,15 @@ class _RegistrationPageState extends State<registrationPage> {
       String confpass) async {
     String esito = "";
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: pass);
+      
 
       var firebaseUser = FirebaseAuth.instance.currentUser;
       String isValid = "";
       isValid = validate(nome, cognome, confpass, pass);
-
+      print("PRINT DI IS VALID: "+isValid);
       if (isValid == "Ok") {
+        await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: pass);
         UserSetup(uid: firebaseUser!.uid).updateUserData(nome, cognome);
         print(firebaseUser.uid + " " + nome + " " + cognome);
         esito = "Ok";
