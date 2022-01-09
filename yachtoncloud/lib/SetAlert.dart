@@ -59,6 +59,8 @@ onChange(int value) {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
@@ -78,22 +80,55 @@ onChange(int value) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align( alignment: Alignment.centerLeft, child: Text(
-                            "Notifica di movimento",
+            Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child:Align( alignment: Alignment.centerLeft, child: Text(
+                            "Imposta notifica di movimento",
                             style: TextStyle(
                                     color: Colors.white,
                                     letterSpacing: 1.0,
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold),
-                  )),
-            SizedBox(height: 10),
-            Center(
+                  ))),
+                  Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(bottom: 7), 
+                            child: Text(
+                              'Imposta miglia',
+                              style: TextStyle(
+                                    color: textColor,
+                                    letterSpacing: 1.0,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                            ),
+                          )), 
+            SizedBox(
+              height: 10,
+          ),
+             Container(
+          height: 319,
+              //width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                      // changes position of shadow
+                    ),
+                  ]),
+              child: Column( children: [ /*Center(
                 child: Text(
               'Imposta miglia:',
               style: TextStyle(color: Colors.white, fontSize: 20),
-            )),
-            SizedBox(height: 5),
-            RadioListTile<int>(
+            )),*/
+            //SizedBox(height: 5),
+            Padding(
+                padding: EdgeInsets.all(10), child: Column( children: [ RadioListTile<int>(
               value: 1,
               groupValue: val,
               title: Text("5 miglia",
@@ -144,15 +179,7 @@ onChange(int value) {
                 });
               },
               activeColor: Colors.orange[200],
-            ),
-            SizedBox(height: 10),
-            Center(
-              child: Text(
-                'Personalizza impostazione',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-            SizedBox(height: 15),
+            )])),  
             Center(
               child: Container(
                 width: 250,
@@ -162,7 +189,7 @@ onChange(int value) {
                 ),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: '20° 15 \' 30\'\'',
+                    hintText: 'Miglia personalizzate',
                     fillColor: Colors.orange[300],
                     filled: true,
                     border: OutlineInputBorder(
@@ -172,15 +199,11 @@ onChange(int value) {
                 ),
               ),
             ),
-            SizedBox(height: 18),
-            Center(
-              child: Container(
-                height: 45,
-                width: 230,
-                decoration: BoxDecoration(
-                    color: Colors.orange[300],
-                    borderRadius: BorderRadius.circular(20)),
-                child: TextButton(
+            SizedBox(height: 20),   
+          ],
+        )),
+        SizedBox(height: 10),
+        Center( child: TextButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -188,21 +211,17 @@ onChange(int value) {
                          borderRadius: BorderRadius.circular(18.0),
                          side: BorderSide(color: buttonColor)))),
               onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SetAlertPage(),
-                    ));
-                    // Respond to button press
-                  },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SetAlertPage(),
+                ));
+              },
               child: Text(
                 'Imposta notifica di movimento',
                 style: TextStyle(color: textColor),
               ),
-          )
-              ),
-            ),
-          ],
-        ),
-      ),
+          )),
+          ])),
     ));
   }
 }
