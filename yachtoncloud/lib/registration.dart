@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:yachtoncloud/login.dart';
 import 'package:yachtoncloud/main.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:yachtoncloud/userSetup.dart';
 import 'navigation_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yachtoncloud/google_sign_in.dart';
 
 class registrationPage extends StatefulWidget {
   //const registrationPage ({Key? key,error, required this.error2}): super(key:key);
@@ -34,21 +37,21 @@ class _RegistrationPageState extends State<registrationPage> {
   String validate(String nome, String cognome, String confpass, String pass) {
     RegExp regExp = new RegExp("^([A-Za-z][A-Za-z ,.'`-]{2,30})\$",
         caseSensitive: false, multiLine: false);
-    print("DEBUG: "+nome+" "+ cognome+ " "+ pass);
+    print("DEBUG: " + nome + " " + cognome + " " + pass);
     String temp = "";
-    if(nome==""){
-      temp="Il nome non può essere vuoto";
+    if (nome == "") {
+      temp = "Il nome non può essere vuoto";
       return temp;
     }
-    if(cognome==""){
-      temp="Il cognome non può essere vuoto";
+    if (cognome == "") {
+      temp = "Il cognome non può essere vuoto";
       return temp;
     }
-    if(pass=="" || confpass==""){
-      temp="La password non può essere vuota";
+    if (pass == "" || confpass == "") {
+      temp = "La password non può essere vuota";
       return temp;
     }
-  
+
     if (pass != confpass) {
       temp = "Le password non corrispondono";
       return temp;
@@ -70,15 +73,13 @@ class _RegistrationPageState extends State<registrationPage> {
       String confpass) async {
     String esito = "";
     try {
-      
-
       var firebaseUser = FirebaseAuth.instance.currentUser;
       String isValid = "";
       isValid = validate(nome, cognome, confpass, pass);
-      print("PRINT DI IS VALID: "+isValid);
+      print("PRINT DI IS VALID: " + isValid);
       if (isValid == "Ok") {
         await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: pass);
+            .createUserWithEmailAndPassword(email: email, password: pass);
         UserSetup(uid: firebaseUser!.uid).updateUserData(nome, cognome);
         print(firebaseUser.uid + " " + nome + " " + cognome);
         esito = "Ok";
@@ -105,251 +106,262 @@ class _RegistrationPageState extends State<registrationPage> {
   @override
   Widget build(BuildContext context) {
     return TemplateLogReg(
-      appBarTitle: "Yacht on Cloud",
-      child: SingleChildScrollView(
-        child: Center(
-          child: Column(children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Text(
-                'Per registrarti, per favore compila i seguenti campi',
-                style: TextStyle(color: Colors.black, fontSize: 15),
+        appBarTitle: "Yacht on Cloud",
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
               ),
-            ),
-            Container(
-              //height: 500.0,
-              width: 300.0,
-              color: Colors.transparent,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.blue[100],
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Form(
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Text(
+                  'Per registrarti, per favore compila i seguenti campi',
+                  style: TextStyle(color: Colors.black, fontSize: 15),
+                ),
+              ),
+              Container(
+                //height: 500.0,
+                width: 300.0,
+                color: Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                         ),
-                        child: TextFormField(
-                          controller: nomeController,
-                          decoration: InputDecoration(
-                            //hintStyle: TextStyle(color: Colors.white),
-                            hintText: 'Nome',
-                            fillColor: Colors.orange[400],
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextFormField(
+                            controller: nomeController,
+                            decoration: InputDecoration(
+                              //hintStyle: TextStyle(color: Colors.white),
+                              hintText: 'Nome',
+                              fillColor: Colors.orange[400],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        SizedBox(
+                          height: 20,
                         ),
-                        child: TextFormField(
-                          controller: cognomeController,
-                          decoration: InputDecoration(
-                            hintText: 'Cognome',
-                            fillColor: Colors.orange[400],
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextFormField(
+                            controller: cognomeController,
+                            decoration: InputDecoration(
+                              hintText: 'Cognome',
+                              fillColor: Colors.orange[400],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                           ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                         ),
-                        child: TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            fillColor: Colors.orange[400],
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextFormField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              fillColor: Colors.orange[400],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                           ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                         ),
-                        child: TextFormField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                            fillColor: Colors.orange[400],
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              fillColor: Colors.orange[400],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                           ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                         ),
-                        child: TextFormField(
-                          controller: confpwd,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Conferma password',
-                            fillColor: Colors.orange[400],
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: TextFormField(
+                            controller: confpwd,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Conferma password',
+                              fillColor: Colors.orange[400],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Container(
-                        width: 250,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        SizedBox(
+                          height: 25,
                         ),
-                        child: OutlinedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    side: BorderSide(color: Colors.red))),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.orange),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          onPressed: () {
-                            String esito = "";
-                            SignUp(
-                              emailController.text,
-                              passwordController.text,
-                              nomeController.text,
-                              cognomeController.text,
-                              confpwd.text,
-                            ).then((val) {
-                              print(val);
-                              esito = val;
-                              print("Esito in then: " + esito);
+                          child: OutlinedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: Colors.red))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.orange),
+                            ),
+                            onPressed: () {
+                              String esito = "";
+                              SignUp(
+                                emailController.text,
+                                passwordController.text,
+                                nomeController.text,
+                                cognomeController.text,
+                                confpwd.text,
+                              ).then((val) {
+                                print(val);
+                                esito = val;
+                                print("Esito in then: " + esito);
 
-                              if (esito == "Ok") {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AssociaBox(title: '')));
-                              } else {
-                                Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => registrationPage(
-                                              error2: esito,
-                                            )));
-                              }
-                            });
-                          },
-                          child: Text(
-                            "Registrati",
-                            style: TextStyle(fontSize: 19, color: Colors.black),
+                                if (esito == "Ok") {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AssociaBox(title: '')));
+                                } else {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              registrationPage(
+                                                error2: esito,
+                                              )));
+                                }
+                              });
+                            },
+                            child: Text(
+                              "Registrati",
+                              style:
+                                  TextStyle(fontSize: 19, color: Colors.black),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(error2,
-                          style: TextStyle(fontSize: 15, color: Colors.red)),
-                      Container(
-                          width: 250,
-                          height: 50,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Text("Oppure accedi con:")),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                          width: 250,
-                          height: 50,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.google,
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(FontAwesomeIcons.facebook,
-                                    color: Colors.blue),
-                              ]))
-                    ],
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(error2,
+                            style: TextStyle(fontSize: 15, color: Colors.red)),
+                        Container(
+                            width: 250,
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text("Oppure accedi con:")),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                            width: 250,
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Colors.red,
+                                    ),
+                                    icon: FaIcon(FontAwesomeIcons.google),
+                                    label: Text(""),
+                                    onPressed: () {
+                                      final provider =
+                                          Provider.of<GoogleSignInProvider>(
+                                              context,
+                                              listen: false);
+                                      provider.googleLogin();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Icon(FontAwesomeIcons.facebook,
+                                      color: Colors.blue),
+                                ]))
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-      ),
-      boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              const Color(0xFF00CCFF),
-              Colors.white,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
-      ),
-    );
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                const Color(0xFF00CCFF),
+                Colors.white,
+              ],
+              begin: const FractionalOffset(0.0, 2.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp),
+        ));
   }
 }

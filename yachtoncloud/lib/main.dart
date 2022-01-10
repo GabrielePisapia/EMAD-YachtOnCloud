@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:yachtoncloud/drawer.dart';
+import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:yachtoncloud/login.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/registration.dart';
@@ -10,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:yachtoncloud/trackingpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+  /*
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => NavigationProvider(),
@@ -31,9 +32,30 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: TrackingPage(), //registrationPage(error2: ""),
+          home: registrationPage(error2: ""),
         ),
       );
+}*/
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(
+          create: (_) => GoogleSignInProvider(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: registrationPage(error2: ""),
+      ),
+    );
+  }
 }
 
 class MyHomePage extends StatefulWidget {
