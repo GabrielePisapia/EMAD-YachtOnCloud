@@ -13,6 +13,7 @@ import 'package:yachtoncloud/userSetup.dart';
 import 'navigation_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class registrationPage extends StatefulWidget {
   //const registrationPage ({Key? key,error, required this.error2}): super(key:key);
@@ -341,8 +342,26 @@ class _RegistrationPageState extends State<registrationPage> {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(FontAwesomeIcons.facebook,
-                                      color: Colors.blue),
+                                 ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      onPrimary: Colors.red,
+                                    ),
+                                    icon: FaIcon(FontAwesomeIcons.facebook),
+                                    label: Text(""),
+                                    onPressed: () async {
+                                      final result = await FacebookAuth.i.login(permissions: ["public_profile","email"]);
+                                      if(result.status ==LoginStatus.success){
+                                        final requestdata = await FacebookAuth.i.getUserData(
+                                          fields: "email, name",
+                                        );
+                                        print("IF");
+                                        print(requestdata);
+                                      }
+                                      
+                                      
+                                    },
+                                  ),
+                                      
                                 ]))
                       ],
                     ),

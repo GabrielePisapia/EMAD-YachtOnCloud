@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YachtOnCloud</string>
+    <string name="facebook_app_id">956775718301889</string>
+    <string name="fb_login_protocol_scheme">fb956775718301889</string>
+    <string name="facebook_client_token">6d5ed45ce4e572eccb14d1a176df3251</string>
+
+</resources>
