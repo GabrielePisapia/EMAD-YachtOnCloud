@@ -183,6 +183,7 @@ class StatusVideocamere extends StatefulWidget {
 }
 
 class _StatusVideocamereState extends State<StatusVideocamere> {
+  bool switchValue1 = false, switchValue2 = true, switchValue3 = true, switchValue4 = true;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -228,11 +229,11 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
               child: Column(children: [
                 Padding(
-                    padding: EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.only(bottom: 25),
                     child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "YachtZ25",
+                          "Impostazioni videocamere",
                           style: TextStyle(
                               color: Colors.white,
                               letterSpacing: 1.0,
@@ -242,9 +243,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 7),
+                      padding: EdgeInsets.only(bottom: 20),
                       child: Text(
-                        'Status rete',
+                        'Nomi e stato',
                         style: TextStyle(
                             color: textColor,
                             letterSpacing: 1.0,
@@ -252,42 +253,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                             fontWeight: FontWeight.bold),
                       ),
                     )),
+                
                 Container(
-                    height: 100,
-                    //width: double.infinity,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          cardsColor1,
-                          cardsColor2,
-                        ]),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: shadowCard.withOpacity(0.01),
-                            spreadRadius: 5,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          ),
-                        ]),
-                    child: Column(children: [])),
-                SizedBox(
-                  height: 15,
-                ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        'Nome e password',
-                        style: TextStyle(
-                            color: textColor,
-                            letterSpacing: 1.0,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                Container(
-                  height: 160,
+                  height: 300,
                   //width: double.infinity,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
@@ -307,17 +275,19 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                     children: [
                       Padding(
                           padding:
-                              EdgeInsets.only(top: 20, left: 20, right: 20),
-                          child: Container(
+                              EdgeInsets.only(top: 20, left: 20),
+                          child:Row(children: [
+                            Container(
                             //width: double.infinity,
                             height: 50,
+                            width: 180,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: TextFormField(
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
-                                hintText: 'Yachtz25',
+                                hintText: 'Videocamera1',
                                 fillColor: listElementColor,
                                 filled: true,
                                 border: OutlineInputBorder(
@@ -326,7 +296,175 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                         BorderRadius.all(Radius.circular(15))),
                               ),
                             ),
-                          )),
+                          ),
+                           SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset(
+                              switchValue2 ? 'assets/camera.png' : 'assets/no-camera.png',
+                              height: 30,
+                              width: 30,
+                              color: switchValue2 ? Colors.green : Colors.red,
+                            ),
+                           
+                           SizedBox(
+                              height: 20,
+                              child: Switch(
+                                activeColor: Colors.green,
+                                inactiveThumbColor: Colors.red,
+                                value: switchValue2,
+                                onChanged: (val2) {
+                                  setState(() {
+                                    switchValue2 = val2;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],)),
+                    Padding(
+                          padding:
+                              EdgeInsets.only(top: 20, left: 20),
+                          child:Row(children: [
+                            Container(
+                            //width: double.infinity,
+                            height: 50,
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: TextFormField(
+                              //initialValue: 'Yachtz25',
+                              decoration: InputDecoration(
+                                hintText: 'Videocamera2',
+                                fillColor: listElementColor,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              ),
+                            ),
+                          ),
+                           SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset(
+                              switchValue1 ? 'assets/camera.png' : 'assets/no-camera.png',
+                              height: 30,
+                              width: 30,
+                              color: switchValue1 ? Colors.green : Colors.red,
+                            ),
+                           
+                           SizedBox(
+                              height: 20,
+                              child: Switch(
+                                activeColor: Colors.green,
+                                inactiveThumbColor: Colors.red,
+                                value: switchValue1,
+                                onChanged: (val1) {
+                                  setState(() {
+                                    switchValue1 = val1;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],)),
+                           Padding(
+                          padding:
+                              EdgeInsets.only(top: 20, left: 20),
+                          child:Row(children: [
+                            Container(
+                            //width: double.infinity,
+                            height: 50,
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: TextFormField(
+                              //initialValue: 'Yachtz25',
+                              decoration: InputDecoration(
+                                hintText: 'Videocamera3',
+                                fillColor: listElementColor,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              ),
+                            ),
+                          ),
+                           SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset(
+                              switchValue3 ? 'assets/camera.png' : 'assets/no-camera.png',
+                              height: 30,
+                              width: 30,
+                              color: switchValue3 ? Colors.green : Colors.red,
+                            ),
+                           
+                           SizedBox(
+                              height: 20,
+                              child: Switch(
+                                activeColor: Colors.green,
+                                inactiveThumbColor: Colors.red,
+                                value: switchValue3,
+                                onChanged: (val3) {
+                                  setState(() {
+                                    switchValue3 = val3;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],)),
+                           Padding(
+                          padding:
+                              EdgeInsets.only(top: 20, left: 20),
+                          child:Row(children: [
+                            Container(
+                            //width: double.infinity,
+                            height: 50,
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: TextFormField(
+                              //initialValue: 'Yachtz25',
+                              decoration: InputDecoration(
+                                hintText: 'Videocamera4',
+                                fillColor: listElementColor,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              ),
+                            ),
+                          ),
+                           SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset(
+                              switchValue4 ? 'assets/camera.png' : 'assets/no-camera.png',
+                              height: 30,
+                              width: 30,
+                              color: switchValue4 ? Colors.green : Colors.red,
+                            ),
+                           
+                           SizedBox(
+                              height: 20,
+                              child: Switch(
+                                activeColor: Colors.green,
+                                inactiveThumbColor: Colors.red,
+                                value: switchValue4,
+                                onChanged: (val4) {
+                                  setState(() {
+                                    switchValue4 = val4;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],)),
                       SizedBox(
                         height: 20,
                       ),
@@ -334,15 +472,18 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: TextButton(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Container(
+                      width: 200,
+                      height: 50,
+                      child: TextButton(
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(buttonColor),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
+                                      borderRadius: BorderRadius.circular(30.0),
                                       side: BorderSide(color: buttonColor)))),
                       onPressed: () {
                         Navigator.push(
@@ -353,9 +494,10 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                       },
                       child: Text(
                         'Conferma modifiche',
-                        style: TextStyle(color: textColor),
+                        style: TextStyle(color: textColor,
+                        fontSize: 17),
                       ),
-                    )),
+                    ))),
               ])),
         ));
   }

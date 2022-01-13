@@ -6,6 +6,7 @@ import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:yachtoncloud/login.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/registration.dart';
+import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
