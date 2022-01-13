@@ -5,6 +5,7 @@ import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:yachtoncloud/login.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/newWelcomePage.dart';
 import 'package:yachtoncloud/registration.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: registrationPage(error2: ""),
+        home: WelcomePage(),
       ),
     );
   }
