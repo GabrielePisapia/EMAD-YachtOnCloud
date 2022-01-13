@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>917535715661-pflr3g4an32jgf1m0c2jjdvqsj32nflo.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.917535715661-pflr3g4an32jgf1m0c2jjdvqsj32nflo</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>917535715661-0hnn5ah2ubohj6b0p22rmru5bujh9sp7.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCFPIDXmL6vnH4O8tHhLWIOQo3dJY4hlBU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>917535715661</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.yachtoncloud</string>
+	<key>PROJECT_ID</key>
+	<string>yachtoncloud</string>
+	<key>STORAGE_BUCKET</key>
+	<string>yachtoncloud.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:917535715661:ios:b738c8d4715717d5430704</string>
+	<key>DATABASE_URL</key>
+	<string>https://yachtoncloud-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
