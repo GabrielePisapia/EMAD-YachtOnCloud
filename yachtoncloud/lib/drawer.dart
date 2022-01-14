@@ -50,7 +50,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(
               Icons.video_settings_rounded,
             ),
-            title: Text('Videosorveglianza'),
+            title: Text('Videosorveglianza',),
             onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(

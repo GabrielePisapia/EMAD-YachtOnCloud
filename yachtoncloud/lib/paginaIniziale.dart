@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 void main() {
   runApp(const PaginaIniziale());
@@ -61,8 +63,11 @@ class _AssociaBoxState extends State<AssociaBox> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var cardTextStyle = TextStyle(
-        fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold);
+    var cardTextStyle = GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                        color: textColorDashboard,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold));
     var textList = [
       "Videosorveglianza",
       "Impostazioni \nvideosorveglianza",
@@ -106,6 +111,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                   Text(
                     textList[index],
                     style: cardTextStyle,
+                    textAlign: TextAlign.center,
                   )
                 ],
               ),
@@ -143,22 +149,6 @@ class _AssociaBoxState extends State<AssociaBox> {
                         MediaQuery.of(context).size.width, 100.0)),
               ),
             ),
-            /*Container(
-              height: size.height * 3,
-              decoration: BoxDecoration(
-                  color: Colors.white70,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0), //(x,y)
-                      blurRadius: 5.0,
-                    ),
-                  ],
-                  image: DecorationImage(
-                    alignment: Alignment.topCenter,
-                    image: AssetImage("assets/top_header.png"),
-                  )),
-            ),*/
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -179,10 +169,11 @@ class _AssociaBoxState extends State<AssociaBox> {
                             children: [
                               Text(
                                 "Dashboard",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
                                     color: Colors.white,
                                     fontSize: 30,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold))
                               ),
                             ],
                           )
@@ -231,11 +222,9 @@ class _AssociaBoxState extends State<AssociaBox> {
                                       return AlertDialog(
                                         content: Padding(
                                           padding: const EdgeInsets.all(4),
-                                          child: const Text(
+                                          child: Text(
                                               "Associazione box riuscita",
-                                              style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: 19)),
+                                              style: cardTextStyle),
                                         ),
                                         actions: [
                                           Column(

@@ -13,6 +13,7 @@ Arancione: 0xFFFF8600
 */
 
 const Color textColor = Colors.white;
+const Color textColorDashboard = Colors.black;
 
 const Color backgroundColor1 = Color(0xFF508FF7);
 const Color backgroundColor2 = Color(0xFFF4FFFF);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/data/drawer_items.dart';
 import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videosorveglianza.dart';
 import 'package:provider/provider.dart';
@@ -144,7 +146,11 @@ class navdrawerTest extends StatelessWidget {
             )
           : ListTile(
               leading: leading,
-              title: Text(text, style: TextStyle(color: color, fontSize: 16)),
+              title: Text(text, style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    color: textColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold)),),
               onTap: onClicked,
             ),
     );

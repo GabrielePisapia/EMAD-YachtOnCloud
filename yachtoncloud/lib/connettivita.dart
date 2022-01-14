@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:provider/provider.dart';
@@ -79,20 +80,20 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                 padding: EdgeInsets.only(bottom: 10),
                 child:Align( alignment: Alignment.centerLeft, child: Text(
                             "YachtZ25",
-                            style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
                   ))),
                   Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(bottom: 7), 
                             child: Text(
                               'Status rete',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                              style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
                             ),
                           )), 
                   Container(
@@ -126,11 +127,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                     Expanded( child: Column(children: [
                       Center( child: Text(
                             "Status: " + (isSwitched ? "Attivo" : "Disattivo"),
-                            style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal)),
                   )),
                       Switch(
             value: isSwitched,
@@ -151,11 +152,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
           Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(bottom: 7), 
                             child: Text(
                               'Nome e password',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                              style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
                             ),
                           )), 
           Container(
@@ -232,24 +233,44 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
           ],
         ),
         ),
-        Padding( padding: EdgeInsets.only(top: 5), child: TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(buttonColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(18.0),
-                         side: BorderSide(color: buttonColor)))),
-              onPressed: () {
+        SizedBox(height: 10,),
+                  Container(
+                     width: 250,
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(buttonColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: buttonColor)))),
+        onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => DetailsConnettivita()),
                 );
               },
-              child: Text(
-                'Conferma modifiche',
-                style: TextStyle(color: textColor),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Conferma modifiche',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                ),
               ),
-          )), ])),
+            ),
+          ],
+        ),
+      ),
+    ) ])),
       ));
   }
 }
@@ -326,11 +347,11 @@ Widget getBody(BuildContext context) {
                 padding: EdgeInsets.only(left: 10),
                 child: Align( alignment: Alignment.centerLeft, child: Text(
                             "YachtZ25",
-                            style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold)),
                   )),
           ),
           SizedBox(
@@ -369,22 +390,22 @@ Widget getBody(BuildContext context) {
                         children: [
                           Text(
                             "TIM - Promozione bella",
-                            style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold)),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           Text(
                             "\200GB",
-                            style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                           )
                         ],
                       ),
@@ -410,7 +431,11 @@ Widget getBody(BuildContext context) {
                               bottomTitles: SideTitles(
                                 showTitles: true,
                                 reservedSize: 22,
-                                getTextStyles: (value) =>  const TextStyle(color: textColor, fontSize: 12),
+                                getTextStyles: (value) =>  GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal)),
                                     //const TextStyle(color: Colors.white, fontSize: 12),
                                 getTitles: (value) {
                                   switch (value.toInt()) {
@@ -427,7 +452,11 @@ Widget getBody(BuildContext context) {
                               ),
                               leftTitles: SideTitles(
                                 showTitles: true,
-                                getTextStyles: (value) => const TextStyle(color: textColor, fontSize: 12,),
+                                getTextStyles: (value) => GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal)),
                                 getTitles: (value) {
                                   switch (value.toInt()) {
                                     case 1:
@@ -487,11 +516,11 @@ Widget getBody(BuildContext context) {
                 Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(left: 10, bottom: 7), 
                             child: Text(
                               'Dispositivi connessi',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                              style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                             ),
                           )), 
                 Container(
@@ -542,11 +571,11 @@ Widget getBody(BuildContext context) {
                                         tileColor: listElementColor,
                                         title: Text(
                                           _myList[index],
-                                          style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal),
+                                          style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal))
                                         ),
                                         //subtitle: Text('${person.age}'),
                                       ),
@@ -568,11 +597,11 @@ Widget getBody(BuildContext context) {
               Align( alignment: Alignment.centerLeft, child:Padding( padding: EdgeInsets.only(left: 10, bottom: 7), 
                             child: Text(
                               'Consumi',
-                              style: TextStyle(
-                                    color: textColor,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                              style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                             ),
                           )),
             Container(
@@ -604,11 +633,11 @@ Widget getBody(BuildContext context) {
                                 legend: Legend(
                                   toggleSeriesVisibility: false,
                                   isVisible: true,
-                                  textStyle: TextStyle(
-                                    fontSize: 10.2,
-                                    letterSpacing: 1.0,
-                                    color: textColor,
-                                  )),
+                                  textStyle: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal))),
                                 series: <CircularSeries>[
                                 // Renders doughnut chart
                                 DoughnutSeries<ChartData, String>(
@@ -618,11 +647,11 @@ Widget getBody(BuildContext context) {
                                 yValueMapper: (ChartData data, _) => data.y,
                                 dataLabelSettings: DataLabelSettings(
                                     isVisible: true,
+                                    textStyle: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                      fontSize: 10,
-                                      letterSpacing: 1.0,
-                                      color: textColor,
-                                    ),
+                                        color: textColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold)),
                                     // Positioning the data label
                                     labelPosition: ChartDataLabelPosition.outside,
                                 )
@@ -635,30 +664,50 @@ Widget getBody(BuildContext context) {
                       ],
                     ),
                   ),
-                  TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(buttonColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(18.0),
-                         side: BorderSide(color: buttonColor)))),
-              onPressed: () {
+                  SizedBox(height: 10,),
+                  Container(
+                    width: 250,
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(buttonColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: buttonColor)))),
+        onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => DetailsConnettivita()),
                 );
               },
-              child: Text(
-                'Impostazioni connettività',
-                style: TextStyle(color: textColor),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Impostazioni connettività',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                ),
               ),
-          ),
+            ),
+          ],
+        ),
+      ),
+    )
             ]
           ),
           
         ],
       ),
-    /*)]*/)));
+    )));
 }
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -135,24 +136,43 @@ class _MyHomePageState extends State<TrackingPage_> {
              // ),
             //),
             Positioned( top: size.height - 100, child: Center(
-              child: TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(buttonColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(18.0),
-                         side: BorderSide(color: buttonColor)))),
-              onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SetAlertPage(),
-                    ));
-                    // Respond to button press
-                  },
-              child: Text(
-                'Imposta notifica di movimento',
-                style: TextStyle(color: textColor),
+              child: Container(
+                     width: 250,
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(buttonColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: buttonColor)))),
+        onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SetAlertPage()),
+                );
+              },
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Imposta notifica',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                ),
               ),
-          ))),
+            ),
+          ],
+        ),
+      ),
+    ))),
           ],
         ),
       //),
