@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:yachtoncloud/facebook_sign_in.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
 import 'google_sign_in.dart';
 import 'newLoginpage.dart';
@@ -107,8 +109,11 @@ class _WelcomePageState extends State<WelcomePage> {
             final requestdata = await FacebookAuth.i.getUserData(
               fields: "email, name",
             );
-            print("IF");
-            print(requestdata);
+            
+            String nome_cognome = requestdata["name"];
+            final splitted_string = nome_cognome.split(' ');
+            print("Stringa splittata: " +splitted_string.toString());
+            FacebookSignIn.insert_user(splitted_string[0] ,splitted_string[1]);
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => AssociaBox(title: '')));
           }
@@ -158,11 +163,16 @@ class _WelcomePageState extends State<WelcomePage> {
                     side: BorderSide(color: Color(0xFF397AF3))))),
         onPressed: () {
           final provider =
-              Provider.of<GoogleSignInProvider>(context, listen: false);
-          provider.googleLogin();
+              Provider.of<GoogleSignInProvider>(context,listen: false);
+          provider.googleLogin().then((val) {
+          if(val=="ok"){
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => AssociaBox(title: '')));
+              }
+             
+          });
         },
+
         child: Row(
           children: <Widget>[
             Expanded(
