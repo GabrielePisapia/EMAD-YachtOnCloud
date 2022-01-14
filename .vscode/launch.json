@@ -8,7 +8,8 @@
             "name": "yachtoncloud",
             "cwd": "yachtoncloud",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            
         },
         {
             "name": "yachtoncloud (profile mode)",
