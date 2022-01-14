@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/data/drawer_items.dart';
-import 'package:yachtoncloud/login.dart';
+import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
 import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videosorveglianza.dart';
 import 'package:provider/provider.dart';
-
+import 'videosorveglianza.dart';
 import 'drawer_item.dart';
 import 'navigation_provider.dart';
 

@@ -56,7 +56,11 @@ class _LoginPageState extends State<LoginPage> {
               child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
             ),
             Text('Back',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold)))
           ],
         ),
       ),
@@ -72,7 +76,11 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold)),
           ),
           SizedBox(
             height: 10,
@@ -81,7 +89,9 @@ class _LoginPageState extends State<LoginPage> {
               controller: controller,
               obscureText: isPassword,
               decoration: InputDecoration(
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
         ],
@@ -90,43 +100,49 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _submitButton() {
-    return OutlinedButton(
-      onPressed: () {
-        String esito = "";
-        SignIn(emailController.text, passwordController.text).then((val) {
-          esito = val;
-          print(esito);
-          if (esito == "Ok") {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AssociaBox(title: '')));
-          } else {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LoginPage(title: "titolo")));
-          }
-        });
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Colors.white)))),
+        onPressed: () {
+          String esito = "";
+          SignIn(emailController.text, passwordController.text).then((val) {
+            esito = val;
+            print(esito);
+            if (esito == "Ok") {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AssociaBox(title: '')));
+            } else {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => LoginPage(title: "titolo")));
+            }
+          });
 
-        // Respond to button press
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Colors.white),
+          // Respond to button press
+        },
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Login',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -182,20 +198,21 @@ class _LoginPageState extends State<LoginPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Non sei registrato ?',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            ),
+            Text('Non sei registrato?',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal))),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
-            Text(
-              'Registrati',
-              style: TextStyle(
-                  color: Color(0xfff79c4f),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600),
-            ),
+            Text('Registrati',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal))),
           ],
         ),
       ),
@@ -261,9 +278,12 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     alignment: Alignment.center,
-                    child: Text(' Password dimenticata ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
+                    child: Text(' Password dimenticata?',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal))),
                   ),
                   SizedBox(height: height * .055),
                   _createAccountLabel(),

@@ -7,6 +7,8 @@ import 'newLoginpage.dart';
 import 'newSignup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'theme/colors.dart';
+
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key? key, this.title}) : super(key: key);
 
@@ -18,54 +20,70 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   Widget _submitButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xffdf8e33).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Colors.white)))),
+        onPressed: () async {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginPage(title: '')));
+        },
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('Login',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold))),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _signUpButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SignUpPage(
-                      error2: '',
-                    )));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Text(
-          'Registrati',
-          style: TextStyle(fontSize: 20, color: Colors.white),
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 1),
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Colors.white)))),
+        onPressed: () async {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => SignUpPage(error2: '', title: '')));
+        },
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text('Registrati',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold))),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -75,10 +93,13 @@ class _WelcomePageState extends State<WelcomePage> {
     return Container(
       height: 50,
       margin: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: OutlinedButton(
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xff2872ba)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Color(0xff2872ba))))),
         onPressed: () async {
           final result = await FacebookAuth.i
               .login(permissions: ["public_profile", "email"]);
@@ -97,34 +118,22 @@ class _WelcomePageState extends State<WelcomePage> {
             Expanded(
               flex: 1,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff1959a9),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      topLeft: Radius.circular(10)),
-                ),
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/facebook.png",
-                  height: 50,
                 ),
               ),
             ),
             Expanded(
               flex: 5,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff2872ba),
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                ),
                 alignment: Alignment.center,
                 child: Text('Accedi con Facebook',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400)),
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold))),
               ),
             ),
           ],
@@ -140,7 +149,13 @@ class _WelcomePageState extends State<WelcomePage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: OutlinedButton(
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xFF397AF3)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Color(0xFF397AF3))))),
         onPressed: () {
           final provider =
               Provider.of<GoogleSignInProvider>(context, listen: false);
@@ -155,14 +170,16 @@ class _WelcomePageState extends State<WelcomePage> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Color(0xFF397AF3), width: 2),
-                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       topLeft: Radius.circular(10)),
                 ),
                 alignment: Alignment.center,
-                child: Image.asset(
-                  "assets/google.png",
+                child: Transform.scale(
+                  scale: 1.2,
+                  child: Image.asset(
+                    "assets/google.png",
+                  ),
                 ),
               ),
             ),
@@ -177,10 +194,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 alignment: Alignment.center,
                 child: Text('Accedi con Google',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400)),
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold))),
               ),
             ),
           ],
