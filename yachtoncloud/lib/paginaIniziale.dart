@@ -2,12 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yachtoncloud/SetAlert.dart';
+import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:yachtoncloud/theme/colors.dart';
+import 'package:yachtoncloud/trackingpage.dart';
+import 'package:yachtoncloud/videoscreenbydate.dart';
+import 'package:yachtoncloud/vlc_screen.dart';
 
 void main() {
   runApp(const PaginaIniziale());
@@ -64,10 +69,10 @@ class _AssociaBoxState extends State<AssociaBox> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var cardTextStyle = GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                        color: textColorDashboard,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold));
+        textStyle: TextStyle(
+            color: textColorDashboard,
+            fontSize: 12,
+            fontWeight: FontWeight.bold));
     var textList = [
       "Videosorveglianza",
       "Impostazioni \nvideosorveglianza",
@@ -116,10 +121,39 @@ class _AssociaBoxState extends State<AssociaBox> {
                 ],
               ),
             ),
+            onTap: () {
+              final navigateTo =
+                  (page) => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => page,
+                      ));
+              switch (index) {
+                case 0:
+                  navigateTo(VlcVinfo());
+                  break;
+                case 1:
+                  navigateTo(VideoInfoBySearch());
+                  break;
+                case 2:
+                  navigateTo(VideoInfoBySearch());
+                  break;
+                case 3:
+                  navigateTo(Connettivita());
+                  break;
+                case 4:
+                  navigateTo((DetailsConnettivita()));
+                  break;
+                case 5:
+                  navigateTo(TrackingPage());
+                  break;
+                case 6:
+                  navigateTo(SetAlertPage());
+                  break;
+              }
+            },
           );
         });
 
-    return Template(
+    /*return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
@@ -131,133 +165,129 @@ class _AssociaBoxState extends State<AssociaBox> {
             end: const FractionalOffset(1.0, 0.0),
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
-      ),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              height: 200.0,
-              decoration: new BoxDecoration(
-                color: Color(0xff508FF7),
-                boxShadow: [
-                  new BoxShadow(
-                    blurRadius: 40.0,
-                  )
-                ],
-                borderRadius: new BorderRadius.vertical(
-                    bottom: new Radius.elliptical(
-                        MediaQuery.of(context).size.width, 100.0)),
-              ),
+      ),*/
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            height: 200.0,
+            decoration: new BoxDecoration(
+              color: Color(0xff508FF7),
+              boxShadow: [
+                new BoxShadow(
+                  blurRadius: 40.0,
+                )
+              ],
+              borderRadius: new BorderRadius.vertical(
+                  bottom: new Radius.elliptical(
+                      MediaQuery.of(context).size.width, 100.0)),
             ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 64,
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Dashboard",
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Container(
+                    height: 64,
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Dashboard",
                                 style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold))
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                                    textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold))),
+                          ],
+                        )
+                      ],
                     ),
-                    createGrid == 1
-                        ? Expanded(child: myGridView)
-                        : Center(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              elevation: 60,
-                              child: InkWell(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/qr-code.png",
-                                      width: 200,
-                                      height: 150,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Associa box",
-                                      style: cardTextStyle,
-                                    ),
-                                  ],
-                                ),
-                                /*onTap: ()async {
+                  ),
+                  createGrid == 1
+                      ? Expanded(child: myGridView)
+                      : Center(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            elevation: 60,
+                            child: InkWell(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "assets/qr-code.png",
+                                    width: 200,
+                                    height: 150,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Associa box",
+                                    style: cardTextStyle,
+                                  ),
+                                ],
+                              ),
+                              /*onTap: ()async {
                                   showDialog(context: context, builder: builder)
                                   bb();
                                 },*/
-                                onTap: () async {
-                                  // mark the function as async
-                                  print('tap');
-                                  // Show PopUp
+                              onTap: () async {
+                                // mark the function as async
+                                print('tap');
+                                // Show PopUp
 
-                                  // await the dialog
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Text(
-                                              "Associazione box riuscita",
-                                              style: cardTextStyle),
-                                        ),
-                                        actions: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                alignment: Alignment.center,
-                                                child: Image.asset(
-                                                  "assets/check.png",
-                                                  width: 80,
-                                                  height: 80,
-                                                ),
+                                // await the dialog
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text("Associazione box riuscita",
+                                            style: cardTextStyle),
+                                      ),
+                                      actions: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: Image.asset(
+                                                "assets/check.png",
+                                                width: 80,
+                                                height: 80,
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                    // Doesn't run
-                                  );
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  // Doesn't run
+                                );
 
-                                  bb();
-                                },
-                              ),
+                                bb();
+                              },
                             ),
                           ),
-                  ],
-                ),
+                        ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'package:yachtoncloud/trackingpage.dart';
+import 'package:yachtoncloud/videoscreenbydate.dart';
 import 'package:yachtoncloud/videosorveglianza.dart';
 import 'package:provider/provider.dart';
 import 'videosorveglianza.dart';
@@ -146,11 +147,14 @@ class navdrawerTest extends StatelessWidget {
             )
           : ListTile(
               leading: leading,
-              title: Text(text, style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: textColor,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold)),),
+              title: Text(
+                text,
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold)),
+              ),
               onTap: onClicked,
             ),
     );
@@ -165,9 +169,7 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(Connettivita());
         break;
       case 1:
-        navigateTo(mainVideo(
-          title: "Videosorveglianza",
-        ));
+        navigateTo(VideoInfoBySearch());
         break;
       case 2:
         navigateTo(TrackingPage());
