@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:provider/provider.dart';
 import 'package:yachtoncloud/facebook_sign_in.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
@@ -109,9 +110,11 @@ class _WelcomePageState extends State<WelcomePage> {
             final requestdata = await FacebookAuth.i.getUserData(
               fields: "email, name",
             );
-            
+            final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken!.token);
+            await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
             String nome_cognome = requestdata["name"];
             final splitted_string = nome_cognome.split(' ');
+            
             print("Stringa splittata: " +splitted_string.toString());
             FacebookSignIn.insert_user(splitted_string[0] ,splitted_string[1]);
             Navigator.of(context).pushReplacement(
