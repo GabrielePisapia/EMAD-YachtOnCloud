@@ -56,7 +56,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 gradient: LinearGradient(
                 colors: [
                   backgroundColor2,
-                backgroundColor1,
+                  backgroundColor1,
                   //Colors.blue.shade50.withOpacity(0.8),
                   //Colors.lightBlue.withOpacity(0.9),
                 ],
@@ -97,8 +97,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                             decoration: InputDecoration(
                                                 hintText: 'Digita una data ',
                                                 hintStyle: TextStyle(
-                                                    color:
-                                                        Colors.grey),
+                                                    color: Colors.grey),
                                                 border: InputBorder.none),
                                           )
                                         : null,
@@ -149,8 +148,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                           padding: const EdgeInsets.only(
                               top: 50, left: 30, right: 30),
                           child: Row(
-                            children: [
-                            ],
+                            children: [],
                           ),
                         ),
                         _playView(context),
@@ -472,8 +470,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Container(
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle),
+                    decoration: BoxDecoration(shape: BoxShape.circle),
                     child: Icon(
                       noMute
                           ? Icons.volume_up_outlined
@@ -546,7 +543,8 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
               TextButton(
                   onPressed: () async {
                     final index = _isPlayingIndex + 1;
-                    if (index <= videoList.length - 1) {
+                    //videolist.length-1
+                    if (index <= 3) {
                       _initializeVideo(index);
                     } else {
                       Get.snackbar(
