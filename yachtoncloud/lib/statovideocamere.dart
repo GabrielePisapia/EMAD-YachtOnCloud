@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -61,8 +62,8 @@ class __statoVideocamereState extends State<_statoVideocamere> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              const Color(0XFF6dd5ed),
-              const Color(0XFF2193b0),
+              backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -216,8 +217,8 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
         boxDecoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [
-                backgroundColor1,
                 backgroundColor2,
+                backgroundColor1,
               ],
               begin: const FractionalOffset(0.0, 2.0),
               end: const FractionalOffset(1.0, 0.0),
@@ -229,28 +230,28 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
               child: Column(children: [
                 Padding(
-                    padding: EdgeInsets.only(bottom: 25),
+                    padding: EdgeInsets.only(bottom: 10),
                     child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Impostazioni videocamere",
-                          style: TextStyle(
-                              color: Colors.white,
-                              letterSpacing: 1.0,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
+                          style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold)),
                         ))),
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 20),
+                      padding: EdgeInsets.only(bottom: 7),
                       child: Text(
                         'Nomi e stato',
-                        style: TextStyle(
-                            color: textColor,
-                            letterSpacing: 1.0,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                        style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold))
                       ),
                     )),
                 
@@ -288,7 +289,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
                                 hintText: 'Videocamera1',
-                                fillColor: listElementColor,
+                                fillColor: fieldTextColor,
                                 filled: true,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -336,7 +337,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
                                 hintText: 'Videocamera2',
-                                fillColor: listElementColor,
+                                fillColor: fieldTextColor,
                                 filled: true,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -384,7 +385,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
                                 hintText: 'Videocamera3',
-                                fillColor: listElementColor,
+                                fillColor: fieldTextColor,
                                 filled: true,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -432,7 +433,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
                                 hintText: 'Videocamera4',
-                                fillColor: listElementColor,
+                                fillColor: fieldTextColor,
                                 filled: true,
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -494,8 +495,11 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                       },
                       child: Text(
                         'Conferma modifiche',
-                        style: TextStyle(color: textColor,
-                        fontSize: 17),
+                         style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
                       ),
                     ))),
               ])),

@@ -35,9 +35,8 @@ class navdrawerTest extends StatelessWidget {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color(0xff20BDFF),
-                Color(0xff5433FF),
-                //Color(0xffA5FECB),
+                appBarColor1,
+                appBarColor2,
               ],
             )),
             child: Column(
@@ -75,7 +74,7 @@ class navdrawerTest extends StatelessWidget {
             const SizedBox(width: 16),
             Text(
               'Flutter',
-              style: TextStyle(fontSize: 32, color: Colors.white),
+              style: TextStyle(fontSize: 32, color: textColor),
             ),
           ],
         );
@@ -95,7 +94,7 @@ class navdrawerTest extends StatelessWidget {
           child: Container(
             width: width,
             height: size,
-            child: Icon(icon, color: Colors.white),
+            child: Icon(icon, color: textColor),
           ),
           onTap: () {
             final provider =
@@ -137,7 +136,7 @@ class navdrawerTest extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.white;
+    final color = textColor;
     final leading = Icon(icon, color: color);
     return Material(
       color: Colors.transparent,

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 import 'Widget/bezierContainer.dart';
 import 'Widget/customClipper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _entryField(String title, TextEditingController controller,
       {bool isPassword = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 0),
+      margin: EdgeInsets.symmetric(vertical: 3),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -152,7 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: Color(0xfff3f3f4),
+                  fillColor: fieldTextColor,
                   filled: true))
         ],
       ),
@@ -165,11 +166,11 @@ class _SignUpPageState extends State<SignUpPage> {
       margin: EdgeInsets.symmetric(vertical: 1),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.all(buttonColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.white)))),
+                    side: BorderSide(color: buttonColor)))),
         onPressed: () {
           String esito = "";
           SignUp(
@@ -202,7 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Text('Registrati',
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold))),
               ),
@@ -286,6 +287,19 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: Container(
         height: height,
+        decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1])),
         child: Stack(
           children: <Widget>[
             Positioned(

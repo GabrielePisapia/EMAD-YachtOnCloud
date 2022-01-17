@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 import 'customClipper.dart';
 
@@ -21,7 +22,7 @@ class BezierContainer extends StatelessWidget {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+                  colors: [macchiaColor1, macchiaColor2])),
         ),
       ),
     ));

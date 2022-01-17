@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 import 'newSignup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -92,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: Color(0xfff3f3f4),
+                  fillColor: fieldTextColor,
                   filled: true))
         ],
       ),
@@ -105,11 +106,11 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.symmetric(vertical: 1),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.all(buttonColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.white)))),
+                    side: BorderSide(color: buttonColor)))),
         onPressed: () {
           String esito = "";
           SignIn(emailController.text, passwordController.text).then((val) {
@@ -136,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Login',
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: Colors.black,
+                          color: textColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
@@ -212,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                     textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
-                        fontWeight: FontWeight.normal))),
+                        fontWeight: FontWeight.bold))),
           ],
         ),
       ),
@@ -256,6 +257,19 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Container(
       height: height,
+      decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1])),
       child: Stack(
         children: <Widget>[
           Positioned(

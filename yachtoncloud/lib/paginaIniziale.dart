@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +8,7 @@ import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -137,7 +138,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                   navigateTo(VlcVinfo());
                   break;
                 case 1:
-                  navigateTo(VideoInfoBySearch());
+                  navigateTo(StatusVideocamere());
                   break;
                 case 2:
                   navigateTo(VideoInfoBySearch());
@@ -162,31 +163,23 @@ class _AssociaBoxState extends State<AssociaBox> {
           );
         });
 
-    /*return Template(
-      appBarTitle: 'Yacht on Cloud',
-      boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              const Color(0XFF6dd5ed),
-              const Color(0XFF2193b0),
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
-      ),*/
+   
     return Scaffold(
       body: Stack(
         children: [
           Container(
             height: 200.0,
             decoration: new BoxDecoration(
-              color: Color(0xff508FF7),
+              //color: backgroundColor1,
               boxShadow: [
                 new BoxShadow(
                   blurRadius: 40.0,
                 )
               ],
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor1, backgroundColor2]),
               borderRadius: new BorderRadius.vertical(
                   bottom: new Radius.elliptical(
                       MediaQuery.of(context).size.width, 100.0)),
@@ -213,7 +206,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                             Text("Dashboard",
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: textColor,
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold))),
                           ],
@@ -262,17 +255,25 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      content: Padding(
-                                        padding: const EdgeInsets.all(4),
-                                        child: Text(
-                                            "Associazione box riuscita ${widget.creaGrid}",
-                                            style: cardTextStyle),
-                                      ),
-                                      actions: [
-                                        Column(
+                                      content: Container( 
+                                        height: 18,
+                                          width: 50,
+                                        child:Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
-                                          children: [
+                                          children: [ Container(
+                                          child: Align(
+                                              alignment: Alignment.center,
+                                              child:Text(
+                                            "Associazione box riuscita ${widget.creaGrid}",
+                                            style: cardTextStyle),
+                                      )),],
+                                      )),
+                                      actions: [
+                                        /* Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [*/
                                             Align(
                                               alignment: Alignment.center,
                                               child: Image.asset(
@@ -281,8 +282,8 @@ class _AssociaBoxState extends State<AssociaBox> {
                                                 height: 80,
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                       //   ],
+                                     //   ),
                                       ],
                                     );
                                   },

@@ -62,8 +62,8 @@ class _VideoInfoState extends State<VlcVinfo> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              backgroundColor1,
               backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -75,8 +75,8 @@ class _VideoInfoState extends State<VlcVinfo> {
             ? BoxDecoration(
                 gradient: LinearGradient(
                 colors: [
-                  Colors.blue.shade50.withOpacity(0.8),
-                  Colors.lightBlue.withOpacity(0.9),
+                   backgroundColor2,
+                  backgroundColor1,
                 ],
                 begin: const FractionalOffset(0.0, 0.4),
                 end: Alignment.topRight,
@@ -92,28 +92,19 @@ class _VideoInfoState extends State<VlcVinfo> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: Icon(
-                                Icons.arrow_back_ios_new,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
-                          height: 30,
+                          height: 60,
                         ),
-                        Text(
-                            "Qui puoi visualizzare i filmati real time delle videocamere",
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold))),
+                        Center(
+                          child: Text(
+                              "Qui puoi visualizzare i filmati real time delle videocamere",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                        ),
                       ],
                     ),
                   )
@@ -126,7 +117,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                               top: 50, left: 30, right: 30),
                           child: Row(
                             children: [
-                              InkWell(
+                             /* InkWell(
                                 onTap: () {
                                   debugPrint("tapped");
                                 },
@@ -141,7 +132,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                                 Icons.info_outline,
                                 size: 20,
                                 color: AppColor.secondPageTopIconColor,
-                              )
+                              )*/
                             ],
                           ),
                         ),

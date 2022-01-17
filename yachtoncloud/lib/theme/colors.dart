@@ -14,6 +14,24 @@ Arancione: 0xFFFF8600
 
 const Color textColor = Colors.white;
 const Color textColorDashboard = Colors.black;
+const Color fieldTextColor = Color(0xFFFFB60A);
+
+const Color activeColorRadio = Color(0xffe46b10);
+
+const Color boxVideoColor = Colors.white;
+const Color activeTrackColor = Color(0xFF002952);
+const Color inactiveTrackColor = Color(0xfffbb448);
+const Color videoIconsColor = Colors.white;
+const Color thumbColor = Colors.black;
+const Color indicatorColor = Colors.redAccent;
+const Color activeTickColor = Color(0xFF002952);
+const Color inactiveTickColor = Color(0xfffbb448);
+
+const Color macchiaColor1 = Color(0xfffbb448);
+const Color macchiaColor2 = Color(0xffe46b10);
+
+const Color appBarColor1 = Color(0xfffbb448);
+const Color appBarColor2 = Color(0xffe46b10);
 
 const Color backgroundColor1 = Color(0xFF508FF7);
 const Color backgroundColor2 = Color(0xFFF4FFFF);

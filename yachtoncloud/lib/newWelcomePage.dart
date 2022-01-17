@@ -28,11 +28,11 @@ class _WelcomePageState extends State<WelcomePage> {
       margin: EdgeInsets.symmetric(vertical: 1),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.all(buttonColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.white)))),
+                    side: BorderSide(color: buttonColor)))),
         onPressed: () async {
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => LoginPage(title: '')));
@@ -46,7 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Text('Login',
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold))),
               ),
@@ -63,11 +63,11 @@ class _WelcomePageState extends State<WelcomePage> {
       margin: EdgeInsets.symmetric(vertical: 1),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: MaterialStateProperty.all(buttonColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Colors.white)))),
+                    side: BorderSide(color: buttonColor)))),
         onPressed: () async {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => SignUpPage(error2: '', title: '')));
@@ -81,7 +81,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Text('Registrati',
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold))),
               ),
@@ -141,7 +141,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Text('Accedi con Facebook',
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: Colors.white,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold))),
               ),
@@ -200,7 +200,7 @@ class _WelcomePageState extends State<WelcomePage> {
               flex: 5,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF397AF3),
+                  color: googleButton,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(10),
                       topRight: Radius.circular(10)),
@@ -209,7 +209,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Text('Accedi con Google',
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
-                            color: Colors.black,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold))),
               ),
@@ -299,7 +299,7 @@ class _WelcomePageState extends State<WelcomePage> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+                  colors: [backgroundColor2, backgroundColor1])),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

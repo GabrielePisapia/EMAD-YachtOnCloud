@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:yachtoncloud/navdrawer.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 class Template extends StatelessWidget {
   final Widget child;
@@ -22,7 +23,6 @@ class Template extends StatelessWidget {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset:
             false, //risolto problema bottom overflow setalert
-        //backgroundColor: const Color(0xFF005B96),
         drawer: navdrawerTest(),
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -38,15 +38,15 @@ class Template extends StatelessWidget {
                       MediaQuery.of(context).size.width, 40.0)),
               gradient: LinearGradient(
                   colors: [
-                    const Color(0xFF00CCFF),
-                    const Color(0xFF3366FF),
+                    appBarColor1,
+                    appBarColor2,
                   ],
                   begin: const FractionalOffset(0.0, 2.0),
                   end: const FractionalOffset(1.0, 0.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ),
-          ), //const Color(0xFF005B96),
+          ), 
           elevation: 0.0,
         ),
         //Qua c'era solo body: child, nel caso succedano guai

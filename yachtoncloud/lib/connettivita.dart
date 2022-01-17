@@ -66,8 +66,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              backgroundColor1,
               backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -347,8 +347,8 @@ Widget getBody(BuildContext context) {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              backgroundColor1,
               backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),

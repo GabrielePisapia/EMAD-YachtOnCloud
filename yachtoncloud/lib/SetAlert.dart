@@ -51,8 +51,8 @@ class _MyHomePageState extends State<SetAlertPage_> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              const Color(0XFF6dd5ed),
-              const Color(0XFF2193b0),
+              backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                   //selected: true;
                 });
               },
-              activeColor: Colors.orange[200],
+              activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
               value: 2,
@@ -140,7 +140,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                   //selected:true;
                 });
               },
-              activeColor: Colors.orange[200],
+              activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
               value: 3,
@@ -157,7 +157,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                   //selected:true;
                 });
               },
-              activeColor: Colors.orange[200],
+              activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
               value: 4,
@@ -174,7 +174,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                   //selected:true;
                 });
               },
-              activeColor: Colors.orange[200],
+              activeColor: activeColorRadio,
             )])),  
             Center(
               child: Container(
@@ -186,7 +186,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                 child: TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Miglia personalizzate',
-                    fillColor: Colors.orange[300],
+                    fillColor: fieldTextColor,
                     filled: true,
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,

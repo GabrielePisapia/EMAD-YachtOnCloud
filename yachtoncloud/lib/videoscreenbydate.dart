@@ -42,8 +42,8 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
             colors: [
-              backgroundColor1,
               backgroundColor2,
+              backgroundColor1,
             ],
             begin: const FractionalOffset(0.0, 2.0),
             end: const FractionalOffset(1.0, 0.0),
@@ -55,8 +55,10 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
             ? BoxDecoration(
                 gradient: LinearGradient(
                 colors: [
-                  Colors.blue.shade50.withOpacity(0.8),
-                  Colors.lightBlue.withOpacity(0.9),
+                  backgroundColor2,
+                backgroundColor1,
+                  //Colors.blue.shade50.withOpacity(0.8),
+                  //Colors.lightBlue.withOpacity(0.9),
                 ],
                 begin: const FractionalOffset(0.0, 0.4),
                 end: Alignment.topRight,
@@ -72,20 +74,8 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: Icon(
-                                Icons.arrow_back_ios_new,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
                         Center(
                           child: AnimatedContainer(
@@ -94,7 +84,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                             height: 56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Colors.white,
+                              color: fieldTextColor,
                               boxShadow: kElevationToShadow[6],
                             ),
                             child: Row(
@@ -108,7 +98,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                                 hintText: 'Digita una data ',
                                                 hintStyle: TextStyle(
                                                     color:
-                                                        Colors.blue.shade300),
+                                                        Colors.grey),
                                                 border: InputBorder.none),
                                           )
                                         : null,
@@ -133,7 +123,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                           _folded
                                               ? Icons.search_outlined
                                               : Icons.close,
-                                          color: Colors.blue.shade900,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       onTap: () {
@@ -160,22 +150,6 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                               top: 50, left: 30, right: 30),
                           child: Row(
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  debugPrint("tapped");
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 20,
-                                  color: AppColor.secondPageTopIconColor,
-                                ),
-                              ),
-                              Expanded(child: Container()),
-                              Icon(
-                                Icons.info_outline,
-                                size: 20,
-                                color: AppColor.secondPageTopIconColor,
-                              )
                             ],
                           ),
                         ),
@@ -187,7 +161,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: boxVideoColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(70),
                   ),
@@ -322,7 +296,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                             width: 3,
                             height: 1,
                             decoration: BoxDecoration(
-                              color: const Color(0XFF839fed),
+                              color: backgroundColor2,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           )
@@ -446,20 +420,20 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       children: [
         SliderTheme(
             data: SliderTheme.of(context).copyWith(
-              activeTrackColor: Colors.red[700],
-              inactiveTrackColor: Colors.red[100],
+              activeTrackColor: activeTrackColor,
+              inactiveTrackColor: inactiveTrackColor,
               trackShape: RoundedRectSliderTrackShape(),
               trackHeight: 2.0,
               thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12),
-              thumbColor: Colors.redAccent,
+              thumbColor: thumbColor,
               overlayColor: Colors.red.withAlpha(32),
               overlayShape: RoundSliderOverlayShape(overlayRadius: 28),
               tickMarkShape: RoundSliderTickMarkShape(),
-              activeTickMarkColor: Colors.red[700],
-              inactiveTickMarkColor: Colors.red[100],
+              activeTickMarkColor: activeTickColor,
+              inactiveTickMarkColor: inactiveTickColor,
               valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-              valueIndicatorColor: Colors.redAccent,
-              valueIndicatorTextStyle: const TextStyle(color: Colors.white),
+              valueIndicatorColor: indicatorColor,
+              valueIndicatorTextStyle: const TextStyle(color: textColor),
             ),
             child: Slider(
               value: max(0, min(_progress * 100, 100)),
@@ -486,7 +460,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
               },
             )),
         Container(
-          height: 40,
+          height: 50,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(bottom: 5),
           color: AppColor.gradientSecond,
@@ -499,19 +473,13 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Container(
                     decoration:
-                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 4.0,
-                        color: Color.fromARGB(50, 0, 0, 0),
-                      )
-                    ]),
+                        BoxDecoration(shape: BoxShape.circle),
                     child: Icon(
                       noMute
                           ? Icons.volume_up_outlined
                           : Icons.volume_off_outlined,
                       size: 30,
-                      color: Colors.white,
+                      color: videoIconsColor,
                     ),
                   ),
                 ),
@@ -538,13 +506,13 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                         icon: Icon(
                           Icons.face,
                           size: 30,
-                          color: Colors.white,
+                          color: videoIconsColor,
                         ),
                         backgroundColor: AppColor.gradientSecond,
-                        colorText: Colors.white,
+                        colorText: textColor,
                         messageText: Text(
                           "No more video to play",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(fontSize: 20, color: textColor),
                         ),
                       );
                     }
@@ -552,7 +520,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   child: Icon(
                     Icons.fast_rewind_outlined,
                     size: 30,
-                    color: Colors.white,
+                    color: videoIconsColor,
                   )),
               TextButton(
                   onPressed: () async {
@@ -573,7 +541,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                         ? Icons.pause_circle_filled_outlined
                         : Icons.play_arrow_outlined,
                     size: 30,
-                    color: Colors.white,
+                    color: videoIconsColor,
                   )),
               TextButton(
                   onPressed: () async {
@@ -588,13 +556,13 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                         icon: Icon(
                           Icons.face,
                           size: 30,
-                          color: Colors.white,
+                          color: videoIconsColor,
                         ),
                         backgroundColor: AppColor.gradientSecond,
-                        colorText: Colors.white,
+                        colorText: textColor,
                         messageText: Text(
                           "No more videos in the list",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(fontSize: 20, color: textColor),
                         ),
                       );
                     }
@@ -606,7 +574,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   )),
               Text(
                 "$mins:$secs",
-                style: TextStyle(color: Colors.white, shadows: [
+                style: TextStyle(color: textColor, shadows: [
                   Shadow(
                     offset: Offset(0.0, 1.0),
                     blurRadius: 4.0,

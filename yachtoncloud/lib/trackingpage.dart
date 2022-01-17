@@ -71,26 +71,10 @@ class _MyHomePageState extends State<TrackingPage_> {
 
     return Template(
       appBarTitle: "Yacht on Cloud",
-      child: /*Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-        child:*/ new Stack(
+      child: new Stack(
           alignment: AlignmentDirectional.topCenter,
-          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /*Center(
-              child: Text(
-                'Attualmente ti trovi qui:',
-                style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 1.0,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-              ),
-            ),*/
-            /*Padding(
-              padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
-              child: Center(
-                child:*/ Positioned( child: Container(
+            Positioned( child: Container(
                    decoration: BoxDecoration(
                       color: cardsColor1,
                       borderRadius: BorderRadius.circular(12),
@@ -191,78 +175,3 @@ class _MyHomePageState extends State<TrackingPage_> {
   }
 }
 
-class NavDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-              child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0, 20.0),
-                child: Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Menu',
-                    style: TextStyle(color: Colors.black, fontSize: 25),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 20.0),
-                child: Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Nome',
-                    style: TextStyle(color: Colors.black, fontSize: 15),
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Email@example.com',
-                  style: TextStyle(color: Colors.black, fontSize: 15),
-                ),
-              ),
-            ],
-          )),
-          ListTile(
-            leading: Icon(
-              Icons.wifi,
-            ),
-            title: Text('Connettività'),
-            onTap: () => {},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.video_settings_rounded,
-            ),
-            title: Text('Videosorveglianza'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.gps_fixed_outlined,
-            ),
-            title: Text('Tracking GPS'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.notification_important_rounded),
-            title: Text('Notifica di movimento'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-        ],
-      ),
-    );
-  }
-}
