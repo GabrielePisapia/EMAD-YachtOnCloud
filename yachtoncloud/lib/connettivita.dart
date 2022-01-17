@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
@@ -290,6 +292,23 @@ class _ConnettivitaState extends State<Connettivita> {
 
 
 Widget getBody(BuildContext context) {
+
+     final result = FirebaseFirestore.instance.collection('Utenti').doc(FirebaseAuth.instance.currentUser!.uid);
+
+    print(FirebaseAuth.instance.currentUser!.uid);
+     Future getData(result) async {
+         result.collection("Box").doc("1").get().then((DocumentSnapshot snapshot) {
+           if (snapshot.exists) {
+         Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        //print("Full Name: ${data['nome']} ${data['cognome']}");
+        print("HELLO ${data ['devices'][0]}");
+           } else {
+             print("mannagg o cor e budda");
+           }
+      });
+     }
+    
+  getData(result);
 
    final List<Color> gradientColors = [
       chartColor1,

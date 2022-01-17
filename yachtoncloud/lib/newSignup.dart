@@ -67,13 +67,14 @@ class _SignUpPageState extends State<SignUpPage> {
   ) async {
     String esito = "";
     try {
-      var firebaseUser = FirebaseAuth.instance.currentUser;
+
       String isValid = "";
       isValid = validate(nome, cognome, pass);
       print("PRINT DI IS VALID: " + isValid);
       if (isValid == "Ok") {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: pass);
+            var firebaseUser = FirebaseAuth.instance.currentUser;
         UserSetup(uid: firebaseUser!.uid).updateUserData(nome, cognome);
         print(firebaseUser.uid + " " + nome + " " + cognome);
         esito = "Ok";
@@ -89,8 +90,13 @@ class _SignUpPageState extends State<SignUpPage> {
         print("Account esistente");
         esito = "Account esistente";
         return esito;
+      } else if(e.code == "weak-password") {
+        print("Password debole");
+        esito = "Password debole";
+        return esito;
       } else {
         esito = "Ok";
+        print(e.code.toString());
         print("ELSE DI SIGN UP, VALORE DI ESITO: " + esito);
         return esito;
       }
