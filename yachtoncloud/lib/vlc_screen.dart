@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+
+import 'theme/colors.dart';
 
 class VlcVinfo extends StatefulWidget {
   const VlcVinfo({Key? key}) : super(key: key);
@@ -54,8 +57,20 @@ class _VideoInfoState extends State<VlcVinfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return Template(
+      appBarTitle: "Yacht on Cloud",
+      boxDecoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              backgroundColor1,
+              backgroundColor2,
+            ],
+            begin: const FractionalOffset(0.0, 2.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
+      child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
@@ -79,17 +94,14 @@ class _VideoInfoState extends State<VlcVinfo> {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 20,
-                              color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                size: 20,
+                                color: Colors.white,
+                              ),
                             ),
-                            Expanded(child: Container()),
-                            Icon(
-                              Icons.settings,
-                              size: 20,
-                              color: Colors.white,
-                            )
                           ],
                         ),
                         SizedBox(

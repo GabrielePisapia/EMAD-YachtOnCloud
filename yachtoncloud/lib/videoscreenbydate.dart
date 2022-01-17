@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
+import 'theme/colors.dart';
 
 class VideoInfoBySearch extends StatefulWidget {
   const VideoInfoBySearch({Key? key}) : super(key: key);
@@ -35,8 +37,20 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return Template(
+      appBarTitle: 'Yacht on Cloud',
+      boxDecoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [
+              backgroundColor1,
+              backgroundColor2,
+            ],
+            begin: const FractionalOffset(0.0, 2.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
+      child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
@@ -60,17 +74,14 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 20,
-                              color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                size: 20,
+                                color: Colors.white,
+                              ),
                             ),
-                            Expanded(child: Container()),
-                            Icon(
-                              Icons.settings,
-                              size: 20,
-                              color: Colors.white,
-                            )
                           ],
                         ),
                         SizedBox(
@@ -270,7 +281,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sesso anale",
+                    "Video",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ) //videoList[index]["title"]
                   ,
@@ -278,7 +289,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   Padding(
                     padding: EdgeInsets.only(top: 3),
                     child: Text(
-                      "Durata",
+                      "Data: 20/01/2022",
                       style: TextStyle(color: Colors.grey[500]),
                     ),
                   ) //videoList[index]["time"]
@@ -298,7 +309,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 ),
                 child: Center(
                   child: Text(
-                    "Durata",
+                    "",
                     style: TextStyle(color: Color(0XFF839fed)),
                   ),
                 ),

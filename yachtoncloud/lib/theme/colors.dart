@@ -29,3 +29,7 @@ const Color chartColor2 = Color(0xFFFF8600);
 const Color shadowCard = Colors.grey;
 
 const Color listElementColor = Color(0xFFFFB60A);
+
+//Colori bottoni welcome page
+const Color facebookButton = Color(0xff2872ba);
+const Color googleButton = Color(0xFF397AF3);

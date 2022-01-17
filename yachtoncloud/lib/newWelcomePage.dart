@@ -98,11 +98,11 @@ class _WelcomePageState extends State<WelcomePage> {
       margin: EdgeInsets.symmetric(vertical: 10),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xff2872ba)),
+            backgroundColor: MaterialStateProperty.all(facebookButton),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Color(0xff2872ba))))),
+                    side: BorderSide(color: facebookButton)))),
         onPressed: () async {
           final result = await FacebookAuth.i
               .login(permissions: ["public_profile", "email"]);
@@ -110,15 +110,17 @@ class _WelcomePageState extends State<WelcomePage> {
             final requestdata = await FacebookAuth.i.getUserData(
               fields: "email, name",
             );
-            final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken!.token);
-            await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+            final facebookAuthCredential =
+                FacebookAuthProvider.credential(result.accessToken!.token);
+            await FirebaseAuth.instance
+                .signInWithCredential(facebookAuthCredential);
             String nome_cognome = requestdata["name"];
             final splitted_string = nome_cognome.split(' ');
-            
-            print("Stringa splittata: " +splitted_string.toString());
-            FacebookSignIn.insert_user(splitted_string[0] ,splitted_string[1]);
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => AssociaBox(title: '')));
+
+            print("Stringa splittata: " + splitted_string.toString());
+            FacebookSignIn.insert_user(splitted_string[0], splitted_string[1]);
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => AssociaBox(creaGrid: 0)));
           }
         },
         child: Row(
@@ -159,30 +161,28 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
       child: TextButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xFF397AF3)),
+            backgroundColor: MaterialStateProperty.all(googleButton),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: Color(0xFF397AF3))))),
+                    side: BorderSide(color: googleButton)))),
         onPressed: () {
           final provider =
-              Provider.of<GoogleSignInProvider>(context,listen: false);
+              Provider.of<GoogleSignInProvider>(context, listen: false);
           provider.googleLogin().then((val) {
-          if(val=="ok"){
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => AssociaBox(title: '')));
-              }
-             
+            if (val == "ok") {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => AssociaBox(creaGrid: 0)));
+            }
           });
         },
-
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFF397AF3), width: 2),
+                  border: Border.all(color: googleButton, width: 2),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       topLeft: Radius.circular(10)),

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/SetAlert.dart';
@@ -31,13 +33,13 @@ class PaginaIniziale extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const AssociaBox(title: 'Flutter Demo Home Page'),
+          home: const AssociaBox(creaGrid: 1),
         ),
       );
 }
 
 class AssociaBox extends StatefulWidget {
-  const AssociaBox({Key? key, required this.title}) : super(key: key);
+  const AssociaBox({Key? key, required this.creaGrid}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -48,7 +50,7 @@ class AssociaBox extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final int creaGrid;
 
   @override
   State<AssociaBox> createState() => _AssociaBoxState();
@@ -57,13 +59,15 @@ class AssociaBox extends StatefulWidget {
 class _AssociaBoxState extends State<AssociaBox> {
   // ignore: unused_field
   var createGrid = 0;
+
   void bb() {
     print('Clicked Clicked');
 
     setState(() {
-      createGrid = 1;
+      createGrid = widget.creaGrid;
     });
   }
+  //TODO: Creare dashboard copiando associabox afammok a mammt
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,8 @@ class _AssociaBoxState extends State<AssociaBox> {
       "Connettività",
       "Impostazioni \nconnettività",
       "Tracking GPS",
-      "Notifica di movimento"
+      "Notifica di movimento",
+      "Associa nuova box"
     ];
     var assetsList = [
       "video-camera.png",
@@ -89,7 +94,8 @@ class _AssociaBoxState extends State<AssociaBox> {
       "smartphone.png",
       "settingwifi.png",
       "compass.png",
-      "job.png"
+      "job.png",
+      "qr-code.png"
     ];
 
     var myGridView = new GridView.builder(
@@ -147,6 +153,9 @@ class _AssociaBoxState extends State<AssociaBox> {
                   break;
                 case 6:
                   navigateTo(SetAlertPage());
+                  break;
+                case 7:
+                  navigateTo(AssociaBox(creaGrid: 0));
                   break;
               }
             },
@@ -245,6 +254,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                               onTap: () async {
                                 // mark the function as async
                                 print('tap');
+
                                 // Show PopUp
 
                                 // await the dialog
@@ -254,7 +264,8 @@ class _AssociaBoxState extends State<AssociaBox> {
                                     return AlertDialog(
                                       content: Padding(
                                         padding: const EdgeInsets.all(4),
-                                        child: Text("Associazione box riuscita",
+                                        child: Text(
+                                            "Associazione box riuscita ${widget.creaGrid}",
                                             style: cardTextStyle),
                                       ),
                                       actions: [

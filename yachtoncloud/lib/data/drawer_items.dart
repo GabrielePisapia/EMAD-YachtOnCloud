@@ -17,6 +17,6 @@ final itemFirst = [
 ];
 
 final itemSecond = [
-  DrawerItem(title: 'Informazioni', icon: Icons.info),
+  DrawerItem(title: 'Dashboard', icon: Icons.dashboard_customize),
   DrawerItem(title: 'Logout', icon: Icons.logout),
 ];

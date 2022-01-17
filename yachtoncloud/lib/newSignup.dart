@@ -67,14 +67,13 @@ class _SignUpPageState extends State<SignUpPage> {
   ) async {
     String esito = "";
     try {
-
       String isValid = "";
       isValid = validate(nome, cognome, pass);
       print("PRINT DI IS VALID: " + isValid);
       if (isValid == "Ok") {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: pass);
-            var firebaseUser = FirebaseAuth.instance.currentUser;
+        var firebaseUser = FirebaseAuth.instance.currentUser;
         UserSetup(uid: firebaseUser!.uid).updateUserData(nome, cognome);
         print(firebaseUser.uid + " " + nome + " " + cognome);
         esito = "Ok";
@@ -90,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
         print("Account esistente");
         esito = "Account esistente";
         return esito;
-      } else if(e.code == "weak-password") {
+      } else if (e.code == "weak-password") {
         print("Password debole");
         esito = "Password debole";
         return esito;
@@ -185,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
             if (esito == "Ok") {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => AssociaBox(title: '')));
+                  builder: (context) => AssociaBox(creaGrid: 0)));
             } else {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => SignUpPage(

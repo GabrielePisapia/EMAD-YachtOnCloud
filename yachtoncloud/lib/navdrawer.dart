@@ -5,6 +5,7 @@ import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/data/drawer_items.dart';
 import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
+import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videoscreenbydate.dart';
@@ -178,7 +179,7 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(SetAlertPage());
         break;
       case 4:
-        navigateTo(TrackingPage());
+        navigateTo(AssociaBox(creaGrid: 1));
         break;
       case 5:
         navigateTo(LoginPage(

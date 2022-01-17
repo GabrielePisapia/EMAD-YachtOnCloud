@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
             print(esito);
             if (esito == "Ok") {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => AssociaBox(title: '')));
+                  builder: (context) => AssociaBox(creaGrid: 1)));
             } else {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => LoginPage(title: "titolo")));
