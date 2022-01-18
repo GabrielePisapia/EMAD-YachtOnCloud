@@ -60,28 +60,26 @@ class _VideoInfoState extends State<VlcVinfo> {
     return Template(
       appBarTitle: "Yacht on Cloud",
       boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor2, backgroundColor1])
-            //stops: [0.0, 1.0],
-            //tileMode: TileMode.clamp),
-      ),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.center,
+              colors: [backgroundColor2, backgroundColor1])
+          //stops: [0.0, 1.0],
+          //tileMode: TileMode.clamp),
+          ),
       child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor1, backgroundColor2]
-              ))
-            :  BoxDecoration(
-         gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor2, backgroundColor1]
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                    colors: [backgroundColor1, backgroundColor2]))
+            : BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                    colors: [backgroundColor2, backgroundColor1]),
               ),
-      ),
         child: Column(
           children: [
             _playArea == false
@@ -117,7 +115,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                               top: 50, left: 30, right: 30),
                           child: Row(
                             children: [
-                             /* InkWell(
+                              /* InkWell(
                                 onTap: () {
                                   debugPrint("tapped");
                                 },
@@ -193,10 +191,13 @@ class _VideoInfoState extends State<VlcVinfo> {
   }
 
   Widget _playView(BuildContext context) {
-    return VlcPlayer(
-        controller: _controller,
-        aspectRatio: 16 / 9,
-        placeholder: const Center(child: CircularProgressIndicator()));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: VlcPlayer(
+          controller: _controller,
+          aspectRatio: 16 / 9,
+          placeholder: const Center(child: CircularProgressIndicator())),
+    );
   }
 
   _buildCard(int index) {
@@ -225,26 +226,23 @@ class _VideoInfoState extends State<VlcVinfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Videocamera ",
-                    style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: textColorDashboard,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold))
-                  ) //videoList[index]["title"]
+                  Text("Videocamera ",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              color: textColorDashboard,
+                              fontSize: 17,
+                              fontWeight:
+                                  FontWeight.bold))) //videoList[index]["title"]
                   ,
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text(
-                      "Poppa",
-                      style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.normal))
-                    ),
+                    child: Text("Poppa",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal))),
                   ) //videoList[index]["time"]
                 ],
               ),

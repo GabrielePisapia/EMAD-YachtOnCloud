@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'theme/colors.dart';
@@ -40,28 +41,26 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor2, backgroundColor1])
-            //stops: [0.0, 1.0],
-            //tileMode: TileMode.clamp),
-      ),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.center,
+              colors: [backgroundColor2, backgroundColor1])
+          //stops: [0.0, 1.0],
+          //tileMode: TileMode.clamp),
+          ),
       child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor1, backgroundColor2]
-              ))
-            :  BoxDecoration(
-         gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                  colors: [backgroundColor2, backgroundColor1]
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                    colors: [backgroundColor1, backgroundColor2]))
+            : BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
+                    colors: [backgroundColor2, backgroundColor1]),
               ),
-      ),
         child: Column(
           children: [
             _playArea == false
@@ -217,14 +216,12 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       return AspectRatio(
           aspectRatio: 16 / 9,
           child: Center(
-              child: Text(
-            "Preparing...",
-            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: textColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal))
-          )));
+              child: Text("Preparing...",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal)))));
     }
   }
 
@@ -254,26 +251,23 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Video",
-                    style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: textColorDashboard,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold))
-                  ) //videoList[index]["title"]
+                  Text("Video",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              color: textColorDashboard,
+                              fontSize: 17,
+                              fontWeight:
+                                  FontWeight.bold))) //videoList[index]["title"]
                   ,
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text(
-                      "Data: 20/01/2022",
-                      style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.normal))
-                    ),
+                    child: Text("Data: 20/01/2022",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal))),
                   ) //videoList[index]["time"]
                 ],
               ),
@@ -568,14 +562,12 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                         ),
                         //backgroundColor: AppColor.gradientSecond,
                         colorText: textColor,
-                        messageText: Text(
-                          "No more videos in the list",
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: textColor,
-                                  fontSize: 1,
-                                  fontWeight: FontWeight.bold))
-                        ),
+                        messageText: Text("No more videos in the list",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: textColor,
+                                    fontSize: 1,
+                                    fontWeight: FontWeight.bold))),
                       );
                     }
                   },
