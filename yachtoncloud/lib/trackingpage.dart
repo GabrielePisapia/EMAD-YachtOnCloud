@@ -148,7 +148,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:yachtoncloud/navdrawer.dart';
 import 'package:yachtoncloud/theme/colors.dart';
@@ -27,7 +28,12 @@ class Template extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(this.appBarTitle),
+          title: Text(this.appBarTitle, 
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+              color: textColor,
+              fontSize: 19,
+              fontWeight: FontWeight.bold))),
           centerTitle: true,
           flexibleSpace: Container(
             height: 400,

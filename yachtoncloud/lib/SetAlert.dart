@@ -9,6 +9,7 @@ void main() {
   runApp(const SetAlertPage());
 }
 
+
 class SetAlertPage extends StatelessWidget {
   const SetAlertPage({Key? key}) : super(key: key);
 
@@ -38,9 +39,32 @@ class SetAlertPage_ extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<SetAlertPage_> {
-  // ignore: unused_field
-
+  final TextEditingController migliaController = new TextEditingController();
   int val = -1;
+
+Widget _entryField(String title, TextEditingController controller,
+      {bool isPassword = false}) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+              controller: controller,
+              obscureText: isPassword,
+              decoration: InputDecoration(
+                hintText: 'Miglia personalizzate',
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  fillColor: fieldTextColor,
+                  filled: true))
+        ],
+      ),
+    );
+  }
+    Widget _migliaWidget() {
+    return _entryField("", migliaController);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +73,18 @@ class _MyHomePageState extends State<SetAlertPage_> {
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
-      ),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1])),
       child: SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 0.0),
@@ -89,13 +115,15 @@ class _MyHomePageState extends State<SetAlertPage_> {
               height: 10,
           ),
              Container(
-          height: 319,
+          height: 326,
               //width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
+                     begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                     colors: [
-                      cardsColor1,
                       cardsColor2,
+                      cardsColor1,
                   ]),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
@@ -178,21 +206,12 @@ class _MyHomePageState extends State<SetAlertPage_> {
             )])),  
             Center(
               child: Container(
-                width: size.width - 200,
-                height: 50,
+                width: size.width - 150,
+                height: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Miglia personalizzate',
-                    fillColor: fieldTextColor,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                  ),
-                ),
+                child: _migliaWidget()
               ),
             ),
             SizedBox(height: 20),   
@@ -224,7 +243,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
               ),

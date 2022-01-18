@@ -41,29 +41,27 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+            begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor2, backgroundColor1])
+            //stops: [0.0, 1.0],
+            //tileMode: TileMode.clamp),
       ),
       child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
-                colors: [
-                  backgroundColor2,
-                  backgroundColor1,
-                  //Colors.blue.shade50.withOpacity(0.8),
-                  //Colors.lightBlue.withOpacity(0.9),
-                ],
-                begin: const FractionalOffset(0.0, 0.4),
-                end: Alignment.topRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor1, backgroundColor2]
               ))
-            : BoxDecoration(color: AppColor.gradientSecond),
+            :  BoxDecoration(
+         gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor2, backgroundColor1]
+              ),
+      ),
         child: Column(
           children: [
             _playArea == false
@@ -221,7 +219,11 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
           child: Center(
               child: Text(
             "Preparing...",
-            style: TextStyle(fontSize: 20, color: Colors.white60),
+            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: textColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal))
           )));
     }
   }
@@ -254,7 +256,11 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 children: [
                   Text(
                     "Video",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: textColorDashboard,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold))
                   ) //videoList[index]["title"]
                   ,
                   SizedBox(height: 10),
@@ -262,7 +268,11 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                     padding: EdgeInsets.only(top: 3),
                     child: Text(
                       "Data: 20/01/2022",
-                      style: TextStyle(color: Colors.grey[500]),
+                      style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal))
                     ),
                   ) //videoList[index]["time"]
                 ],
@@ -294,7 +304,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                             width: 3,
                             height: 1,
                             decoration: BoxDecoration(
-                              color: backgroundColor2,
+                              color: Colors.grey,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           )
@@ -461,7 +471,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
           height: 50,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(bottom: 5),
-          color: AppColor.gradientSecond,
+          //color: AppColor.gradientSecond,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -505,7 +515,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                           size: 30,
                           color: videoIconsColor,
                         ),
-                        backgroundColor: AppColor.gradientSecond,
+                        //backgroundColor: AppColor.gradientSecond,
                         colorText: textColor,
                         messageText: Text(
                           "No more video to play",
@@ -556,11 +566,15 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                           size: 30,
                           color: videoIconsColor,
                         ),
-                        backgroundColor: AppColor.gradientSecond,
+                        //backgroundColor: AppColor.gradientSecond,
                         colorText: textColor,
                         messageText: Text(
                           "No more videos in the list",
-                          style: TextStyle(fontSize: 20, color: textColor),
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: textColor,
+                                  fontSize: 1,
+                                  fontWeight: FontWeight.bold))
                         ),
                       );
                     }

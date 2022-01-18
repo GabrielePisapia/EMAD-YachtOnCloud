@@ -225,21 +225,29 @@ class _WelcomePageState extends State<WelcomePage> {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Yach',
-          style: GoogleFonts.portLligatSans(
-            textStyle: Theme.of(context).textTheme.headline1,
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+          style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
           ),
           children: [
             TextSpan(
               text: 'tOnC',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            ),
+              style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+          )),
             TextSpan(
               text: 'loud',
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
+              style:GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+          )),
           ]),
     );
   }

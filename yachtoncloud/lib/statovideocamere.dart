@@ -22,12 +22,12 @@ class statoVideocamere extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const _statoVideocamere(title: 'Flutter Demo Home Page'),
+          home: StatusVideocamere(),
         ),
       );
 }
 
-class _statoVideocamere extends StatefulWidget {
+/*class _statoVideocamere extends StatefulWidget {
   const _statoVideocamere({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -60,15 +60,10 @@ class __statoVideocamereState extends State<_statoVideocamere> {
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+         gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1]),
       ),
       child: Column(
         children: [
@@ -176,7 +171,7 @@ class __statoVideocamereState extends State<_statoVideocamere> {
       ),
     );
   }
-}
+}*/
 
 class StatusVideocamere extends StatefulWidget {
   @override
@@ -216,14 +211,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
         appBarTitle: 'Yacht on Cloud',
         boxDecoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [
-                backgroundColor2,
-                backgroundColor1,
-              ],
-              begin: const FractionalOffset(0.0, 2.0),
-              end: const FractionalOffset(1.0, 0.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1]),
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -259,10 +249,13 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                   height: 300,
                   //width: double.infinity,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        cardsColor1,
-                        cardsColor2,
-                      ]),
+                       gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                    colors: [
+                      cardsColor1,
+                      cardsColor2,
+                  ]),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -498,7 +491,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                          style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold)),
                       ),
                     ))),

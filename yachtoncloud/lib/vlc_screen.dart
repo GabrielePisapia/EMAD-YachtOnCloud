@@ -61,27 +61,27 @@ class _VideoInfoState extends State<VlcVinfo> {
       appBarTitle: "Yacht on Cloud",
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+            begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor2, backgroundColor1])
+            //stops: [0.0, 1.0],
+            //tileMode: TileMode.clamp),
       ),
       child: Container(
         decoration: _playArea == false
             ? BoxDecoration(
                 gradient: LinearGradient(
-                colors: [
-                   backgroundColor2,
-                  backgroundColor1,
-                ],
-                begin: const FractionalOffset(0.0, 0.4),
-                end: Alignment.topRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor1, backgroundColor2]
               ))
-            : BoxDecoration(color: AppColor.gradientSecond),
+            :  BoxDecoration(
+         gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [backgroundColor2, backgroundColor1]
+              ),
+      ),
         child: Column(
           children: [
             _playArea == false
@@ -227,7 +227,11 @@ class _VideoInfoState extends State<VlcVinfo> {
                 children: [
                   Text(
                     "Videocamera ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: textColorDashboard,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold))
                   ) //videoList[index]["title"]
                   ,
                   SizedBox(height: 10),
@@ -235,7 +239,11 @@ class _VideoInfoState extends State<VlcVinfo> {
                     padding: EdgeInsets.only(top: 3),
                     child: Text(
                       "Poppa",
-                      style: TextStyle(color: Colors.grey[500]),
+                      style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal))
                     ),
                   ) //videoList[index]["time"]
                 ],
@@ -267,7 +275,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                             width: 3,
                             height: 1,
                             decoration: BoxDecoration(
-                              color: const Color(0XFF839fed),
+                              color: Colors.grey,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           )

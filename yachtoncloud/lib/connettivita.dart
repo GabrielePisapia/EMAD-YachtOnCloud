@@ -65,14 +65,9 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1]),
       ),
       child: SingleChildScrollView(
       child: Padding(
@@ -103,6 +98,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
               //width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                     colors: [
                       cardsColor1,
                       cardsColor2,
@@ -166,6 +163,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
               //width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                     colors: [
                       cardsColor1,
                       cardsColor2,
@@ -264,7 +263,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
               ),
@@ -346,14 +345,9 @@ Widget getBody(BuildContext context) {
       appBarTitle: "Yacht on Cloud",
       boxDecoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [
-              backgroundColor2,
-              backgroundColor1,
-            ],
-            begin: const FractionalOffset(0.0, 2.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: [0.0, 1.0],
-            tileMode: TileMode.clamp),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [backgroundColor2, backgroundColor1]),
       ),
       child: /*Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,9 +377,11 @@ Widget getBody(BuildContext context) {
               height: 250,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                     colors: [
-                      cardsColor1,
                       cardsColor2,
+                      cardsColor1,
                   ]),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
@@ -547,7 +543,13 @@ Widget getBody(BuildContext context) {
                   width: (size.width - 40),
                   height: 160,
                   decoration: BoxDecoration(
-                      color: cardsColor1,
+                     gradient: LinearGradient(
+                     begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                    colors: [
+                      cardsColor2,
+                      cardsColor1,
+                  ]),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -628,7 +630,13 @@ Widget getBody(BuildContext context) {
                   width: (size.width - 40),
                   height: 150,
                   decoration: BoxDecoration(
-                      color: cardsColor1,
+                      gradient: LinearGradient(
+                     begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                    colors: [
+                      cardsColor2,
+                      cardsColor1,
+                  ]),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -669,8 +677,8 @@ Widget getBody(BuildContext context) {
                                     textStyle: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: textColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold)),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal)),
                                     // Positioning the data label
                                     labelPosition: ChartDataLabelPosition.outside,
                                 )
@@ -712,7 +720,7 @@ Widget getBody(BuildContext context) {
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold)),
                 ),
               ),

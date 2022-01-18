@@ -165,12 +165,19 @@ class _AssociaBoxState extends State<AssociaBox> {
 
    
     return Scaffold(
-      body: Stack(
+      body: Container( 
+        decoration: BoxDecoration(
+          gradient:
+          LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [dashboardBackground1, dashboardBackground2]),
+        ),
+        child: Stack(
         children: [
           Container(
             height: 200.0,
             decoration: new BoxDecoration(
-              //color: backgroundColor1,
               boxShadow: [
                 new BoxShadow(
                   blurRadius: 40.0,
@@ -300,7 +307,7 @@ class _AssociaBoxState extends State<AssociaBox> {
             ),
           )
         ],
-      ),
+      )),
     );
   }
 }

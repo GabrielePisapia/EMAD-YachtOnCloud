@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/storicoregistrazioni.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 void main() {
   runApp(const mainVideo_());
@@ -114,7 +116,11 @@ class _mainVideoState extends State<mainVideo> {
                             onPressed: null,
                             child: Text(
                               'Clicca per visualizzare il video',
-                              style: TextStyle(color: Colors.black),
+                              style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: textColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold))
                             ),
                           ),
                         ],

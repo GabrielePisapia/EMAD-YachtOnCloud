@@ -224,20 +224,30 @@ class _LoginPageState extends State<LoginPage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'Yac',
-          style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: Color(0xffe46b10)),
+          text: 'Yach',
+          style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+          ),
           children: [
             TextSpan(
-              text: 'htOn',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            ),
+              text: 'tOnC',
+              style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+          )),
             TextSpan(
-              text: 'Cloud',
-              style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
-            ),
+              text: 'loud',
+              style:GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+          )),
           ]),
     );
   }
