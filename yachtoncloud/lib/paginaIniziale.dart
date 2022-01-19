@@ -156,128 +156,129 @@ class _AssociaBoxState extends State<AssociaBox> {
                   navigateTo(SetAlertPage());
                   break;
                 case 7:
-                  navigateTo(AssociaBox(creaGrid: 0));
+                  navigateTo(AssociaBox(creaGrid: 1));
                   break;
               }
             },
           );
         });
 
-   
     return Scaffold(
-      body: Container( 
-        decoration: BoxDecoration(
-          gradient:
-          LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [dashboardBackground1, dashboardBackground2]),
-        ),
-        child: Stack(
-        children: [
-          Container(
-            height: 200.0,
-            decoration: new BoxDecoration(
-              boxShadow: [
-                new BoxShadow(
-                  blurRadius: 40.0,
-                )
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [backgroundColor1, backgroundColor2]),
-              borderRadius: new BorderRadius.vertical(
-                  bottom: new Radius.elliptical(
-                      MediaQuery.of(context).size.width, 100.0)),
-            ),
+      body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [dashboardBackground1, dashboardBackground2]),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: 64,
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
+            children: [
+              Container(
+                height: 200.0,
+                decoration: new BoxDecoration(
+                  boxShadow: [
+                    new BoxShadow(
+                      blurRadius: 40.0,
+                    )
+                  ],
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [backgroundColor1, backgroundColor2]),
+                  borderRadius: new BorderRadius.vertical(
+                      bottom: new Radius.elliptical(
+                          MediaQuery.of(context).size.width, 100.0)),
+                ),
+              ),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 64,
+                        margin: EdgeInsets.only(bottom: 20),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Dashboard",
-                                style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
-                                        color: textColor,
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold))),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Dashboard",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            color: textColor,
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold))),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                  createGrid == 1
-                      ? Expanded(child: myGridView)
-                      : Center(
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            elevation: 60,
-                            child: InkWell(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    "assets/qr-code.png",
-                                    width: 200,
-                                    height: 150,
+                        ),
+                      ),
+                      createGrid == 1
+                          ? Expanded(child: myGridView)
+                          : Center(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                elevation: 60,
+                                child: InkWell(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/qr-code.png",
+                                        width: 200,
+                                        height: 150,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Associa box",
+                                        style: cardTextStyle,
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Associa box",
-                                    style: cardTextStyle,
-                                  ),
-                                ],
-                              ),
-                              /*onTap: ()async {
+                                  /*onTap: ()async {
                                   showDialog(context: context, builder: builder)
                                   bb();
                                 },*/
-                              onTap: () async {
-                                // mark the function as async
-                                print('tap');
+                                  onTap: () async {
+                                    // mark the function as async
+                                    print('tap');
 
-                                // Show PopUp
+                                    // Show PopUp
 
-                                // await the dialog
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      content: Container( 
-                                        height: 18,
-                                          width: 50,
-                                        child:Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [ Container(
-                                          child: Align(
-                                              alignment: Alignment.center,
-                                              child:Text(
-                                            "Associazione box riuscita ${widget.creaGrid}",
-                                            style: cardTextStyle),
-                                      )),],
-                                      )),
-                                      actions: [
-                                        /* Column(
+                                    // await the dialog
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                              height: 18,
+                                              width: 50,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                      child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                        "Associazione box riuscita ${widget.creaGrid}",
+                                                        style: cardTextStyle),
+                                                  )),
+                                                ],
+                                              )),
+                                          actions: [
+                                            /* Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [*/
@@ -289,25 +290,25 @@ class _AssociaBoxState extends State<AssociaBox> {
                                                 height: 80,
                                               ),
                                             ),
-                                       //   ],
-                                     //   ),
-                                      ],
+                                            //   ],
+                                            //   ),
+                                          ],
+                                        );
+                                      },
+                                      // Doesn't run
                                     );
-                                  },
-                                  // Doesn't run
-                                );
 
-                                bb();
-                              },
+                                    bb();
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                ],
-              ),
-            ),
-          )
-        ],
-      )),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -193,10 +194,20 @@ class _VideoInfoState extends State<VlcVinfo> {
   Widget _playView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
-      child: VlcPlayer(
-          controller: _controller,
-          aspectRatio: 16 / 9,
-          placeholder: const Center(child: CircularProgressIndicator())),
+      child: VisibilityDetector(
+        key: Key("key"),
+        onVisibilityChanged: (info) {
+          if (info.visibleFraction == 0) {
+            debugPrint("${info.visibleFraction} sesso");
+
+            _controller.stop();
+          }
+        },
+        child: VlcPlayer(
+            controller: _controller,
+            aspectRatio: 16 / 9,
+            placeholder: const Center(child: CircularProgressIndicator())),
+      ),
     );
   }
 

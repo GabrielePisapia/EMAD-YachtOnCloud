@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
@@ -23,14 +24,17 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   bool _disposed = false;
   bool _playArea = false;
   int _isPlayingIndex = 1;
+  /*String dataSource =
+      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   String dataSource =
-      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
   VideoPlayerController? _controller;
 
   @override
   void dispose() {
     _disposed = true;
     _controller?.pause();
+
     _controller?.dispose();
     _controller = null;
     super.dispose();
@@ -210,7 +214,16 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     if (controller != null && controller.value.isInitialized) {
       return AspectRatio(
         aspectRatio: 16 / 9,
-        child: VideoPlayer(controller),
+        child: VisibilityDetector(
+            key: Key("key"),
+            onVisibilityChanged: (info) {
+              if (info.visibleFraction == 0) {
+                debugPrint("${info.visibleFraction} my widget is not visible");
+                controller.pause();
+                debugPrint("Value of ${controller}");
+              }
+            },
+            child: VideoPlayer(controller)),
       );
     } else {
       return AspectRatio(
@@ -352,6 +365,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     _position = position;
     final playing = controller.value.isPlaying;
     if (playing) {
+      debugPrint("Sono nel playing");
       if (_disposed) return;
       setState(() {
         _progress = position!.inMilliseconds.ceilToDouble() /
@@ -366,12 +380,14 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     final old = _controller;
     _controller = controller;
     if (old != null) {
+      debugPrint("Sono all'interno dell'old");
       old.removeListener(_onControllerUpdate);
       old.pause();
     }
     setState(() {});
     controller
       ..initialize().then((_) {
+        debugPrint("Mannag a maronn");
         old?.dispose();
         _isPlayingIndex = index;
         controller.addListener(_onControllerUpdate);
@@ -488,7 +504,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   if (noMute) {
                     _controller?.setVolume(0);
                   } else {
-                    _controller?.setVolume(1.0);
+                    _controller?.setVolume(2.0);
                   }
                   setState(() {});
                 },
