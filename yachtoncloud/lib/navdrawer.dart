@@ -11,6 +11,7 @@ import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videoscreenbydate.dart';
 import 'package:yachtoncloud/videosorveglianza.dart';
 import 'package:provider/provider.dart';
+import 'package:yachtoncloud/vlc_screen.dart';
 import 'videosorveglianza.dart';
 import 'drawer_item.dart';
 import 'navigation_provider.dart';
@@ -169,7 +170,7 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(Connettivita());
         break;
       case 1:
-        navigateTo(VideoInfoBySearch());
+        navigateTo(VlcVinfo());
         break;
       case 2:
         navigateTo(TrackingPage());

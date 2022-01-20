@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -168,7 +169,14 @@ class _VideoInfoState extends State<VlcVinfo> {
                         Expanded(child: Container()),
                         Row(
                           children: [
-                            Icon(Icons.settings, size: 30, color: Colors.black),
+                            InkWell(
+                              child: Icon(Icons.settings,
+                                  size: 30, color: Colors.black),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => StatusVideocamere()));
+                              },
+                            ),
                             SizedBox(
                               width: 10,
                             ),
