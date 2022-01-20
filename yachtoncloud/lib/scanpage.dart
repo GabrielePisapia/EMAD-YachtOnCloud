@@ -59,8 +59,11 @@ int camera = 1;*/
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -119,7 +122,7 @@ class _ScanPageState extends State<ScanPage> {
                   overlay: QrScannerOverlayShape(
 //customizing scan area
                     borderWidth: 10,
-                    borderColor: Colors.teal,
+                    borderColor: listElementColor,
                     borderLength: 20,
                     borderRadius: 10,
                     cutOutSize: MediaQuery.of(context).size.width * 0.8,
@@ -176,10 +179,17 @@ class _ScanPageState extends State<ScanPage> {
         result = scanData.code ?? '';;
       });
       debugPrint("QUESTO FUNZIONA " + result);
+      await addBox(jsonDecode(result));
       Navigator.pop(context);
     });
   }
 
+  Future addBox(Map<String, dynamic> result) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    print("inserisco la box " + uid);
+    return await users.doc(uid).update(result);
+  }
   @override
   void dispose() {
     controller.dispose();
