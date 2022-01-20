@@ -307,7 +307,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal))),
                   ),
-                  SizedBox(height: height * .055),
+                  SizedBox(height: height * .045), //.055
                   _createAccountLabel(),
                 ],
               ),
