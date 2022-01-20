@@ -58,6 +58,10 @@ dependencies:
   google_fonts: ^2.2.0
   flutter_facebook_login: ^3.0.0
   visibility_detector: ^0.2.2
+  qr_code_scanner: ^0.6.1
+  qr_flutter: ^4.0.0
+  barcode_scan2: ^4.2.0
+  flutter_vector_icons: ^1.0.0
   
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/scanpage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -255,7 +256,10 @@ class _AssociaBoxState extends State<AssociaBox> {
                                     print('tap');
 
                                     // Show PopUp
-
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => ScanPage()),
+                                      );
                                     // await the dialog
                                     await showDialog(
                                       context: context,

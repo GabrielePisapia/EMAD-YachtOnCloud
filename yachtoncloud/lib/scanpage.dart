@@ -1,3 +1,62 @@
+/*import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+class ScanPage extends StatefulWidget {
+  @override
+  _ScanPageState createState() => _ScanPageState();
+}
+
+class _ScanPageState extends State<ScanPage> {
+  late String qrCodeResult = "";
+
+  bool backCamera = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Scan using:" + (backCamera ? "Front Cam" : "Back Cam")),
+          actions: <Widget>[
+            IconButton(
+              icon: backCamera
+                  ? Icon(Ionicons.ios_camera_reverse)
+                  : Icon(Icons.camera),
+              onPressed: () {
+                setState(() {
+                  backCamera = !backCamera;
+                  camera = backCamera ? 1 : -1;
+                });
+              },
+            ),
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.qrcode_scan),
+              onPressed: () async {
+                ScanResult codeSanner = await BarcodeScanner.scan(
+                  options: ScanOptions(
+                    useCamera: camera,
+                  ),
+                ); //barcode scnner
+                setState(() {
+                  qrCodeResult = codeSanner.rawContent;
+                });
+              },
+            )
+          ],
+        ),
+        body: Center(
+          child: Text(
+            (qrCodeResult == null)||(qrCodeResult == "")
+                ? "Please Scan to show some result"
+                : "Result:" + qrCodeResult,
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+          ),
+        ));
+  }
+}
+
+int camera = 1;*/
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -15,22 +74,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ScanQRPage(),
+      home: ScanPage(),
     );
   }
 }
 
-class ScanQRPage extends StatefulWidget {
-  const ScanQRPage({Key? key}) : super(key: key);
+class ScanPage extends StatefulWidget {
+  const ScanPage({Key? key}) : super(key: key);
 
   @override
-  _ScanQRPageState createState() => _ScanQRPageState();
+  _ScanPageState createState() => _ScanPageState();
 }
 
-class _ScanQRPageState extends State<ScanQRPage> {
+class _ScanPageState extends State<ScanPage> {
   final GlobalKey qrKey = GlobalKey();
   late QRViewController controller;
-  Barcode? result;
+  String result = "";
 //in order to get hot reload to work.
   @override
   void reassemble() {
@@ -114,10 +173,10 @@ class _ScanQRPageState extends State<ScanQRPage> {
     controller.scannedDataStream.listen((scanData) async {
        controller.pauseCamera();
       setState(() {
-        result = scanData;
+        result = scanData.code ?? '';;
       });
-      debugPrint("WOW THATS HOT");
-      controller.resumeCamera();
+      debugPrint("QUESTO FUNZIONA " + result);
+      Navigator.pop(context);
     });
   }
 
