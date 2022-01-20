@@ -184,10 +184,10 @@ class _SignUpPageState extends State<SignUpPage> {
             print("Esito in then: " + esito);
 
             if (esito == "Ok") {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => AssociaBox(creaGrid: 0)));
             } else {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SignUpPage(
                         error2: esito,
                       )));
@@ -241,7 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
-                        fontWeight: FontWeight.normal))),
+                        fontWeight: FontWeight.bold))),
           ],
         ),
       ),
@@ -252,20 +252,28 @@ class _SignUpPageState extends State<SignUpPage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'Ya',
-          style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: Color(0xffe46b10)),
+          text: 'Yach',
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(
+                color: textColor, fontSize: 30, fontWeight: FontWeight.bold),
+          ),
           children: [
             TextSpan(
-              text: 'chtOn',
-              style: TextStyle(color: Colors.black, fontSize: 30),
-            ),
+                text: 'tOnC',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
             TextSpan(
-              text: 'Cloud',
-              style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
-            ),
+                text: 'loud',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
           ]),
     );
   }
@@ -288,18 +296,18 @@ class _SignUpPageState extends State<SignUpPage> {
       body: Container(
         height: height,
         decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [backgroundColor2, backgroundColor1])),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [backgroundColor2, backgroundColor1])),
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -317,14 +325,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     SizedBox(height: height * .2),
                     _title(),
                     SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     _emailPasswordWidget(),
                     SizedBox(
                       height: 20,
                     ),
                     _submitButton(),
-                    SizedBox(height: height * .14),
+                    SizedBox(height: height * .09), //era .14
                     _loginAccountLabel(),
                   ],
                 ),

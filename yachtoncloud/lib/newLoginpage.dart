@@ -226,28 +226,26 @@ class _LoginPageState extends State<LoginPage> {
       text: TextSpan(
           text: 'Yach',
           style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: textColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
+            textStyle: TextStyle(
+                color: textColor, fontSize: 30, fontWeight: FontWeight.bold),
           ),
           children: [
             TextSpan(
-              text: 'tOnC',
-              style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-          )),
+                text: 'tOnC',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
             TextSpan(
-              text: 'loud',
-              style:GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: textColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-          )),
+                text: 'loud',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
           ]),
     );
   }
@@ -268,18 +266,18 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
       height: height,
       decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [backgroundColor2, backgroundColor1])),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [backgroundColor2, backgroundColor1])),
       child: Stack(
         children: <Widget>[
           Positioned(

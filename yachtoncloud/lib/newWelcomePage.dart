@@ -34,7 +34,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: buttonColor)))),
         onPressed: () async {
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => LoginPage(title: '')));
         },
         child: Row(
@@ -69,7 +69,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: buttonColor)))),
         onPressed: () async {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
+          Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => SignUpPage(error2: '', title: '')));
         },
         child: Row(
@@ -226,28 +226,26 @@ class _WelcomePageState extends State<WelcomePage> {
       text: TextSpan(
           text: 'Yach',
           style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: textColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
+            textStyle: TextStyle(
+                color: textColor, fontSize: 30, fontWeight: FontWeight.bold),
           ),
           children: [
             TextSpan(
-              text: 'tOnC',
-              style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-          )),
+                text: 'tOnC',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
             TextSpan(
-              text: 'loud',
-              style:GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: textColor,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-          )),
+                text: 'loud',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
+                )),
           ]),
     );
   }
