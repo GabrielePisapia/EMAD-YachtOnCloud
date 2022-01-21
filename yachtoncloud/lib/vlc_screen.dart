@@ -206,7 +206,7 @@ class _VideoInfoState extends State<VlcVinfo> {
         key: Key("key"),
         onVisibilityChanged: (info) {
           if (info.visibleFraction == 0) {
-            debugPrint("${info.visibleFraction} sesso");
+            debugPrint("${info.visibleFraction} non visibile");
 
             _controller.stop();
           }

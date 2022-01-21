@@ -395,7 +395,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     setState(() {});
     controller
       ..initialize().then((_) {
-        debugPrint("Mannag a maronn");
+        debugPrint("Si");
         old?.dispose();
         _isPlayingIndex = index;
         controller.addListener(_onControllerUpdate);
