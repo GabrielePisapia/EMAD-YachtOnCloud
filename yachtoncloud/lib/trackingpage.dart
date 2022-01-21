@@ -90,8 +90,8 @@ class _MyHomePageState extends State<TrackingPage_> {
               height: double.infinity,
               child: FlutterMap(
                 options: MapOptions(
-                  center: LatLng(40.55, 14.216667),
-                  zoom: 11,
+                  center: LatLng(40.744045, 13.939492),
+                  zoom: 16,
                 ),
                 layers: [
                   //openSeaMarks,
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                       Marker(
                         width: 20.0,
                         height: 20.0,
-                        point: LatLng(40.55, 14.216667),
+                        point: LatLng(40.744045, 13.939492),
                         builder: (ctx) =>
                         Container(
                           child: Image.asset(
