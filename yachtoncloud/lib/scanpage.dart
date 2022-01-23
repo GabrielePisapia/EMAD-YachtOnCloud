@@ -178,7 +178,7 @@ class _ScanPageState extends State<ScanPage> {
       setState(() {
         result = scanData.code ?? '';;
       });
-      debugPrint("QUESTO FUNZIONA " + result);
+      //debugPrint("QUESTO FUNZIONA " + result);
       await addBox(jsonDecode(result));
       Navigator.pop(context);
     });
@@ -187,8 +187,36 @@ class _ScanPageState extends State<ScanPage> {
   Future addBox(Map<String, dynamic> result) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    print("inserisco la box " + uid);
-    return await users.doc(uid).update(result);
+    FirebaseFirestore.instance.collection('Utenti').doc(uid).get().then( (querySnapshot) {
+      if(!querySnapshot.data()!.containsKey("boxes")) {
+        //debugPrint("ok, non c'è proprio il campo box " + uid);
+        return users.doc(uid).update({ 'boxes': [ result ]});
+      } else {
+        /*var boxes = querySnapshot.get('boxes');
+        List<dynamic> newBoxes = jsonDecode(boxes.toString());
+        for(int i = 0; i < newBoxes.length; i++) {
+        //debugPrint("DEBUG PRINT " + jsonEncode(newBoxes[i]));
+          /*if(jsonEncode(newBoxes[i]) == jsonEncode([result])) { 
+            debugPrint("Error!");
+            return false;
+          }*/
+        }*/
+        //debugPrint("ok, c'è almeno una box " + uid);
+        users.doc(uid).update({"boxes": FieldValue.arrayUnion([result])}).then((result) {
+   
+           debugPrint("Success!");
+           //a quanto pare se metti lo stesso oggetto, ti dà successo a prescindere lmao
+           return true;
+
+        }).catchError((error) {
+        
+          debugPrint("Error!" + error.toString());
+          return false;
+
+        });
+      }
+    });
+    //debugPrint("inserisco la box " + uid);
   }
   @override
   void dispose() {
