@@ -60,13 +60,15 @@ class AssociaBox extends StatefulWidget {
 
 class _AssociaBoxState extends State<AssociaBox> {
   // ignore: unused_field
-  var createGrid = 0;
+  var createGrid;
 
   void bb() {
     print('Clicked Clicked');
 
     setState(() {
       createGrid = widget.creaGrid;
+      print("siu");
+      print(createGrid);
     });
   }
   //TODO: Creare dashboard copiando associabox afammok a mammt
@@ -220,7 +222,8 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                      createGrid == 1
+                      widget.creaGrid ==
+                              1 //sostituire con createGrid perché cosi esce sempre la dashboard
                           ? Expanded(child: myGridView)
                           : Center(
                               child: Card(
@@ -257,9 +260,10 @@ class _AssociaBoxState extends State<AssociaBox> {
 
                                     // Show PopUp
                                     await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => ScanPage()),
-                                      );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ScanPage()),
+                                    );
                                     // await the dialog
                                     await showDialog(
                                       context: context,

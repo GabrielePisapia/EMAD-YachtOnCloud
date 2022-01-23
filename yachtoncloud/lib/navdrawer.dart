@@ -179,7 +179,10 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(SetAlertPage());
         break;
       case 4:
-        navigateTo(AssociaBox(creaGrid: 1));
+        //navigateTo(AssociaBox(creaGrid: 1));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AssociaBox(creaGrid: 1)));
+
         break;
       case 5:
         navigateTo(LoginPage(
