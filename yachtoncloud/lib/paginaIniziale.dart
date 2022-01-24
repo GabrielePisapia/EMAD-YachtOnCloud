@@ -159,7 +159,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                   navigateTo(SetAlertPage());
                   break;
                 case 7:
-                  navigateTo(AssociaBox(creaGrid: 1));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
                   break;
               }
             },

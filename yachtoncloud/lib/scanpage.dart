@@ -59,6 +59,7 @@ int camera = 1;*/
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:barcode_scan2/gen/protos/protos.pbjson.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -178,7 +179,7 @@ class _ScanPageState extends State<ScanPage> {
       setState(() {
         result = scanData.code ?? '';;
       });
-      //debugPrint("QUESTO FUNZIONA " + result);
+      debugPrint("QUESTO FUNZIONA " + result);
       await addBox(jsonDecode(result));
       Navigator.pop(context);
     });
@@ -192,27 +193,23 @@ class _ScanPageState extends State<ScanPage> {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         return users.doc(uid).update({ 'boxes': [ result ]});
       } else {
-        /*var boxes = querySnapshot.get('boxes');
-        List<dynamic> newBoxes = jsonDecode(boxes.toString());
-        for(int i = 0; i < newBoxes.length; i++) {
-        //debugPrint("DEBUG PRINT " + jsonEncode(newBoxes[i]));
-          /*if(jsonEncode(newBoxes[i]) == jsonEncode([result])) { 
-            debugPrint("Error!");
-            return false;
-          }*/
-        }*/
-        //debugPrint("ok, c'è almeno una box " + uid);
-        users.doc(uid).update({"boxes": FieldValue.arrayUnion([result])}).then((result) {
-   
+        debugPrint("ok, c'è almeno una box " + uid);
+        var val = false;
+        List<dynamic> boxes = querySnapshot.data()!['boxes'];
+        boxes.forEach((element) { if(element['box']['idBox'] == result['box']['idBox'])
+          { debugPrint("SONO UGUALI"); val = true; }
+        });
+        if(val == true) {
+          debugPrint("NO ADD");
+          return false;
+        }
+        users.doc(uid).update({"boxes": FieldValue.arrayUnion([result])}).then((res) {
            debugPrint("Success!");
            //a quanto pare se metti lo stesso oggetto, ti dà successo a prescindere lmao
            return true;
-
-        }).catchError((error) {
-        
+        }).catchError((error) {       
           debugPrint("Error!" + error.toString());
           return false;
-
         });
       }
     });
