@@ -59,7 +59,7 @@ int camera = 1;*/
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:barcode_scan2/gen/protos/protos.pbjson.dart';
+//import 'package:barcode_scan2/gen/protos/protos.pbjson.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,7 @@ class _ScanPageState extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(
-        //title: Text('Scan QR Code - Flutter Example'),
+      //title: Text('Scan QR Code - Flutter Example'),
       //),
       body: Column(
         children: [
@@ -170,14 +170,14 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  void onQRViewCreated(QRViewController p1) 
-{
-//called when View gets created. 
+  void onQRViewCreated(QRViewController p1) {
+//called when View gets created.
     this.controller = p1;
     controller.scannedDataStream.listen((scanData) async {
-       controller.pauseCamera();
+      controller.pauseCamera();
       setState(() {
-        result = scanData.code ?? '';;
+        result = scanData.code ?? '';
+        ;
       });
       debugPrint("QUESTO FUNZIONA " + result);
       await addBox(jsonDecode(result));
@@ -188,26 +188,37 @@ class _ScanPageState extends State<ScanPage> {
   Future addBox(Map<String, dynamic> result) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    FirebaseFirestore.instance.collection('Utenti').doc(uid).get().then( (querySnapshot) {
-      if(!querySnapshot.data()!.containsKey("boxes")) {
+    FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(uid)
+        .get()
+        .then((querySnapshot) {
+      if (!querySnapshot.data()!.containsKey("boxes")) {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
-        return users.doc(uid).update({ 'boxes': [ result ]});
+        return users.doc(uid).update({
+          'boxes': [result]
+        });
       } else {
         debugPrint("ok, c'è almeno una box " + uid);
         var val = false;
         List<dynamic> boxes = querySnapshot.data()!['boxes'];
-        boxes.forEach((element) { if(element['box']['idBox'] == result['box']['idBox'])
-          { debugPrint("SONO UGUALI"); val = true; }
+        boxes.forEach((element) {
+          if (element['box']['idBox'] == result['box']['idBox']) {
+            debugPrint("SONO UGUALI");
+            val = true;
+          }
         });
-        if(val == true) {
+        if (val == true) {
           debugPrint("NO ADD");
           return false;
         }
-        users.doc(uid).update({"boxes": FieldValue.arrayUnion([result])}).then((res) {
-           debugPrint("Success!");
-           //a quanto pare se metti lo stesso oggetto, ti dà successo a prescindere lmao
-           return true;
-        }).catchError((error) {       
+        users.doc(uid).update({
+          "boxes": FieldValue.arrayUnion([result])
+        }).then((res) {
+          debugPrint("Success!");
+          //a quanto pare se metti lo stesso oggetto, ti dà successo a prescindere lmao
+          return true;
+        }).catchError((error) {
           debugPrint("Error!" + error.toString());
           return false;
         });
@@ -215,6 +226,7 @@ class _ScanPageState extends State<ScanPage> {
     });
     //debugPrint("inserisco la box " + uid);
   }
+
   @override
   void dispose() {
     controller.dispose();
