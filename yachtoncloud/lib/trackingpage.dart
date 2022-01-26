@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/SetAlert.dart';
@@ -25,30 +27,27 @@ class TrackingPage extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const TrackingPage_(title: 'Flutter Demo Home Page'),
+          home: const TrackingPage_(),
         ),
       );
 }
 
 class TrackingPage_ extends StatefulWidget {
-  const TrackingPage_({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const TrackingPage_({Key? key}) : super(key: key);
 
   @override
   State<TrackingPage_> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<TrackingPage_> {
-  // ignore: unused_field
-  int _counter = 0;
-  int crnLevel = 0;
+  late LatLng currentPos;
+  late LatLng visionPos;
 
-  // ignore: unused_element
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Future<DocumentSnapshot<Map<String, dynamic>>> getLatLong() async {
+    debugPrint("Ma almeno ci arrivo qua?");
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
   }
 
   @override
@@ -88,37 +87,47 @@ class _MyHomePageState extends State<TrackingPage_> {
                       ]),
               width: double.infinity,
               height: double.infinity,
-              child: FlutterMap(
-                options: MapOptions(
-                  center: LatLng(40.744045, 13.939492),
-                  zoom: 16,
-                ),
-                layers: [
-                  //openSeaMarks,
-                  openStreetMap,
-                  openSeaMarks,
-                  MarkerLayerOptions(
-                    markers: [
-                      Marker(
-                        width: 20.0,
-                        height: 20.0,
-                        point: LatLng(40.744045, 13.939492),
-                        builder: (ctx) =>
-                        Container(
-                          child: Image.asset(
-                            'assets/yacht.png',
-                            height: 40,
-                            width: 40,
-                          ),
+              child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: getLatLong(),
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+                if(snap.connectionState == ConnectionState.waiting) {
+                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
+                } else {
+                    debugPrint("Non devo più aspettare");
+                    currentPos = LatLng(snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                      snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+                    visionPos = currentPos;
+                  return FlutterMap(
+                        options: MapOptions(
+                          center: visionPos,
+                          zoom: 16,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            )),
-             // ),
-            //),
+                        layers: [
+                          //openSeaMarks,
+                          openStreetMap,
+                          openSeaMarks,
+                          MarkerLayerOptions(
+                            markers: [
+                              Marker(
+                                width: 20.0,
+                                height: 20.0,
+                                point: currentPos,
+                                builder: (ctx) =>
+                                Container(
+                                  child: Image.asset(
+                                    'assets/yacht.png',
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );}}),
+                    )),
+                    // ),
+                    //),
             Positioned( top: size.height - 100, child: Center(
               child: Container(
                      width: 250,
