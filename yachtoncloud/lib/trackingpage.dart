@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +44,32 @@ class TrackingPage_ extends StatefulWidget {
 class _MyHomePageState extends State<TrackingPage_> {
   late LatLng currentPos;
   late LatLng visionPos;
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 20), (Timer t) { getLatLong(); this.setState(() {
+      
+    });});
+  }
+  
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getLatLong() async {
     debugPrint("Ma almeno ci arrivo qua?");
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+    visionPos = currentPos;
+    debugPrint(currentPos.toString());
+    return await snap;
   }
 
   @override
@@ -92,11 +114,11 @@ class _MyHomePageState extends State<TrackingPage_> {
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
                 if(snap.connectionState == ConnectionState.waiting) {
                   return Center( child: CircularProgressIndicator(color: appBarColor1), );
-                } else {
+                } else if(snap.hasData) {
                     debugPrint("Non devo più aspettare");
-                    currentPos = LatLng(snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                    /*currentPos = LatLng(snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
                       snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
-                    visionPos = currentPos;
+                    visionPos = currentPos;*/
                   return FlutterMap(
                         options: MapOptions(
                           center: visionPos,
@@ -124,7 +146,15 @@ class _MyHomePageState extends State<TrackingPage_> {
                             ],
                           ),
                         ],
-                      );}}),
+                      );} else {
+                        return Center( child: Text(
+                              "${snap.error}",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: textColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))) );
+                      }}),
                     )),
                     // ),
                     //),
