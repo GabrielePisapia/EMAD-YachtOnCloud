@@ -1,66 +1,50 @@
 import 'dart:math';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
+
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
-
 import 'theme/colors.dart';
 
-class VlcVinfo extends StatefulWidget {
-  const VlcVinfo({Key? key}) : super(key: key);
+class RealTimeVideo extends StatefulWidget {
+  const RealTimeVideo({Key? key}) : super(key: key);
 
   @override
-  _VideoInfoState createState() => _VideoInfoState();
+  RealTimeVideoState createState() => RealTimeVideoState();
 }
 
-class _VideoInfoState extends State<VlcVinfo> {
-  VlcPlayerController _controller = VlcPlayerController.network(
-    "https://storage.googleapis.com/yachtm/Video%20Interni.mp4",
-    hwAcc: HwAcc.FULL,
-    autoPlay: true,
-    options: VlcPlayerOptions(),
-  );
-
-  Future<void> initializePlayer() async {}
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class RealTimeVideoState extends State<RealTimeVideo> {
+  bool _folded = true;
   List videoList = [];
   late bool _isPlaying = false;
-
   bool _disposed = false;
   bool _playArea = false;
   int _isPlayingIndex = 1;
+  /*String dataSource =
+      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   String dataSource =
       "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";
-  //String dataSource = "http://213.226.254.135:91/mjpg/video.mjpg";
-  //VideoPlayerController? _controller;
+  VideoPlayerController? _controller;
 
   @override
   void dispose() {
     _disposed = true;
-    _controller.pause();
-    _controller.dispose();
+    _controller?.pause();
 
+    _controller?.dispose();
+    _controller = null;
     super.dispose();
   }
-
-  late String downloadURL;
 
   @override
   Widget build(BuildContext context) {
     return Template(
-      appBarTitle: "Yacht on Cloud",
+      appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -116,61 +100,18 @@ class _VideoInfoState extends State<VlcVinfo> {
                           padding: const EdgeInsets.only(
                               top: 50, left: 30, right: 30),
                           child: Row(
-                            children: [
-                              /* InkWell(
-                                onTap: () {
-                                  debugPrint("tapped");
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 20,
-                                  color: AppColor.secondPageTopIconColor,
-                                ),
-                              ),
-                              Expanded(child: Container()),
-                              Icon(
-                                Icons.info_outline,
-                                size: 20,
-                                color: AppColor.secondPageTopIconColor,
-                              )*/
-                            ],
+                            children: [],
                           ),
                         ),
                         _playView(context),
-                        Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.only(bottom: 5),
-                              //color: AppColor.gradientSecond,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _playArea = false;
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.videocam_off_outlined,
-                                      size: 30,
-                                      color: videoIconsColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
+                        _controlView(context),
                       ],
                     ),
                   ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: boxVideoColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(70),
                   ),
@@ -227,23 +168,32 @@ class _VideoInfoState extends State<VlcVinfo> {
   }
 
   Widget _playView(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: VisibilityDetector(
-        key: Key("key"),
-        onVisibilityChanged: (info) {
-          if (info.visibleFraction == 0) {
-            debugPrint("${info.visibleFraction} non visibile");
-
-            _controller.stop();
-          }
-        },
-        child: VlcPlayer(
-            controller: _controller,
-            aspectRatio: 16 / 9,
-            placeholder: const Center(child: CircularProgressIndicator())),
-      ),
-    );
+    final controller = _controller;
+    if (controller != null && controller.value.isInitialized) {
+      return AspectRatio(
+        aspectRatio: 16 / 9,
+        child: VisibilityDetector(
+            key: Key("key"),
+            onVisibilityChanged: (info) {
+              if (info.visibleFraction == 0) {
+                debugPrint("${info.visibleFraction} my widget is not visible");
+                controller.pause();
+                debugPrint("Value of ${controller}");
+              }
+            },
+            child: VideoPlayer(controller)),
+      );
+    } else {
+      return AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Center(
+              child: Text("Preparing...",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal)))));
+    }
   }
 
   _buildCard(int index) {
@@ -272,7 +222,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Videocamera ",
+                  Text("Video",
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               color: textColorDashboard,
@@ -283,7 +233,7 @@ class _VideoInfoState extends State<VlcVinfo> {
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text("Poppa",
+                    child: Text("Data: 20/01/2022",
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 color: Colors.grey,
@@ -337,7 +287,7 @@ class _VideoInfoState extends State<VlcVinfo> {
     );
   }
 
-  /*var _onUpdateControllerTime;
+  var _onUpdateControllerTime;
   Duration? _duration;
   Duration? _position;
   var _progress = 0.0;
@@ -373,6 +323,7 @@ class _VideoInfoState extends State<VlcVinfo> {
     _position = position;
     final playing = controller.value.isPlaying;
     if (playing) {
+      debugPrint("Sono nel playing");
       if (_disposed) return;
       setState(() {
         _progress = position!.inMilliseconds.ceilToDouble() /
@@ -380,13 +331,27 @@ class _VideoInfoState extends State<VlcVinfo> {
       });
     }
     _isPlaying = playing;
-  }*/
+  }
 
   _initializeVideo(int index) async {
-    final controller = VlcPlayerController.network(dataSource,
-        hwAcc: HwAcc.FULL,
-        autoPlay: false,
-        options: VlcPlayerOptions()); //dataSource
+    final controller = VideoPlayerController.network(dataSource);
+    final old = _controller;
+    _controller = controller;
+    if (old != null) {
+      debugPrint("Sono all'interno dell'old");
+      old.removeListener(_onControllerUpdate);
+      old.pause();
+    }
+    setState(() {});
+    controller
+      ..initialize().then((_) {
+        debugPrint("Si");
+        old?.dispose();
+        _isPlayingIndex = index;
+        controller.addListener(_onControllerUpdate);
+        controller.play();
+        setState(() {});
+      });
   }
 
   _onTapVideo(int index) {
@@ -403,7 +368,6 @@ class _VideoInfoState extends State<VlcVinfo> {
             onTap: () {
               _onTapVideo(index);
               debugPrint(index.toString());
-
               setState(() {
                 if (_playArea == false) {
                   _playArea = true;
@@ -413,5 +377,42 @@ class _VideoInfoState extends State<VlcVinfo> {
             child: _buildCard(index),
           );
         });
+  }
+
+  Widget _controlView(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(bottom: 5),
+          //color: AppColor.gradientSecond,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Clicca per uscire",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold))),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _playArea = false;
+                  });
+                },
+                child: Icon(
+                  Icons.videocam_off_outlined,
+                  size: 30,
+                  color: videoIconsColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

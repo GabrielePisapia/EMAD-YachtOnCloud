@@ -250,6 +250,16 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
+  Widget _logo() {
+    return Center(
+      child: Image.asset(
+        "assets/logo.png",
+        height: 120,
+        width: 200,
+      ),
+    );
+  }
+
   Widget _divider() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -310,9 +320,10 @@ class _WelcomePageState extends State<WelcomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _title(),
+              //_title(),
+              _logo(),
               SizedBox(
-                height: 80,
+                height: 30,
               ),
               _submitButton(),
               SizedBox(

@@ -278,6 +278,16 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  Widget _logo() {
+    return Center(
+      child: Image.asset(
+        "assets/logo.png",
+        height: 120,
+        width: 200,
+      ),
+    );
+  }
+
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
@@ -322,8 +332,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: height * .2),
-                    _title(),
+                    SizedBox(height: height * .1),
+                    //_title(),
+                    _logo(),
                     SizedBox(
                       height: 30,
                     ),

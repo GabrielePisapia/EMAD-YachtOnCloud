@@ -6,6 +6,7 @@ import 'package:yachtoncloud/data/drawer_items.dart';
 import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
+import 'package:yachtoncloud/realTimeVideo.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videoscreenbydate.dart';
@@ -67,16 +68,15 @@ class navdrawerTest extends StatelessWidget {
   }
 
   Widget buildHeader(bool isCollapsed) => isCollapsed
-      ? FlutterLogo(size: 48)
+      ? Image.asset("assets/logo.png", width: 100, height: 59)
       : Row(
           children: [
             const SizedBox(width: 24),
-            FlutterLogo(size: 48),
-            const SizedBox(width: 16),
-            Text(
-              'Flutter',
-              style: TextStyle(fontSize: 32, color: textColor),
+            Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: Image.asset("assets/logo.png", width: 150, height: 59),
             ),
+            const SizedBox(width: 16),
           ],
         );
 
@@ -170,7 +170,7 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(Connettivita());
         break;
       case 1:
-        navigateTo(VlcVinfo());
+        navigateTo(RealTimeVideo());
         break;
       case 2:
         navigateTo(TrackingPage());
