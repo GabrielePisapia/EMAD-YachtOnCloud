@@ -1,12 +1,13 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'theme/colors.dart';
@@ -27,8 +28,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   int _isPlayingIndex = 1;
   /*String dataSource =
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
-  String dataSource =
-      "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";
+  /*String dataSource =
+      "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";*/
   VideoPlayerController? _controller;
 
   @override
@@ -41,8 +42,25 @@ class RealTimeVideoState extends State<RealTimeVideo> {
     super.dispose();
   }
 
+  String dataSource = '';
   @override
   Widget build(BuildContext context) {
+    return getBody(context);
+  }
+
+  Widget getBody(BuildContext context) {
+    List<dynamic> videosList;
+    FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      videosList = value.data()!["videosUrl"];
+      videoList = videosList;
+
+      print(videoList.length);
+    });
+
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
@@ -334,7 +352,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   _initializeVideo(int index) async {
-    final controller = VideoPlayerController.network(dataSource);
+    var value = videoList[index];
+    final controller = VideoPlayerController.network(value['videoUrl']);
     final old = _controller;
     _controller = controller;
     if (old != null) {
@@ -356,6 +375,9 @@ class RealTimeVideoState extends State<RealTimeVideo> {
 
   _onTapVideo(int index) {
     //videoList[index]["urlVideo"]
+    print(videoList[1]);
+    var val = videoList[1];
+    print(val['videoUrl']);
     _initializeVideo(index);
   }
 
