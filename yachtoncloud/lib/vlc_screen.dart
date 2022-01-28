@@ -23,7 +23,7 @@ class VlcVinfo extends StatefulWidget {
 
 class _VideoInfoState extends State<VlcVinfo> {
   VlcPlayerController _controller = VlcPlayerController.network(
-    "rtsp://rtsp.stream/pattern",
+    "https://storage.googleapis.com/yachtm/Video%20Interni.mp4",
     hwAcc: HwAcc.FULL,
     autoPlay: true,
     options: VlcPlayerOptions(),
@@ -42,7 +42,7 @@ class _VideoInfoState extends State<VlcVinfo> {
   bool _playArea = false;
   int _isPlayingIndex = 1;
   String dataSource =
-      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+      "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";
   //String dataSource = "http://213.226.254.135:91/mjpg/video.mjpg";
   //VideoPlayerController? _controller;
 

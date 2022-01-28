@@ -28,7 +28,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   /*String dataSource =
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   String dataSource =
-      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+      "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";
   VideoPlayerController? _controller;
 
   @override
