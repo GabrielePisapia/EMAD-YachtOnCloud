@@ -116,9 +116,6 @@ class _MyHomePageState extends State<TrackingPage_> {
                   return Center( child: CircularProgressIndicator(color: appBarColor1), );
                 } else if(snap.hasData) {
                     debugPrint("Non devo più aspettare");
-                    /*currentPos = LatLng(snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
-                      snap.data?.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
-                    visionPos = currentPos;*/
                   return FlutterMap(
                         options: MapOptions(
                           center: visionPos,

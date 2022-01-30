@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'navigation_provider.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const SetAlertPage());
@@ -40,7 +43,55 @@ class SetAlertPage_ extends StatefulWidget {
 
 class _MyHomePageState extends State<SetAlertPage_> {
   final TextEditingController migliaController = new TextEditingController();
-  int val = -1;
+  int selected = -1;
+
+  void updateRadio(int? value) {
+    setState(() {
+      selected = value!;
+    });
+  }
+
+  Future<String> SetAlertDB(String miglia) async {
+    debugPrint(miglia.toString());
+  final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
+  String esito = "";
+    try {  
+  if(!numericRegex.hasMatch(miglia)) {
+    debugPrint('Non vanno bene le miglia');
+    esito = 'Miglia inserite non valide';
+    return esito;
+  }
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    LatLng currPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+                      debugPrint('Qua si prova a fare cose ' + currPos.toString());
+     
+    final data = snap.data();
+    final boxes = data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
+    final box = boxes[0]['box'];
+    debugPrint(box.toString());
+    final gps = box['gps'];
+
+    if(double.parse(miglia) == -1) {
+       gps['attivo'] = false;
+    } else {
+      gps['attivo'] = true;
+      gps['migliaAlert'] = double.parse(miglia);
+      gps['positionAlert'] = { 'lat': double.parse(currPos.latitude.toString()), 'long': double.parse(currPos.longitude.toString()) };
+    }
+  await FirebaseFirestore.instance
+      .collection('Utenti')
+      .doc(uid)
+      .update(data);
+    esito = 'Ok';
+      return esito;
+  } catch(ex) {
+    debugPrint(ex.toString());
+    return ex.toString();
+  }
+}
 
 Widget _entryField(String title, TextEditingController controller,
       {bool isPassword = false}) {
@@ -137,71 +188,51 @@ Widget _entryField(String title, TextEditingController controller,
               child: Column( children: [ 
             Padding(
                 padding: EdgeInsets.all(10), child: Column( children: [ RadioListTile<int>(
-              value: 1,
-              groupValue: val,
+              value: 5,
+              groupValue: selected,
               title: Text("5 miglia",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 15,
                           fontWeight: FontWeight.normal))),
-              onChanged: (value) {
-                setState(() {
-                  val = value!;
-                  //selected: true;
-                });
-              },
+              onChanged: updateRadio,
               activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
-              value: 2,
-              groupValue: val,
+              value: 10,
+              groupValue: selected,
               title: Text("10 miglia",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 15,
                           fontWeight: FontWeight.normal))),
-              onChanged: (value) {
-                setState(() {
-                  val = value!;
-                  //selected:true;
-                });
-              },
+              onChanged: updateRadio,
               activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
-              value: 3,
-              groupValue: val,
+              value: 15,
+              groupValue: selected,
               title: Text("15 miglia",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 15,
                           fontWeight: FontWeight.normal))),
-              onChanged: (value) {
-                setState(() {
-                  val = value!;
-                  //selected:true;
-                });
-              },
+              onChanged: updateRadio,
               activeColor: activeColorRadio,
             ),
             RadioListTile<int>(
-              value: 4,
-              groupValue: val,
+              value: -1,
+              groupValue: selected,
               title: Text("Disattiva",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 15,
                           fontWeight: FontWeight.normal))),
-              onChanged: (value) {
-                setState(() {
-                  val = value!;
-                  //selected:true;
-                });
-              },
+              onChanged: updateRadio,
               activeColor: activeColorRadio,
             )])),  
             Center(
@@ -230,8 +261,26 @@ Widget _entryField(String title, TextEditingController controller,
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: buttonColor)))),
         onPressed: () {
-               
-              },
+          print('pressed ' + selected.toString());
+          String valore = "";
+          if(int.parse(selected.toString()) == -1) {
+            valore = "-1";
+          } else if(migliaController.text == null || migliaController.text == "") {
+            valore = selected.toString();
+          }
+          String esito = "";
+          SetAlertDB(valore).then((val) {
+            esito = val;
+            print(esito);
+            if (esito == "Ok") {
+              debugPrint(esito);
+            } else {
+              debugPrint(esito);
+            }
+          });
+
+          // Respond to button press
+        },
         child: Row(
           children: <Widget>[
             Expanded(
