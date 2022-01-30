@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yachtoncloud/PushNotification.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
@@ -16,6 +18,24 @@ import 'package:responsive_framework/responsive_framework.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert:true,
+    badge: true,
+    provisional:false,
+    sound: true,
+     );
+
+  if(settings.authorizationStatus== AuthorizationStatus.authorized){
+    print("user granted permission");
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage msg) { 
+      //PushNotification notification = PushNotification
+
+
+    });
+  }
   runApp(const MyApp());
 }
 
@@ -67,6 +87,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+late final FirebaseMessaging messaging;
+PushNotification? notification_info;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
