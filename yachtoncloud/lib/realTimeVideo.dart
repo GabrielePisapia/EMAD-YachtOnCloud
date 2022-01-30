@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'theme/colors.dart';
+import 'package:intl/intl.dart';
 
 class RealTimeVideo extends StatefulWidget {
   const RealTimeVideo({Key? key}) : super(key: key);
@@ -42,6 +44,10 @@ class RealTimeVideoState extends State<RealTimeVideo> {
     super.dispose();
   }
 
+  void updateUi() {
+    setState(() {});
+  }
+
   String dataSource = '';
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,27 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   Widget getBody(BuildContext context) {
-    List<dynamic> videosList;
+    final result = FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    print(result);
+
+    Future getData(result) async {
+      result.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+          videoList = data['videosUrl'];
+          print("Sesso anale ${data['videosUrl']}");
+          //Funziona ma sembra chiamarlo sempre  elagga
+          //setState(() {});
+        } else {
+          print("niente sesso anale");
+        }
+      });
+    }
+
+    /*List<dynamic> videosList;
     FirebaseFirestore.instance
         .collection('Utenti')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -59,7 +85,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
       videoList = videosList;
 
       print(videoList.length);
-    });
+    });*/
+    getData(result);
 
     return Template(
       appBarTitle: 'Yacht on Cloud',
@@ -215,6 +242,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   _buildCard(int index) {
+    Timestamp t = videoList[index]['data'];
+    DateTime date = DateTime.parse(t.toDate().toString());
     return Container(
       height: 135,
       child: Column(
@@ -251,7 +280,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text("Data: 20/01/2022",
+                    child: Text(DateFormat('dd-MM-yyyy').format(date),
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 color: Colors.grey,
@@ -384,7 +413,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   _listView() {
     return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-        itemCount: 4, //videolist.length
+        itemCount: videoList.length, //videolist.length
         itemBuilder: (_, int index) {
           return GestureDetector(
             onTap: () {

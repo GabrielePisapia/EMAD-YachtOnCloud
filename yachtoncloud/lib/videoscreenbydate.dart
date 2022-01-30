@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +12,7 @@ import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
 import 'theme/colors.dart';
+import 'package:intl/intl.dart';
 
 class VideoInfoBySearch extends StatefulWidget {
   const VideoInfoBySearch({Key? key}) : super(key: key);
@@ -30,6 +33,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   String dataSource =
       "https://storage.googleapis.com/yachtm/Video%20Interni.mp4";
   VideoPlayerController? _controller;
+  final myController = TextEditingController();
 
   @override
   void dispose() {
@@ -43,6 +47,32 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   @override
   Widget build(BuildContext context) {
+    return getBody(context);
+  }
+
+  Widget getBody(BuildContext context) {
+    final result = FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    print(result);
+
+    Future getData(result) async {
+      result.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+          videoList = data['videosUrl'];
+          print("Sesso anale ${data['videosUrl']}");
+          //Funziona ma sembra chiamarlo sempre  elagga
+          //setState(() {});
+        } else {
+          print("niente sesso anale");
+        }
+      });
+    }
+
+    getData(result);
+
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
@@ -96,6 +126,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                     padding: EdgeInsets.only(left: 16),
                                     child: !_folded
                                         ? TextField(
+                                            controller: myController,
                                             decoration: InputDecoration(
                                                 hintText: 'Digita una data ',
                                                 hintStyle: TextStyle(
@@ -130,6 +161,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                       onTap: () {
                                         setState(() {
                                           _folded = !_folded;
+                                          print(myController.text);
                                         });
                                       },
                                     ),
@@ -247,6 +279,8 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   }
 
   _buildCard(int index) {
+    Timestamp t = videoList[index]['data'];
+    DateTime date = DateTime.parse(t.toDate().toString());
     return Container(
       height: 135,
       child: Column(
@@ -283,7 +317,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: Text("Data: 20/01/2022",
+                    child: Text(DateFormat('dd-MM-yyyy').format(date),
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 color: Colors.grey,
@@ -412,7 +446,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   _listView() {
     return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-        itemCount: 4, //videolist.length
+        itemCount: videoList.length, //videolist.length
         itemBuilder: (_, int index) {
           return GestureDetector(
             onTap: () {
