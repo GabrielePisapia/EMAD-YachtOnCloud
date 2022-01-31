@@ -49,45 +49,19 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   String dataSource = '';
-  @override
-  Widget build(BuildContext context) {
-    return getBody(context);
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    var snap =
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    videoList = snap.data()!['videosUrl'];
+    print("mannag ${videoList}");
+    return await snap;
   }
 
-  Widget getBody(BuildContext context) {
-    final result = FirebaseFirestore.instance
-        .collection('Utenti')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-
-    print(result);
-
-    Future getData(result) async {
-      result.get().then((DocumentSnapshot snapshot) {
-        if (snapshot.exists) {
-          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-          videoList = data['videosUrl'];
-          print("Sesso anale ${data['videosUrl']}");
-          //Funziona ma sembra chiamarlo sempre  elagga
-          //setState(() {});
-        } else {
-          print("niente sesso anale");
-        }
-      });
-    }
-
-    /*List<dynamic> videosList;
-    FirebaseFirestore.instance
-        .collection('Utenti')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) {
-      videosList = value.data()!["videosUrl"];
-      videoList = videosList;
-
-      print(videoList.length);
-    });*/
-    getData(result);
-
+  @override
+  Widget build(BuildContext context) {
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
@@ -212,6 +186,33 @@ class RealTimeVideoState extends State<RealTimeVideo> {
     );
   }
 
+  /* Future getData(result) async {
+      result.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+          videoList = data['videosUrl'];
+          print("Sesso anale ${data['videosUrl']}");
+          //Funziona ma sembra chiamarlo sempre  elagga
+          //setState(() {});
+        } else {
+          print("niente sesso anale");
+        }
+      });
+    }*/
+
+  /*List<dynamic> videosList;
+    FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      videosList = value.data()!["videosUrl"];
+      videoList = videosList;
+
+      print(videoList.length);
+    });*/
+  //getData(result);
+
   Widget _playView(BuildContext context) {
     final controller = _controller;
     if (controller != null && controller.value.isInitialized) {
@@ -269,7 +270,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Video",
+                  Text(videoList[index]['nome'].toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               color: textColorDashboard,
@@ -411,22 +412,42 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   _listView() {
-    return ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-        itemCount: videoList.length, //videolist.length
-        itemBuilder: (_, int index) {
-          return GestureDetector(
-            onTap: () {
-              _onTapVideo(index);
-              debugPrint(index.toString());
-              setState(() {
-                if (_playArea == false) {
-                  _playArea = true;
-                }
-              });
-            },
-            child: _buildCard(index),
-          );
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: getData(),
+        builder: (BuildContext context,
+            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(color: appBarColor1),
+            );
+          } else if (snap.hasData) {
+            debugPrint("Non devo più aspettare");
+            return ListView.builder(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                itemCount: videoList.length, //videolist.length
+                itemBuilder: (_, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _onTapVideo(index);
+                      debugPrint(index.toString());
+                      setState(() {
+                        if (_playArea == false) {
+                          _playArea = true;
+                        }
+                      });
+                    },
+                    child: _buildCard(index),
+                  );
+                });
+          }
+          return Center(
+              child: Text("${snap.error}",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold))));
         });
   }
 
