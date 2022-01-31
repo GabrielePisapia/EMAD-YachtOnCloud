@@ -267,6 +267,8 @@ Widget _entryField(String title, TextEditingController controller,
             valore = "-1";
           } else if(migliaController.text == null || migliaController.text == "") {
             valore = selected.toString();
+          } else {
+            valore = migliaController.text;
           }
           String esito = "";
           SetAlertDB(valore).then((val) {

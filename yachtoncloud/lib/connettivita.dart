@@ -38,8 +38,22 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var nomeRete = "";
+    var statusRete = true;
 
     ScrollController _controller = ScrollController();
+
+     Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
+        debugPrint("Ma almeno ci arrivo qua?");
+        final uid = FirebaseAuth.instance.currentUser!.uid;
+        CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+        nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
+        statusRete = snap.data()!['boxes'][0]['box']['router']['attivo'];
+        isSwitched = statusRete;
+        debugPrint(nomeRete);
+        return await snap;
+      }
 
     _scrollListener() {
       if (_controller.offset >= _controller.position.maxScrollExtent &&
@@ -70,7 +84,14 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
               end: Alignment.bottomCenter,
               colors: [backgroundColor2, backgroundColor1]),
         ),
-        child: SingleChildScrollView(
+        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: getConnData(),
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+                if(snap.connectionState == ConnectionState.waiting) {
+                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
+                } else if(snap.hasData) {
+                    debugPrint("Non devo più aspettare");
+          return SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
               child: Column(children: [
@@ -79,7 +100,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                     child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "YachtZ25",
+                          nomeRete.toString(),
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
                                   color: textColor,
@@ -210,7 +231,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                             child: TextFormField(
                               //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
-                                hintText: 'Yachtz25',
+                                hintText: nomeRete,
                                 fillColor: listElementColor,
                                 filled: true,
                                 border: OutlineInputBorder(
@@ -305,7 +326,15 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                   ),
                 )
               ])),
-        ));
+        );} else {
+                        return Center( child: Text(
+                              "${snap.error}",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: textColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))) );
+       }}));
   }
 }
 
@@ -318,28 +347,22 @@ class _ConnettivitaState extends State<Connettivita> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return getBody(context);
-  }
+    var nomeRete = "";
+    var nomePromozione = "";
+    var provider = "";
+    var giga = 0;
 
-  Widget getBody(BuildContext context) {
-    final result = FirebaseFirestore.instance
-        .collection('Utenti')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-
-    print(FirebaseAuth.instance.currentUser!.uid);
-    Future getData(result) async {
-      result.collection("Box").doc("1").get().then((DocumentSnapshot snapshot) {
-        if (snapshot.exists) {
-          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-          //print("Full Name: ${data['nome']} ${data['cognome']}");
-          print("HELLO ${data['devices'][0]}");
-        } else {
-          print("non va");
-        }
-      });
-    }
-
-    getData(result);
+    Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
+        debugPrint("Ma almeno ci arrivo qua?");
+        final uid = FirebaseAuth.instance.currentUser!.uid;
+        CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+        nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
+        giga = snap.data()!['boxes'][0]['box']['router']['giga'];
+        provider = snap.data()!['boxes'][0]['box']['router']['provider'];
+        nomePromozione = snap.data()!['boxes'][0]['box']['router']['promozione'];
+        return await snap;
+      }
 
     final List<Color> gradientColors = [
       chartColor1,
@@ -350,6 +373,7 @@ class _ConnettivitaState extends State<Connettivita> {
       ChartData('Consumati', 75, chartColor1),
       ChartData('Restanti', 125, chartColor2),
     ];
+    
     final _myList = List.generate(5, (index) => 'dispositivo num. $index');
     ScrollController _controller = ScrollController();
 
@@ -384,10 +408,14 @@ class _ConnettivitaState extends State<Connettivita> {
               end: Alignment.bottomCenter,
               colors: [backgroundColor2, backgroundColor1]),
         ),
-        child: /*Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [*/
-            SingleChildScrollView(
+        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: getConnData(),
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+                if(snap.connectionState == ConnectionState.waiting) {
+                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
+                } else if(snap.hasData) {
+                    debugPrint("Non devo più aspettare");
+            return SingleChildScrollView(
                 child: Padding(
           padding: EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 0.0),
           child: Column(
@@ -397,7 +425,7 @@ class _ConnettivitaState extends State<Connettivita> {
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "YachtZ25",
+                      nomeRete.toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               color: textColor,
@@ -442,7 +470,7 @@ class _ConnettivitaState extends State<Connettivita> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "TIM - Promozione bella",
+                                provider.toString() + " - " + nomePromozione.toString(),
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: textColor,
@@ -453,7 +481,7 @@ class _ConnettivitaState extends State<Connettivita> {
                                 height: 10,
                               ),
                               Text(
-                                "\200GB",
+                                giga.toString(),
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
                                         color: textColor,
@@ -799,7 +827,15 @@ class _ConnettivitaState extends State<Connettivita> {
               ]),
             ],
           ),
-        )));
+        )); } else {
+          return Center( child: Text(
+                              "${snap.error}",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: textColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))));
+        }}));
   }
 }
 
