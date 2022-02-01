@@ -350,7 +350,11 @@ class _ConnettivitaState extends State<Connettivita> {
     var nomeRete = "";
     var nomePromozione = "";
     var provider = "";
-    var giga = 0;
+    int giga = 0;
+    int consumati = 0;
+    int restanti = 0;
+    var _myList = [];
+    List<ChartData> chartData = [];
 
     Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
         debugPrint("Ma almeno ci arrivo qua?");
@@ -361,6 +365,13 @@ class _ConnettivitaState extends State<Connettivita> {
         giga = snap.data()!['boxes'][0]['box']['router']['giga'];
         provider = snap.data()!['boxes'][0]['box']['router']['provider'];
         nomePromozione = snap.data()!['boxes'][0]['box']['router']['promozione'];
+        consumati = snap.data()!['boxes'][0]['box']['router']['consumati'];
+        _myList = snap.data()!['boxes'][0]['box']['router']['dispositivi'];
+        restanti = giga - consumati;
+        chartData = [
+          ChartData('Consumati', int.parse(consumati.toString()), chartColor1),
+          ChartData('Restanti', int.parse(restanti.toString()), chartColor2),];
+        debugPrint("VALORI: " + consumati.toString() + " " + restanti.toString());
         return await snap;
       }
 
@@ -369,12 +380,6 @@ class _ConnettivitaState extends State<Connettivita> {
       chartColor2,
     ];
 
-    final List<ChartData> chartData = [
-      ChartData('Consumati', 75, chartColor1),
-      ChartData('Restanti', 125, chartColor2),
-    ];
-    
-    final _myList = List.generate(5, (index) => 'dispositivo num. $index');
     ScrollController _controller = ScrollController();
 
     _scrollListener() {
@@ -433,7 +438,7 @@ class _ConnettivitaState extends State<Connettivita> {
                               fontWeight: FontWeight.bold)),
                     )),
               ),
-              SizedBox(
+              /*SizedBox(
                 height: 10,
               ),
               Padding(
@@ -592,7 +597,7 @@ class _ConnettivitaState extends State<Connettivita> {
               ),
               SizedBox(
                 height: 15,
-              ),
+              ),*/
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Align(
                     alignment: Alignment.centerLeft,
