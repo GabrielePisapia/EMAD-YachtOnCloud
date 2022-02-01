@@ -64,7 +64,6 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
         if (videoListByDate.contains(videoList[i])) {
           videoListByDate.add(videoList[i]);
         }
-        print("is ${videoListByDate.length}");
       }
     }
 
