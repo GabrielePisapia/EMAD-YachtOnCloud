@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
@@ -27,162 +29,94 @@ class statoVideocamere extends StatelessWidget {
       );
 }
 
-/*class _statoVideocamere extends StatefulWidget {
-  const _statoVideocamere({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-  @override
-  __statoVideocamereState createState() => __statoVideocamereState();
-}
-
-class __statoVideocamereState extends State<_statoVideocamere> {
-  final name = ["Attivo", "Attivo", "Attivo", "Attivo", "Attivo"];
-  final TableRow rowSpacer = TableRow(children: [
-    SizedBox(
-      height: 15,
-    ),
-    SizedBox(
-      height: 15,
-    ),
-    SizedBox(
-      height: 15,
-    ),
-    SizedBox(
-      height: 15,
-    ),
-    SizedBox(
-      height: 15,
-    ),
-  ]);
-  bool switchValue1 = false, switchValue2 = true, switchValue = true;
-  @override
-  Widget build(BuildContext context) {
-    return Template(
-      appBarTitle: 'Yacht on Cloud',
-      boxDecoration: BoxDecoration(
-         gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [backgroundColor2, backgroundColor1]),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Text(
-              "Stato videocamere",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: Table(
-              defaultColumnWidth:
-                  FixedColumnWidth(MediaQuery.of(context).size.width / 4),
-              children: [
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 28.0),
-                    child: TableCell(
-                        child: Center(
-                            child: Text(
-                      "Videocamera1",
-                      style: TextStyle(color: Colors.white),
-                    ))),
-                  ),
-                  TableCell(
-                    child: Center(
-                        child: Text('Attivo',
-                            style: TextStyle(color: Colors.greenAccent[700]))),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Switch(
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.red,
-                      value: switchValue,
-                      onChanged: (val) {
-                        setState(() {
-                          switchValue = val;
-                        });
-                      },
-                    ),
-                  ),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 28),
-                    child: TableCell(
-                        child: Center(
-                            child: Text(
-                      "Videocamera2",
-                      style: TextStyle(color: Colors.white),
-                    ))),
-                  ),
-                  TableCell(
-                    child: Center(
-                        child: Text('Attivo',
-                            style: TextStyle(color: Colors.greenAccent[700]))),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Switch(
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.red,
-                      value: switchValue1,
-                      onChanged: (val1) {
-                        setState(() {
-                          switchValue1 = val1;
-                        });
-                      },
-                    ),
-                  ),
-                ]),
-                TableRow(children: [
-                  TableCell(
-                      child: Center(
-                          child: Text(
-                    "Videocamera3",
-                    style: TextStyle(color: Colors.white),
-                  ))),
-                  TableCell(
-                    child: Center(
-                        child: Text('Attivo',
-                            style: TextStyle(color: Colors.greenAccent[700]))),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Switch(
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.red,
-                      value: switchValue2,
-                      onChanged: (val2) {
-                        setState(() {
-                          switchValue2 = val2;
-                        });
-                      },
-                    ),
-                  ),
-                ]),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}*/
-
 class StatusVideocamere extends StatefulWidget {
   @override
   _StatusVideocamereState createState() => _StatusVideocamereState();
 }
 
 class _StatusVideocamereState extends State<StatusVideocamere> {
-  bool switchValue1 = false, switchValue2 = true, switchValue3 = true, switchValue4 = true;
+  List<bool> switchValues = [];
+  var cameras = [];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    Future<DocumentSnapshot<Map<String, dynamic>>> getCameraData() async {
+        debugPrint("Ma almeno ci arrivo qua?");
+        final uid = FirebaseAuth.instance.currentUser!.uid;
+        CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+        cameras = snap.data()!['boxes'][0]['box']['videocamere'];
+        switchValues = [];
+        for(int i = 0; i < cameras.length; i++) {
+          switchValues.add(cameras[i]['attivo']);
+        }
+        debugPrint(switchValues.length.toString());
+        return await snap;
+      }
+
+    Widget createRow(String nomeCamera, bool status) {
+      return Padding(
+                          padding:
+                              EdgeInsets.only(top: 20, left: 20),
+                          child:Row(children: [
+                            Container(
+                            //width: double.infinity,
+                            height: 50,
+                            width: 180,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: TextFormField(
+                              //initialValue: 'Yachtz25',
+                              decoration: InputDecoration(
+                                hintText: nomeCamera,
+                                fillColor: fieldTextColor,
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                              ),
+                            ),
+                          ),
+                           SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset(
+                              status ? 'assets/camera.png' : 'assets/no-camera.png',
+                              height: 30,
+                              width: 30,
+                              color: status ? Colors.green : Colors.red,
+                            ),
+                           
+                           SizedBox(
+                              height: 20,
+                              child: Switch(
+                                activeColor: Colors.green,
+                                inactiveThumbColor: Colors.red,
+                                value: status,
+                                onChanged: (val2) {
+                                  debugPrint(status.toString() + " " + val2.toString());
+                                  setState(() {
+                                    status = val2;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],));
+    } 
+
+    List<Widget> createList() {
+      List<Widget> list = [];
+      for(int i = 0; i < cameras.length; i++) {
+        list.add(createRow(cameras[i]['nomeCamera'], switchValues[i]));
+      }
+      list.add( SizedBox(
+                        height: 20,
+                      ));
+      return list;
+    }
 
     ScrollController _controller = ScrollController();
 
@@ -215,7 +149,14 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                   end: Alignment.bottomCenter,
                   colors: [backgroundColor2, backgroundColor1]),
         ),
-        child: SingleChildScrollView(
+        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: getCameraData(),
+                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+                if(snap.connectionState == ConnectionState.waiting) {
+                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
+                } else if(snap.hasData) {
+                    debugPrint("Non devo più aspettare");
+            return SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
               child: Column(children: [
@@ -266,7 +207,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                         ),
                       ]),
                   child: Column(
-                    children: [
+                    children: createList()/*[
                       Padding(
                           padding:
                               EdgeInsets.only(top: 20, left: 20),
@@ -462,7 +403,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                       SizedBox(
                         height: 20,
                       ),
-                    ],
+                    ]*/,
                   ),
                 ),
                 Padding(
@@ -496,6 +437,14 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                       ),
                     ))),
               ])),
-        ));
+        ); } else {
+           return Center( child: Text(
+                              "${snap.error}",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: textColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))));
+        }}));
   }
 }
