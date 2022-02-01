@@ -24,6 +24,7 @@ class VideoInfoBySearch extends StatefulWidget {
 class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   bool _folded = true;
   List videoList = [];
+  List videoListByDate = [];
   late bool _isPlaying = false;
   bool _disposed = false;
   bool _playArea = false;
@@ -51,6 +52,21 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
     videoList = snap.data()!['videosUrl'];
+    print("si" + myController.text.toString());
+    print(videoList.length);
+    for (int i = 0; i < videoList.length; ++i) {
+      Timestamp t = videoList[i]['data'];
+      DateTime date = DateTime.parse(t.toDate().toString());
+      String d = "${date.day}-0${date.month}-${date.year}";
+      print("I vale + ${i}" + "" + d);
+      if (myController.text.toString().isNotEmpty &&
+          d == myController.text.toString()) {
+        if (videoListByDate.contains(videoList[i])) {
+          videoListByDate.add(videoList[i]);
+        }
+        print("is ${videoListByDate.length}");
+      }
+    }
 
     return await snap;
   }
