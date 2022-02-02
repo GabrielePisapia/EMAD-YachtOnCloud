@@ -37,25 +37,28 @@ class StatusVideocamere extends StatefulWidget {
 class _StatusVideocamereState extends State<StatusVideocamere> {
   List<bool> switchValues = [];
   var cameras = [];
+  Future<List<dynamic>>? _futureData;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    Future<DocumentSnapshot<Map<String, dynamic>>> getCameraData() async {
+    Future<List> getCameraData() async {
         debugPrint("Ma almeno ci arrivo qua?");
         final uid = FirebaseAuth.instance.currentUser!.uid;
         CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
         var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
         cameras = snap.data()!['boxes'][0]['box']['videocamere'];
-        switchValues = [];
+        /*switchValues = [];
         for(int i = 0; i < cameras.length; i++) {
           switchValues.add(cameras[i]['attivo']);
         }
-        debugPrint(switchValues.length.toString());
-        return await snap;
+        debugPrint(switchValues.length.toString());*/
+        return cameras;
       }
 
-    Widget createRow(String nomeCamera, bool status) {
+    Widget createRow(String nomeCamera, bool status, int i) {
+      var index = i;
       return Padding(
                           padding:
                               EdgeInsets.only(top: 20, left: 20),
@@ -68,7 +71,6 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: TextFormField(
-                              //initialValue: 'Yachtz25',
                               decoration: InputDecoration(
                                 hintText: nomeCamera,
                                 fillColor: fieldTextColor,
@@ -100,6 +102,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                   debugPrint(status.toString() + " " + val2.toString());
                                   setState(() {
                                     status = val2;
+                                    cameras[i]['attivo'] = val2;
                                   });
                                 },
                               ),
@@ -110,7 +113,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
     List<Widget> createList() {
       List<Widget> list = [];
       for(int i = 0; i < cameras.length; i++) {
-        list.add(createRow(cameras[i]['nomeCamera'], switchValues[i]));
+        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i));
       }
       list.add( SizedBox(
                         height: 20,
@@ -137,7 +140,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
 
     void initState() {
       _controller = ScrollController();
-      _controller.addListener(_scrollListener); //the listener for up and down.
+      _controller.addListener(_scrollListener); 
+      //the listener for up and down
+      _futureData = getCameraData();
       super.initState();
     }
 
@@ -149,10 +154,11 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                   end: Alignment.bottomCenter,
                   colors: [backgroundColor2, backgroundColor1]),
         ),
-        child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                future: getCameraData(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-                if(snap.connectionState == ConnectionState.waiting) {
+        child: FutureBuilder<List>(
+                future: _futureData,
+                builder: (BuildContext context, AsyncSnapshot<List> snap) {
+                if(!snap.hasData) {
+                  debugPrint(snap.toString());
                   return Center( child: CircularProgressIndicator(color: appBarColor1), );
                 } else if(snap.hasData) {
                     debugPrint("Non devo più aspettare");
@@ -438,8 +444,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                     ))),
               ])),
         ); } else {
+          debugPrint("Non so why " + cameras.toString());
            return Center( child: Text(
-                              "${snap.error}",
+                              "Non so perchè: ${snap.error}",
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
                                       color: textColor,
