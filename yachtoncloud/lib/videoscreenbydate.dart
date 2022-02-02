@@ -29,6 +29,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   bool _disposed = false;
   bool _playArea = false;
   int _isPlayingIndex = 1;
+  int queryByDate = 0;
   /*String dataSource =
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   String dataSource =
@@ -61,10 +62,14 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       print("I vale + ${i}" + "" + d);
       if (myController.text.toString().isNotEmpty &&
           d == myController.text.toString()) {
-        if (videoListByDate.contains(videoList[i])) {
-          videoListByDate.add(videoList[i]);
-        }
+        queryByDate = 1;
+      } else {
+        print("C stong ca ${videoList[i]}");
+        videoList.remove(videoList[i]);
       }
+      print(" poroc dio${(!videoListByDate.contains(videoList[i]))}");
+      print("video list ${videoList[i]}");
+      print(" query ${queryByDate}");
     }
 
     return await snap;
@@ -161,6 +166,9 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                         setState(() {
                                           _folded = !_folded;
                                           print(myController.text);
+                                          videoListByDate.isNotEmpty
+                                              ? queryByDate = 1
+                                              : queryByDate = 0;
                                         });
                                       },
                                     ),
@@ -279,6 +287,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   _buildCard(int index) {
     Timestamp t = videoList[index]['data'];
+
     DateTime date = DateTime.parse(t.toDate().toString());
     return Container(
       height: 135,
