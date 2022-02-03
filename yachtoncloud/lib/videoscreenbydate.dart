@@ -52,6 +52,14 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    DocumentReference docRef =
+        FirebaseFirestore.instance.doc(snap.data()!["${uid}/storico"]);
+    docRef.get().then((DocumentSnapshot documentSnapshot) {
+      var path = documentSnapshot.reference.path;
+
+      print("sss ${path}");
+    });
+    print("mammt ${snap.data()!['storico']['storico'][0]}");
     videoList = snap.data()!['videosUrl'];
     print("si" + myController.text.toString());
     print(videoList.length);
