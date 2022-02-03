@@ -35,11 +35,10 @@ class DetailsConnettivita extends StatefulWidget {
 }
 
 class _DetailsConnettivitaState extends State<DetailsConnettivita> {
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var nomeRete = "";
     var statusRete = true;
+    final TextEditingController reteController = new TextEditingController();
+    Future<DocumentSnapshot<Map<String, dynamic>>>? _connData;
 
     ScrollController _controller = ScrollController();
 
@@ -54,6 +53,32 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
         debugPrint(nomeRete);
         return await snap;
       }
+
+      Future<String> UpdateRouterStateDB() async {
+      String esito = "";
+        try {  
+          final uid = FirebaseAuth.instance.currentUser!.uid;
+          CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+          var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+          final data = snap.data();
+          final boxes = data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
+          final box = boxes[0]['box'];
+          debugPrint(box.toString());
+          final router = box['router'];
+
+          if(reteController != "") {
+            router['nomeRete'] = reteController.text;
+          }
+          router['attivo'] = statusRete;
+
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).update(data);
+            esito = 'Ok';
+            return esito;
+        } catch(ex) {
+          debugPrint(ex.toString());
+          return ex.toString();
+        }
+    }
 
     _scrollListener() {
       if (_controller.offset >= _controller.position.maxScrollExtent &&
@@ -70,11 +95,17 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
       }
     }
 
-    void initState() {
+    @override
+  void initState() {
       _controller = ScrollController();
-      _controller.addListener(_scrollListener); //the listener for up and down.
+      _controller.addListener(_scrollListener);
+      _connData = getConnData(); //the listener for up and down.
       super.initState();
     }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     return Template(
         appBarTitle: 'Yacht on Cloud',
@@ -85,12 +116,13 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
               colors: [backgroundColor2, backgroundColor1]),
         ),
         child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                future: getConnData(),
+                future: _connData,
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
                 if(snap.connectionState == ConnectionState.waiting) {
                   return Center( child: CircularProgressIndicator(color: appBarColor1), );
                 } else if(snap.hasData) {
                     debugPrint("Non devo più aspettare");
+                    
           return SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
@@ -172,7 +204,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                     onChanged: (value) {
                                       setState(() {
                                         isSwitched = value;
-                                        print(isSwitched);
+                                        statusRete = value;
+                                        debugPrint(isSwitched.toString() + " " + statusRete.toString());
                                       });
                                     },
                                     activeTrackColor: Colors.lightGreenAccent,
@@ -229,7 +262,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: TextFormField(
-                              //initialValue: 'Yachtz25',
+                              controller: reteController,
                               decoration: InputDecoration(
                                 hintText: nomeRete,
                                 fillColor: listElementColor,
@@ -299,11 +332,16 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                     borderRadius: BorderRadius.circular(30.0),
                                     side: BorderSide(color: buttonColor)))),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailsConnettivita()),
-                      );
+                      var esito = "";
+                        UpdateRouterStateDB().then((val) {
+                          esito = val;
+                          print(esito);
+                          if (esito == "Ok") {
+                            debugPrint(esito);
+                          } else {
+                            debugPrint(esito);
+                          }
+                        });
                     },
                     child: Row(
                       children: <Widget>[
