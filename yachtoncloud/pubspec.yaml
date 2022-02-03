@@ -64,6 +64,8 @@ dependencies:
   firebase_messaging: ^11.2.6
   overlay_support: ^1.2.1
   permission_handler: ^8.3.0
+  workmanager: ^0.4.1
+  flutter_local_notifications: ^9.2.0
 
 dev_dependencies:
   flutter_test:

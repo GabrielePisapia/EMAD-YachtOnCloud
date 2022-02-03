@@ -14,8 +14,17 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:workmanager/workmanager.dart';
+/*
+void callbackDispatcher(){
+  Workmanager().executeTask((taskName,input){
 
+  });
+}*/
 Future<void> main() async {
+  Workmanager wm = new Workmanager();
+  //wm.initialize(callbackDispatcher);
+  //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
