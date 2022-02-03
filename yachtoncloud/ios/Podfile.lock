@@ -353,6 +353,10 @@ PODS:
     - Firebase/Firestore (= 8.9.0)
     - firebase_core
     - Flutter
+  - cloud_functions (3.2.6):
+    - Firebase/Functions (= 8.9.0)
+    - firebase_core
+    - Flutter
   - FBAEMKit (12.2.1):
     - FBSDKCoreKit_Basics (= 12.2.1)
   - FBSDKCoreKit (12.2.1):
@@ -372,6 +376,12 @@ PODS:
   - Firebase/Firestore (8.9.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.9.0)
+  - Firebase/Functions (8.9.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 8.9.0)
+  - Firebase/Messaging (8.9.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 8.9.0)
   - Firebase/Storage (8.9.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.9.0)
@@ -384,6 +394,10 @@ PODS:
     - Flutter
   - firebase_database (9.0.4):
     - Firebase/Database (= 8.9.0)
+    - firebase_core
+    - Flutter
+  - firebase_messaging (11.2.6):
+    - Firebase/Messaging (= 8.9.0)
     - firebase_core
     - Flutter
   - firebase_storage (10.2.4):
@@ -419,6 +433,23 @@ PODS:
     - FirebaseCore (~> 8.0)
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
+    - nanopb (~> 2.30908.0)
+  - FirebaseFunctions (8.9.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - FirebaseInstallations (8.11.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseMessaging (8.9.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.6)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/Reachability (~> 7.6)
+    - GoogleUtilities/UserDefaults (~> 7.6)
     - nanopb (~> 2.30908.0)
   - FirebaseStorage (8.9.0):
     - FirebaseCore (~> 8.0)
@@ -456,6 +487,8 @@ PODS:
     - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.7.0)"
   - GoogleUtilities/Reachability (7.7.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.28.2)":
     - "gRPC-C++/Implementation (= 1.28.2)"
@@ -495,6 +528,8 @@ PODS:
   - nanopb/encode (2.30908.0)
   - path_provider_ios (0.0.1):
     - Flutter
+  - "permission_handler (5.1.0+2)":
+    - Flutter
   - PromisesObjC (2.0.0)
   - qr_code_scanner (0.2.0):
     - Flutter
@@ -504,15 +539,18 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_vlc_player (from `.symlinks/plugins/flutter_vlc_player/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
 
@@ -531,6 +569,9 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
     - FirebaseFirestore
+    - FirebaseFunctions
+    - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseStorage
     - GoogleDataTransport
     - GoogleSignIn
@@ -548,12 +589,16 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  cloud_functions:
+    :path: ".symlinks/plugins/cloud_functions/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_database:
     :path: ".symlinks/plugins/firebase_database/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -566,6 +611,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   qr_code_scanner:
     :path: ".symlinks/plugins/qr_code_scanner/ios"
   video_player:
@@ -576,6 +623,7 @@ SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 338122a6149c14ca376ad363626b5bf3037a5056
+  cloud_functions: 04c8abb5b93190e28c1df7a76d8322f38963afe6
   FBAEMKit: 4cea610d0bc1680572f2aad7b25db7a2f2690d82
   FBSDKCoreKit: 5b1992fe65802ca26be7e68bc4fac5f59fa39908
   FBSDKCoreKit_Basics: a6a92ca628e05f86f458a4721574c5ddfb058ba3
@@ -584,12 +632,16 @@ SPEC CHECKSUMS:
   firebase_auth: e875a50b81aefb20f305dfede425647e9675c19e
   firebase_core: c263d7daf1dc92fcd9895e6abdc04872b0ee07ff
   firebase_database: 7538bfd20724e08e710f43b6fd2059b88b30b5c9
+  firebase_messaging: c653070fa3bb9bf1e8c688086fea06a3a58ddd2b
   firebase_storage: 2ed331c6bd5bfa6d64f1a6c57f01151f4f146c16
   FirebaseAuth: 2b78b2a32c07b3ecfa4970bdf1d3632b8304099b
   FirebaseCore: 599ee609343eaf4941bd188f85e3aa077ffe325b
   FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
   FirebaseDatabase: 2236b804cf0cac165b4620669bedf7ee643a2bcc
   FirebaseFirestore: 15ae9648476436efed698a909e44c4737498f9b4
+  FirebaseFunctions: c78ec2f93cd453f25fb5e4c694c830f7a31ab349
+  FirebaseInstallations: 044eede8a049bce71c4541ee68d6e4364fcbe774
+  FirebaseMessaging: 82c4a48638f53f7b184f3cc9f6cd2cbe533ab316
   FirebaseStorage: 452c98c31ccb40b819764bf3039426c4388d9939
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_facebook_auth: dbc47556cbdc61ced50e14473bd32461386a1425
@@ -607,10 +659,11 @@ SPEC CHECKSUMS:
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   video_player: ecd305f42e9044793efd34846e1ce64c31ea6fcb
 
-PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
+PODFILE CHECKSUM: b95ce687844a3c815a932857010e23864c78ea14
 
 COCOAPODS: 1.11.2
