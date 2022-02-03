@@ -35,27 +35,80 @@ class StatusVideocamere extends StatefulWidget {
 }
 
 class _StatusVideocamereState extends State<StatusVideocamere> {
-  List<bool> switchValues = [];
+  List<TextEditingController> nameController = [];
   var cameras = [];
-  Future<List<dynamic>>? _futureData;
+  Future<List>? _futureData;
 
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+  ScrollController _controller = ScrollController();
 
-    Future<List> getCameraData() async {
+    _scrollListener() {
+      if (_controller.offset >= _controller.position.maxScrollExtent &&
+          !_controller.position.outOfRange) {
+        setState(() {
+          //you can do anything here
+        });
+      }
+      if (_controller.offset <= _controller.position.minScrollExtent &&
+          !_controller.position.outOfRange) {
+        setState(() {
+          //you can do anything here
+        });
+      }
+    }
+
+   Future<List> getCameraData() async {
         debugPrint("Ma almeno ci arrivo qua?");
         final uid = FirebaseAuth.instance.currentUser!.uid;
         CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
         var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-        cameras = snap.data()!['boxes'][0]['box']['videocamere'];
+        return await snap.data()!['boxes'][0]['box']['videocamere'];
         /*switchValues = [];
         for(int i = 0; i < cameras.length; i++) {
           switchValues.add(cameras[i]['attivo']);
         }
         debugPrint(switchValues.length.toString());*/
-        return cameras;
+        //return cameras;
       }
+
+    Future<String> UpdateCameraStateDB() async {
+      String esito = "";
+        try {  
+          final uid = FirebaseAuth.instance.currentUser!.uid;
+          CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+          var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+          final data = snap.data();
+          final boxes = data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
+          final box = boxes[0]['box'];
+          debugPrint(box.toString());
+          final videoCamere = box['videocamere'];
+
+          for(int i = 0; i < cameras.length; i++) {
+            videoCamere[i]['attivo'] = cameras[i]['attivo'];
+            if(nameController[i].text != "") {
+              videoCamere[i]['nomeCamera'] = nameController[i].text;
+            }
+          }
+
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).update(data);
+            esito = 'Ok';
+            return esito;
+        } catch(ex) {
+          debugPrint(ex.toString());
+          return ex.toString();
+        }
+    }
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+      _controller.addListener(_scrollListener); 
+      _futureData = getCameraData();
+      super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
     Widget createRow(String nomeCamera, bool status, int i) {
       var index = i;
@@ -70,7 +123,17 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
-                            child: TextFormField(
+                            child: 
+                            TextField(
+                              controller: nameController[i],
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintText: nomeCamera,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                                  fillColor: fieldTextColor,
+                                  filled: true))/*TextFormField(
                               decoration: InputDecoration(
                                 hintText: nomeCamera,
                                 fillColor: fieldTextColor,
@@ -80,7 +143,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15))),
                               ),
-                            ),
+                            ),*/
                           ),
                            SizedBox(
                               width: 30,
@@ -99,10 +162,11 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                 inactiveThumbColor: Colors.red,
                                 value: status,
                                 onChanged: (val2) {
-                                  debugPrint(status.toString() + " " + val2.toString());
+                                  //debugPrint(status.toString() + " " + val2.toString());
                                   setState(() {
                                     status = val2;
                                     cameras[i]['attivo'] = val2;
+                                    //debugPrint(cameras.toString());
                                   });
                                 },
                               ),
@@ -113,37 +177,13 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
     List<Widget> createList() {
       List<Widget> list = [];
       for(int i = 0; i < cameras.length; i++) {
+        nameController.add(new TextEditingController());
         list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i));
       }
       list.add( SizedBox(
                         height: 20,
                       ));
       return list;
-    }
-
-    ScrollController _controller = ScrollController();
-
-    _scrollListener() {
-      if (_controller.offset >= _controller.position.maxScrollExtent &&
-          !_controller.position.outOfRange) {
-        setState(() {
-          //you can do anything here
-        });
-      }
-      if (_controller.offset <= _controller.position.minScrollExtent &&
-          !_controller.position.outOfRange) {
-        setState(() {
-          //you can do anything here
-        });
-      }
-    }
-
-    void initState() {
-      _controller = ScrollController();
-      _controller.addListener(_scrollListener); 
-      //the listener for up and down
-      _futureData = getCameraData();
-      super.initState();
     }
 
     return Template(
@@ -158,10 +198,11 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                 future: _futureData,
                 builder: (BuildContext context, AsyncSnapshot<List> snap) {
                 if(!snap.hasData) {
-                  debugPrint(snap.toString());
+                  debugPrint(snap.toString() + " " + cameras.toString());
                   return Center( child: CircularProgressIndicator(color: appBarColor1), );
                 } else if(snap.hasData) {
                     debugPrint("Non devo più aspettare");
+                    cameras = snap.data!;
             return SingleChildScrollView(
           child: Padding(
               padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
@@ -427,11 +468,16 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                       borderRadius: BorderRadius.circular(30.0),
                                       side: BorderSide(color: buttonColor)))),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StatusVideocamere()),
-                        );
+                         var esito = "";
+                        UpdateCameraStateDB().then((val) {
+                          esito = val;
+                          print(esito);
+                          if (esito == "Ok") {
+                            debugPrint(esito);
+                          } else {
+                            debugPrint(esito);
+                          }
+                        });
                       },
                       child: Text(
                         'Conferma modifiche',

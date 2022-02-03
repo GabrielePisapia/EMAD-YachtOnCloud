@@ -45,7 +45,7 @@ class _ScanPageState extends State<ScanPage> {
       debugPrint("granted");
     } else {
       debugPrint("sto nell'else");
-      /*await showDialog(
+      await showDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
                 title: Text('Camera Permission'),
@@ -58,15 +58,14 @@ class _ScanPageState extends State<ScanPage> {
                   CupertinoDialogAction(
                       child: Text('Settings'),
                       onPressed: () async {
-                        openAppSettings();
-                        if (status.isGranted) {
+                        await openAppSettings().then((value)
+                        { if (status.isGranted) {
                           debugPrint("tutt appost o bro");
-                        }
-                        ;
+                        }});
                       }),
                 ],
-              ));*/
-      await Permission.camera.request().isGranted;
+              ));
+      //await Permission.camera.request().isGranted;
     }
   }
 
