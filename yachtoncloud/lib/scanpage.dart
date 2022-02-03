@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 
@@ -35,6 +38,37 @@ class _ScanPageState extends State<ScanPage> {
   late QRViewController controller;
   String result = "";
 //in order to get hot reload to work.
+
+  checkPermission() async {
+    var status = await Permission.photos.status;
+    if (status.isGranted) {
+      debugPrint("granted");
+    } else {
+      debugPrint("sto nell'else");
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Text('Camera Permission'),
+                content: Text('This app needs camera'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('Deny'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  CupertinoDialogAction(
+                      child: Text('Settings'),
+                      onPressed: () async {
+                        await openAppSettings().then((value)
+                        { if (status.isGranted) {
+                          debugPrint("tutt appost o bro");
+                        }});
+                      }),
+                ],
+              ));
+      //await Permission.camera.request().isGranted;
+    }
+  }
+
   @override
   void reassemble() {
     super.reassemble();
@@ -47,67 +81,87 @@ class _ScanPageState extends State<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //appBar: AppBar(
-      //title: Text('Scan QR Code - Flutter Example'),
-      //),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Stack(
-              children: [
-                QRView(
-                  key: qrKey,
-                  onQRViewCreated: onQRViewCreated,
-                  overlay: QrScannerOverlayShape(
-//customizing scan area
-                    borderWidth: 10,
-                    borderColor: listElementColor,
-                    borderLength: 20,
-                    borderRadius: 10,
-                    cutOutSize: MediaQuery.of(context).size.width * 0.8,
-                  ),
-                ),
-                Positioned(
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 0.0,
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.black26,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return FutureBuilder<void>(
+        future: checkPermission(),
+        builder: (BuildContext context, AsyncSnapshot<void> snap) {
+          if (snap.connectionState != ConnectionState.done) {
+            debugPrint(snap.toString());
+            return Center(
+              child: CircularProgressIndicator(color: appBarColor1),
+            );
+          } else if (snap.connectionState == ConnectionState.done) {
+            debugPrint("Non devo più aspettare");
+            return Scaffold(
+              //appBar: AppBar(
+              //title: Text('Scan QR Code - Flutter Example'),
+              //),
+              body: Column(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Stack(
                       children: [
-                        IconButton(
-                            icon: Icon(
-                              Icons.flip_camera_ios,
-                              color: Colors.white,
+                        QRView(
+                          key: qrKey,
+                          onQRViewCreated: onQRViewCreated,
+                          overlay: QrScannerOverlayShape(
+//customizing scan area
+                            borderWidth: 10,
+                            borderColor: listElementColor,
+                            borderLength: 20,
+                            borderRadius: 10,
+                            cutOutSize: MediaQuery.of(context).size.width * 0.8,
+                          ),
+                        ),
+                        Positioned(
+                          left: 0.0,
+                          right: 0.0,
+                          bottom: 0.0,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.black26,
                             ),
-                            onPressed: () async {
-                              await controller.flipCamera();
-                            }),
-                        IconButton(
-                            icon: Icon(
-                              Icons.flash_on,
-                              color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.flip_camera_ios,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      await controller.flipCamera();
+                                    }),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.flash_on,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      await controller.toggleFlash();
+                                    })
+                              ],
                             ),
-                            onPressed: () async {
-                              await controller.toggleFlash();
-                            })
+                          ),
+                        )
                       ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                ],
+              ),
+            );
+          } else {
+            return Center(
+                child: Text("Non so perchè: ${snap.error}",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold))));
+          }
+        });
   }
 
   void onQRViewCreated(QRViewController p1) {

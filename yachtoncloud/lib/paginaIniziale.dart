@@ -2,8 +2,10 @@
 
 //import 'dart:html';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
@@ -159,7 +161,8 @@ class _AssociaBoxState extends State<AssociaBox> {
                   navigateTo(SetAlertPage());
                   break;
                 case 7:
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ScanPage()));
                   break;
               }
             },
@@ -257,13 +260,13 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   onTap: () async {
                                     // mark the function as async
                                     print('tap');
-
-                                    // Show PopUp
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ScanPage()),
                                     );
+                                    // Show PopUp
+
                                     // await the dialog
                                     await showDialog(
                                       context: context,
