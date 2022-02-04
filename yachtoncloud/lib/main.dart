@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:yachtoncloud/PushNotification.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
+
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/newWelcomePage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
@@ -15,37 +16,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:workmanager/workmanager.dart';
-/*
-void callbackDispatcher(){
-  Workmanager().executeTask((taskName,input){
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-  });
-}*/
+
+
+
+
 Future<void> main() async {
   Workmanager wm = new Workmanager();
   //wm.initialize(callbackDispatcher);
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  
+  
+  
 
-  NotificationSettings settings = await messaging.requestPermission(
-    alert:true,
-    badge: true,
-    provisional:false,
-    sound: true,
-     );
+  //Firebase messaging
+  
 
-  if(settings.authorizationStatus== AuthorizationStatus.authorized){
-    print("user granted permission");
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage msg) { 
-      //PushNotification notification = PushNotification
-
-
-    });
-  }
   runApp(const MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -93,13 +85,77 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
+  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-late final FirebaseMessaging messaging;
-PushNotification? notification_info;
+ 
   @override
+  void initState() {
+    super.initState();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription : channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_lancher',
+              ),
+            ));
+      }
+    });
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new messageopen app event was published');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text("${notification.title}"),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text("${notification.body}")],
+                  ),
+                ),
+              );
+            });
+      }
+    });
+   
+      print('ok');
+        flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing ",
+        "This is an Flutter Push Notification",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                importance: Importance.high,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')));
+  }
+
+
+
+
+
+  
+@override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'YachtOnCloud',
@@ -108,4 +164,10 @@ PushNotification? notification_info;
       ),
     );
   }
+  
 }
+
+
+  
+
+ 
