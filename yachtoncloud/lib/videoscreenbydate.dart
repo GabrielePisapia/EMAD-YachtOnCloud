@@ -31,6 +31,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   bool _playArea = false;
   int _isPlayingIndex = 1;
   int queryByDate = 0;
+  int indice = 0;
   /*String dataSource =
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   String dataSource =
@@ -48,27 +49,26 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     super.dispose();
   }
 
+  String test = "";
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    DateTime now = DateTime.now();
+    DateTime dat = DateTime(now.year, now.month, now.day);
+    var formatter = new DateFormat('dd-MM-yyyy');
+    DateTime d = dat.subtract(Duration(days: 1));
+    String data = formatter.format(d).toString();
+    print("Mmmat ${formatter.format(d)}");
     var snap = await FirebaseFirestore.instance
         .collection('Utenti')
         .doc(uid)
         .collection('storico')
-        .doc(myController.text.isEmpty ? "04-02-2022" : myController.text)
+        .doc(myController.text.isEmpty ? data : myController.text)
         .get();
     //await FirebaseFirestore.instance.collection('Utenti').doc(uid).collection('storico').doc('04-02-2022').get();
     //DocumentReference docRef = FirebaseFirestore.instance.doc(string);
     videoList = snap.data()!['videos'];
     debugPrint("mammt ${snap.data()!['videos'].toString()}");
-    //debugPrint(snap.data()!['videos'].toString());
-    /*docRef.get().then((DocumentSnapshot documentSnapshot) {
-      print("s ${documentSnapshot.data()}");
-    });*/
-    // print("mammt ${snap.data()!['storico']}");
-    //videoList = snap.data()!['videosUrl'];
-    print("si" + myController.text.toString());
-    print(" lis${videoList}");
 
     return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
   }
@@ -282,7 +282,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   _buildCard(int index) {
     Timestamp t = videoList[index]['data'];
-
+    indice = index;
     DateTime date = DateTime.parse(t.toDate().toString());
     return Container(
       height: 135,
@@ -296,9 +296,9 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                           //videolist[index]["thumb_url"] nel caso di dati da db
-                          'assets/azimut.jpg'),
+                          videoList[index]['img']),
                       fit: BoxFit.cover,
                     )),
               ),
@@ -309,7 +309,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Video",
+                  Text(videoList[index]['camera'].toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               color: textColorDashboard,
@@ -343,7 +343,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 ),
                 child: Center(
                   child: Text(
-                    "",
+                    videoList[index]['pos'].toString(),
                     style: TextStyle(color: Color(0XFF839fed)),
                   ),
                 ),
@@ -421,7 +421,8 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   }
 
   _initializeVideo(int index) async {
-    final controller = VideoPlayerController.network(dataSource);
+    final controller =
+        VideoPlayerController.network(videoList[index]['videoUrl']);
     final old = _controller;
     _controller = controller;
     if (old != null) {
@@ -477,10 +478,10 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                 });
           }
           return Center(
-              child: Text("${snap.error}",
+              child: Text("Non ci sono video per questa data",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: textColor,
+                          color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold))));
         });

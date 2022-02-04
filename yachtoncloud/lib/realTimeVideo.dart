@@ -257,9 +257,9 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image: AssetImage(
+                      image: NetworkImage(
                           //videolist[index]["thumb_url"] nel caso di dati da db
-                          'assets/azimut.jpg'),
+                          videoList[index]['img']),
                       fit: BoxFit.cover,
                     )),
               ),
@@ -304,7 +304,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                 ),
                 child: Center(
                   child: Text(
-                    "",
+                    "Prua",
                     style: TextStyle(color: Color(0XFF839fed)),
                   ),
                 ),
