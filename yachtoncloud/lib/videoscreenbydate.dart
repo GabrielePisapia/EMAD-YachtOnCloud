@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -51,16 +52,14 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
-        await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-    var string = "${uid}/storico";
-    print("stringa ${string}");
-    DocumentReference docRef = FirebaseFirestore.instance.doc(string);
-    print(" sesso ${docRef}");
-    docRef.get().then((DocumentSnapshot documentSnapshot) {
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).collection('storico').doc('04-02-2022').get();
+    //DocumentReference docRef = FirebaseFirestore.instance.doc(string);
+    debugPrint(snap.data()!['videos'].toString());
+    /*docRef.get().then((DocumentSnapshot documentSnapshot) {
       print("s ${documentSnapshot.data()}");
-    });
-    print("mammt ${snap.data()!['storico']['storico'][0]}");
-    videoList = snap.data()!['videosUrl'];
+    });*/
+   // print("mammt ${snap.data()!['storico']}");
+    //videoList = snap.data()!['videosUrl'];
     print("si" + myController.text.toString());
     print(videoList.length);
     for (int i = 0; i < videoList.length; ++i) {
@@ -80,7 +79,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
       print(" query ${queryByDate}");
     }
 
-    return await snap;
+    return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
   }
 
   @override
