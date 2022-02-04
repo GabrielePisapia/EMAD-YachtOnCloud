@@ -51,33 +51,24 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    var snap =
-        await FirebaseFirestore.instance.collection('Utenti').doc(uid).collection('storico').doc('04-02-2022').get();
+    var snap = await FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(uid)
+        .collection('storico')
+        .doc(myController.text.isEmpty ? "04-02-2022" : myController.text)
+        .get();
+    //await FirebaseFirestore.instance.collection('Utenti').doc(uid).collection('storico').doc('04-02-2022').get();
     //DocumentReference docRef = FirebaseFirestore.instance.doc(string);
-    debugPrint(snap.data()!['videos'].toString());
+    videoList = snap.data()!['videos'];
+    debugPrint("mammt ${snap.data()!['videos'].toString()}");
+    //debugPrint(snap.data()!['videos'].toString());
     /*docRef.get().then((DocumentSnapshot documentSnapshot) {
       print("s ${documentSnapshot.data()}");
     });*/
-   // print("mammt ${snap.data()!['storico']}");
+    // print("mammt ${snap.data()!['storico']}");
     //videoList = snap.data()!['videosUrl'];
     print("si" + myController.text.toString());
-    print(videoList.length);
-    for (int i = 0; i < videoList.length; ++i) {
-      Timestamp t = videoList[i]['data'];
-      DateTime date = DateTime.parse(t.toDate().toString());
-      String d = "${date.day}-0${date.month}-${date.year}";
-      print("I vale + ${i}" + "" + d);
-      if (myController.text.toString().isNotEmpty &&
-          d == myController.text.toString()) {
-        queryByDate = 1;
-      } else {
-        print("C stong ca ${videoList[i]}");
-        videoList.remove(videoList[i]);
-      }
-      print(" poroc dio${(!videoListByDate.contains(videoList[i]))}");
-      print("video list ${videoList[i]}");
-      print(" query ${queryByDate}");
-    }
+    print(" lis${videoList}");
 
     return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
   }
@@ -173,9 +164,6 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                         setState(() {
                                           _folded = !_folded;
                                           print(myController.text);
-                                          videoListByDate.isNotEmpty
-                                              ? queryByDate = 1
-                                              : queryByDate = 0;
                                         });
                                       },
                                     ),
