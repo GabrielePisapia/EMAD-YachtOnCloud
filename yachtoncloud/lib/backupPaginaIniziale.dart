@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
-import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/scanpage.dart';
@@ -79,7 +78,6 @@ class _AssociaBoxState extends State<AssociaBox> {
   }
   //TODO: Creare dashboard copiando associabox afammok a mammt
 
-  List boxesList = [];
   Future<DocumentSnapshot<Map<String, dynamic>>> getBoxes() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
@@ -90,7 +88,6 @@ class _AssociaBoxState extends State<AssociaBox> {
         .then((querySnapshot) {
       if (querySnapshot.data()!.containsKey("boxes")) {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
-        boxesList = querySnapshot.data()!['boxes'];
         print("query ${querySnapshot.data()}");
       }
     });
@@ -126,6 +123,71 @@ class _AssociaBoxState extends State<AssociaBox> {
       "job.png",
       "qr-code.png"
     ];
+
+    var myGridView = new GridView.builder(
+        itemCount: assetsList.length,
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemBuilder: (context, index) {
+          return new GestureDetector(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 10,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/${assetsList[index]}",
+                    width: 100,
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    textList[index],
+                    style: cardTextStyle,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            ),
+            onTap: () {
+              final navigateTo =
+                  (page) => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => page,
+                      ));
+              switch (index) {
+                case 0:
+                  navigateTo(VlcVinfo());
+                  break;
+                case 1:
+                  navigateTo(StatusVideocamere());
+                  break;
+                case 2:
+                  navigateTo(VideoInfoBySearch());
+                  break;
+                case 3:
+                  navigateTo(Connettivita());
+                  break;
+                case 4:
+                  navigateTo((DetailsConnettivita()));
+                  break;
+                case 5:
+                  navigateTo(TrackingPage());
+                  break;
+                case 6:
+                  navigateTo(SetAlertPage());
+                  break;
+                case 7:
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ScanPage()));
+                  break;
+              }
+            },
+          );
+        });
 
     _gridView() {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -215,72 +277,6 @@ class _AssociaBoxState extends State<AssociaBox> {
           });
     }
 
-    _checkGrid() {
-      return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          future: getBoxes(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(color: appBarColor1),
-              );
-            } else if (snap.hasData) {
-              debugPrint("Non devo più aspettare ${boxesList.length}");
-              return GridView.builder(
-                  itemCount: boxesList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        //videolist[index]["thumb_url"] nel caso di dati da db
-                                        boxesList[index]['box']['img']),
-                                    fit: BoxFit.cover,
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              boxesList[index]['box']['nome'].toString(),
-                              style: cardTextStyle,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Dashboard()));
-                      },
-                    );
-                  });
-            }
-            return Center(
-                child: Text("Non so perchè: ${snap.error}",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))));
-          });
-    }
-
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -339,7 +335,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                       ),
                       createGrid ==
                               1 //sostituire con createGrid perché cosi esce sempre la dashboard
-                          ? Expanded(child: _checkGrid())
+                          ? Expanded(child: _gridView())
                           : Center(
                               child: Card(
                                 shape: RoundedRectangleBorder(

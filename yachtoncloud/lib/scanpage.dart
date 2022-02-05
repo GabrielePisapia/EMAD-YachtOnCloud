@@ -58,10 +58,11 @@ class _ScanPageState extends State<ScanPage> {
                   CupertinoDialogAction(
                       child: Text('Settings'),
                       onPressed: () async {
-                        await openAppSettings().then((value)
-                        { if (status.isGranted) {
-                          debugPrint("tutt appost o bro");
-                        }});
+                        await openAppSettings().then((value) {
+                          if (status.isGranted) {
+                            debugPrint("tutt appost o bro");
+                          }
+                        });
                       }),
                 ],
               ));

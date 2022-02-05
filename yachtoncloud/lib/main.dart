@@ -18,26 +18,17 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
-
-
-
 Future<void> main() async {
   Workmanager wm = new Workmanager();
   //wm.initialize(callbackDispatcher);
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp();
-  
-  
-  
 
   //Firebase messaging
-  
 
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -85,12 +76,9 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
-  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- 
   @override
   void initState() {
     super.initState();
@@ -107,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                channelDescription : channel.description,
+                channelDescription: channel.description,
                 color: Colors.blue,
                 playSound: true,
                 icon: '@mipmap/ic_lancher',
@@ -115,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
       }
     });
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new messageopen app event was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -135,9 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
             });
       }
     });
-   
-      print('ok');
-        flutterLocalNotificationsPlugin.show(
+
+    print('ok');
+    flutterLocalNotificationsPlugin.show(
         0,
         "Testing ",
         "This is an Flutter Push Notification",
@@ -150,12 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: '@mipmap/ic_launcher')));
   }
 
-
-
-
-
-  
-@override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'YachtOnCloud',
@@ -164,10 +147,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  
 }
-
-
-  
-
- 

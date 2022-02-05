@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
-import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/scanpage.dart';
@@ -24,11 +23,11 @@ import 'package:yachtoncloud/videoscreenbydate.dart';
 import 'package:yachtoncloud/vlc_screen.dart';
 
 void main() {
-  runApp(const PaginaIniziale());
+  runApp(const Dashboard());
 }
 
-class PaginaIniziale extends StatelessWidget {
-  const PaginaIniziale({Key? key}) : super(key: key);
+class Dashboard extends StatelessWidget {
+  const Dashboard({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
 
@@ -215,72 +214,6 @@ class _AssociaBoxState extends State<AssociaBox> {
           });
     }
 
-    _checkGrid() {
-      return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          future: getBoxes(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(color: appBarColor1),
-              );
-            } else if (snap.hasData) {
-              debugPrint("Non devo più aspettare ${boxesList.length}");
-              return GridView.builder(
-                  itemCount: boxesList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        //videolist[index]["thumb_url"] nel caso di dati da db
-                                        boxesList[index]['box']['img']),
-                                    fit: BoxFit.cover,
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              boxesList[index]['box']['nome'].toString(),
-                              style: cardTextStyle,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Dashboard()));
-                      },
-                    );
-                  });
-            }
-            return Center(
-                child: Text("Non so perchè: ${snap.error}",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))));
-          });
-    }
-
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -337,95 +270,9 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                      createGrid ==
-                              1 //sostituire con createGrid perché cosi esce sempre la dashboard
-                          ? Expanded(child: _checkGrid())
-                          : Center(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 60,
-                                child: InkWell(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/qr-code.png",
-                                        width: 200,
-                                        height: 150,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Associa box",
-                                        style: cardTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                  /*onTap: ()async {
-                                  showDialog(context: context, builder: builder)
-                                  bb();
-                                },*/
-                                  onTap: () async {
-                                    // mark the function as async
-                                    print('tap');
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ScanPage()),
-                                    );
-                                    // Show PopUp
 
-                                    // await the dialog
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Container(
-                                              height: 18,
-                                              width: 50,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                      child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        "Associazione box riuscita ${widget.creaGrid}",
-                                                        style: cardTextStyle),
-                                                  )),
-                                                ],
-                                              )),
-                                          actions: [
-                                            /* Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [*/
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
-                                                "assets/check.png",
-                                                width: 80,
-                                                height: 80,
-                                              ),
-                                            ),
-                                            //   ],
-                                            //   ),
-                                          ],
-                                        );
-                                      },
-                                      // Doesn't run
-                                    );
-
-                                    bb();
-                                  },
-                                ),
-                              ),
-                            ),
+                      //sostituire con createGrid perché cosi esce sempre la dashboard
+                      Expanded(child: _gridView())
                     ],
                   ),
                 ),
