@@ -18,15 +18,79 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+<<<<<<< HEAD
+=======
+
+import 'package:workmanager/workmanager.dart';
+ 
+const myTask = "syncWithTheBackEnd";
+const task2 ="task";
+ Workmanager wm = Workmanager(); 
+ 
+void callbackDispatcher() {
+// this method will be called every hour
+  
+  wm.executeTask((task, inputdata) async {
+    switch (task) {
+      case myTask:
+        print("this method was called from native!");
+        
+        break;
+ 
+      case Workmanager.iOSBackgroundTask:
+        print("iOS background fetch delegate ran");
+        break;
+      
+      case task2:
+          if (100<101){
+            print('yes it is');
+          }
+    }
+ 
+    //Return true when the task executed successfully or not
+    return Future.value(true);
+  });
+}
+
+
+>>>>>>> 6d70e073639434fcb63bcf7007813070ba3ec136
 Future<void> main() async {
-  Workmanager wm = new Workmanager();
-  //wm.initialize(callbackDispatcher);
+  
+
+  
+  print('qua eseguo main');
+  DateTime now = DateTime.now();
+  print(now.hour.toString() + ":" + now.minute.toString() + ":" + now.second.toString());
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
+<<<<<<< HEAD
 
   await Firebase.initializeApp();
 
   //Firebase messaging
+=======
+  wm.initialize(callbackDispatcher);
+  
+  await Firebase.initializeApp();
+
+  wm.registerOneOffTask("1", task2,initialDelay: Duration(seconds: 10));
+  
+  /*
+  wm.registerPeriodicTask(
+      "2",
+      // use the same task name used in callbackDispatcher function for identifying the task
+      // Each task must have a unique name if you want to add multiple tasks;
+      myTask,
+      // When no frequency is provided the default 15 minutes is set.
+      // Minimum frequency is 15 min. 
+      // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
+       // change duration according to your needs
+  );*/
+  
+
+
+  
+>>>>>>> 6d70e073639434fcb63bcf7007813070ba3ec136
 
   runApp(const MyApp());
 }
@@ -49,7 +113,7 @@ class MyApp extends StatelessWidget {
         ),
       );
 }*/
-
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -69,6 +133,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  
 }
 
 class MyHomePage extends StatefulWidget {
@@ -82,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    print('qua eseguo myapp extends statless widget');
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
