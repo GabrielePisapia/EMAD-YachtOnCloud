@@ -18,63 +18,58 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-<<<<<<< HEAD
-=======
-
 import 'package:workmanager/workmanager.dart';
- 
+
 const myTask = "syncWithTheBackEnd";
-const task2 ="task";
- Workmanager wm = Workmanager(); 
- 
+const task2 = "task";
+Workmanager wm = Workmanager();
+
 void callbackDispatcher() {
 // this method will be called every hour
-  
+
   wm.executeTask((task, inputdata) async {
     switch (task) {
       case myTask:
         print("this method was called from native!");
-        
+
         break;
- 
+
       case Workmanager.iOSBackgroundTask:
         print("iOS background fetch delegate ran");
         break;
-      
+
       case task2:
-          if (100<101){
-            print('yes it is');
-          }
+        if (100 < 101) {
+          print('yes it is');
+        }
     }
- 
+
     //Return true when the task executed successfully or not
     return Future.value(true);
   });
 }
 
-
->>>>>>> 6d70e073639434fcb63bcf7007813070ba3ec136
 Future<void> main() async {
-  
-
-  
   print('qua eseguo main');
   DateTime now = DateTime.now();
-  print(now.hour.toString() + ":" + now.minute.toString() + ":" + now.second.toString());
+  print(now.hour.toString() +
+      ":" +
+      now.minute.toString() +
+      ":" +
+      now.second.toString());
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
-<<<<<<< HEAD
 
   await Firebase.initializeApp();
 
   //Firebase messaging
-=======
+
   wm.initialize(callbackDispatcher);
-  
+
   await Firebase.initializeApp();
 
-  wm.registerOneOffTask("1", task2,initialDelay: Duration(seconds: 10));
-  
+  wm.registerOneOffTask("1", task2, initialDelay: Duration(seconds: 10));
+
   /*
   wm.registerPeriodicTask(
       "2",
@@ -86,11 +81,6 @@ Future<void> main() async {
       // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
        // change duration according to your needs
   );*/
-  
-
-
-  
->>>>>>> 6d70e073639434fcb63bcf7007813070ba3ec136
 
   runApp(const MyApp());
 }
@@ -113,7 +103,7 @@ class MyApp extends StatelessWidget {
         ),
       );
 }*/
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -133,7 +123,6 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-  
 }
 
 class MyHomePage extends StatefulWidget {
