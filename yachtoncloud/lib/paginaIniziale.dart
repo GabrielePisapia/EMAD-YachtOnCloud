@@ -7,6 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
@@ -378,9 +381,30 @@ class _AssociaBoxState extends State<AssociaBox> {
                                           builder: (context) => ScanPage()),
                                     );
                                     // Show PopUp
-
+                                    await Dialogs.materialDialog(
+                                        color: Colors.white,
+                                        msg: 'Associazione box riuscita!',
+                                        title: 'Associazione',
+                                        lottieBuilder: Lottie.asset(
+                                          'assets/success.json',
+                                          fit: BoxFit.contain,
+                                        ),
+                                        context: context,
+                                        actions: [
+                                          IconsButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: 'Ok',
+                                            iconData: Icons.done,
+                                            color: Colors.blue,
+                                            textStyle: TextStyle(color: Colors.white),
+                                            iconColor: Colors.white,
+                                          ),
+                                        ],
+                                      );
                                     // await the dialog
-                                    await showDialog(
+                                    /*await showDialog(
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
@@ -419,7 +443,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                         );
                                       },
                                       // Doesn't run
-                                    );
+                                    );*/
 
                                     bb();
                                   },
