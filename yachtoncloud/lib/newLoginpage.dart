@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'newSignup.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 import 'Widget/bezierContainer.dart';
 
@@ -11,12 +14,17 @@ class LoginPage extends StatefulWidget {
   LoginPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
+  
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>{
+  
+  
+
+
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final _auth = FirebaseAuth.instance;
@@ -27,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
       esito = "Ok";
+     
       print("TRY RIUSCITO, VALORE DI ESITO: " + esito);
       return esito;
     } on FirebaseAuthException catch (e) {

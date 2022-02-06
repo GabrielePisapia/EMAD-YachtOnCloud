@@ -2,12 +2,16 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/PushNotification.dart';
+import 'package:yachtoncloud/backupPaginaIniziale.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
 
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/newSignup.dart';
 import 'package:yachtoncloud/newWelcomePage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
@@ -23,6 +27,7 @@ import 'package:workmanager/workmanager.dart';
 const myTask = "syncWithTheBackEnd";
 const task2 = "task";
 Workmanager wm = Workmanager();
+Widget homepage = WelcomePage();
 
 void callbackDispatcher() {
 // this method will be called every hour
@@ -50,6 +55,7 @@ void callbackDispatcher() {
 }
 
 Future<void> main() async {
+  
   print('qua eseguo main');
   DateTime now = DateTime.now();
   print(now.hour.toString() +
@@ -82,11 +88,21 @@ Future<void> main() async {
        // change duration according to your needs
   );*/
 
-  runApp(const MyApp());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uid = prefs.getString("uid");
+  if(uid!= null){
+    homepage = new SignUpPage();
+  }
+  runApp(MyApp());
 }
 
+
+
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+   MyApp({Key? key}) : super(key: key);
+  final storage = new FlutterSecureStorage();
+  
 
   // This widget is the root of your application.
   /*
@@ -119,7 +135,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: WelcomePage(),
+        home: homepage,
       ),
     );
   }

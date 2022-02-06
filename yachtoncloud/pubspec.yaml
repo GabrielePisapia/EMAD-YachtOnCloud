@@ -67,6 +67,8 @@ dependencies:
   workmanager: ^0.4.1
   flutter_local_notifications: ^9.2.0
   rxdart: ^0.27.3
+  flutter_secure_storage: ^5.0.2
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
