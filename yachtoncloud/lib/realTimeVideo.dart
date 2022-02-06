@@ -53,12 +53,32 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    FirebaseFirestore.instance
+        .collection('Utenti')
+        .doc(uid)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.data()!.containsKey("boxes")) {
+        //debugPrint("ok, non c'è proprio il campo box " + uid);
+        print(
+            "mammt ${querySnapshot.data()!['boxes'][0]['box']['videocamere']}");
+        videoList = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
+        print("query mammt ${querySnapshot.data()}");
+      }
+    });
+    return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    //debugPrint("inserisco la box " + uid);
+  }
+  /*
+  Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-    videoList = snap.data()!['videosUrl'];
+    videoList = snap.data()!['videocamere'];
     print("mannag ${videoList}");
     return await snap;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -243,8 +263,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   _buildCard(int index) {
-    Timestamp t = videoList[index]['data'];
-    DateTime date = DateTime.parse(t.toDate().toString());
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
     return Container(
       height: 135,
       child: Column(
@@ -270,7 +290,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(videoList[index]['nome'].toString(),
+                  Text(videoList[index]['nomeCamera'].toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               color: textColorDashboard,
@@ -421,7 +441,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
               child: CircularProgressIndicator(color: appBarColor1),
             );
           } else if (snap.hasData) {
-            debugPrint("Non devo più aspettare");
+            debugPrint("Non devo più aspettare ${videoList}");
+
             return ListView.builder(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 8),

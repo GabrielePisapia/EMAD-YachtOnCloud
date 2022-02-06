@@ -176,17 +176,18 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(TrackingPage());
         break;
       case 3:
-        navigateTo(SetAlertPage());
+        navigateTo(
+            SetAlertPage()); //Rimandare l'utente al menu box per cambiarla
         break;
       case 4:
         //navigateTo(AssociaBox(creaGrid: 1));
         //Navigator.push(context,
         //    MaterialPageRoute(builder: (context) => AssociaBox(creaGrid: 1)));
-      Navigator.pushAndRemoveUntil(
-    context,   
-    MaterialPageRoute(builder: (BuildContext context) => AssociaBox(creaGrid: 1)), 
-    ModalRoute.withName('/')
-);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => AssociaBox(creaGrid: 1)),
+            ModalRoute.withName('/'));
         break;
       case 5:
         navigateTo(LoginPage(
