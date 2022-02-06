@@ -18,54 +18,58 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
 import 'package:workmanager/workmanager.dart';
- 
+
 const myTask = "syncWithTheBackEnd";
-const task2 ="task";
- Workmanager wm = Workmanager(); 
- 
+const task2 = "task";
+Workmanager wm = Workmanager();
+
 void callbackDispatcher() {
 // this method will be called every hour
-  
+
   wm.executeTask((task, inputdata) async {
     switch (task) {
       case myTask:
         print("this method was called from native!");
-        
+
         break;
- 
+
       case Workmanager.iOSBackgroundTask:
         print("iOS background fetch delegate ran");
         break;
-      
+
       case task2:
-          if (100<101){
-            print('yes it is');
-          }
+        if (100 < 101) {
+          print('yes it is');
+        }
     }
- 
+
     //Return true when the task executed successfully or not
     return Future.value(true);
   });
 }
 
-
 Future<void> main() async {
-  
-
-  
   print('qua eseguo main');
   DateTime now = DateTime.now();
-  print(now.hour.toString() + ":" + now.minute.toString() + ":" + now.second.toString());
+  print(now.hour.toString() +
+      ":" +
+      now.minute.toString() +
+      ":" +
+      now.second.toString());
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
-  wm.initialize(callbackDispatcher);
-  
+
   await Firebase.initializeApp();
 
-  wm.registerOneOffTask("1", task2,initialDelay: Duration(seconds: 10));
-  
+  //Firebase messaging
+
+  wm.initialize(callbackDispatcher);
+
+  await Firebase.initializeApp();
+
+  wm.registerOneOffTask("1", task2, initialDelay: Duration(seconds: 10));
+
   /*
   wm.registerPeriodicTask(
       "2",
@@ -77,13 +81,8 @@ Future<void> main() async {
       // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
        // change duration according to your needs
   );*/
-  
-
-
-  
 
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -104,7 +103,7 @@ class MyApp extends StatelessWidget {
         ),
       );
 }*/
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -124,7 +123,6 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-  
 }
 
 class MyHomePage extends StatefulWidget {
@@ -132,12 +130,9 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
-  
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- 
   @override
   void initState() {
     super.initState();
@@ -155,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                channelDescription : channel.description,
+                channelDescription: channel.description,
                 color: Colors.blue,
                 playSound: true,
                 icon: '@mipmap/ic_lancher',
@@ -163,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
       }
     });
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new messageopen app event was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -183,9 +178,9 @@ class _MyHomePageState extends State<MyHomePage> {
             });
       }
     });
-   
-      print('ok');
-        flutterLocalNotificationsPlugin.show(
+
+    print('ok');
+    flutterLocalNotificationsPlugin.show(
         0,
         "Testing ",
         "This is an Flutter Push Notification",
@@ -198,12 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: '@mipmap/ic_launcher')));
   }
 
-
-
-
-
-  
-@override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'YachtOnCloud',
@@ -212,10 +202,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  
 }
-
-
-  
-
- 
