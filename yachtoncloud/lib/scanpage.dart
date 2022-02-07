@@ -175,12 +175,13 @@ class _ScanPageState extends State<ScanPage> {
         ;
       });
       //debugPrint("QUESTO FUNZIONA " + result);
-      await addBox(jsonDecode(result));
-      Navigator.pop(context);
+      bool res = await addBox(jsonDecode(result));
+      debugPrint("Vediamo se mi ricordo ancora come si fa " + res.toString());
+      Navigator.pop(context, res);
     });
   }
 
-  Future addBox(Map<String, dynamic> result) async {
+  Future<bool> addBox(Map<String, dynamic> result) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     FirebaseFirestore.instance
@@ -189,10 +190,11 @@ class _ScanPageState extends State<ScanPage> {
         .get()
         .then((querySnapshot) {
       if (!querySnapshot.data()!.containsKey("boxes")) {
-        //debugPrint("ok, non c'è proprio il campo box " + uid);
-        return users.doc(uid).update({
+        debugPrint("ok, non c'è proprio il campo box " + uid);
+        users.doc(uid).update({
           'boxes': [result]
         });
+        return true;
       } else {
         debugPrint("ok, c'è almeno una box " + uid);
         var val = false;
@@ -218,7 +220,9 @@ class _ScanPageState extends State<ScanPage> {
           return false;
         });
       }
+      return false;
     });
+    return false;
     //debugPrint("inserisco la box " + uid);
   }
 

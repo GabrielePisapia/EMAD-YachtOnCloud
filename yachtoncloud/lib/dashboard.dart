@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
@@ -99,6 +101,7 @@ class _AssociaBoxState extends State<AssociaBox> {
 
   @override
   Widget build(BuildContext context) {
+    var res = true;
     var size = MediaQuery.of(context).size;
     var cardTextStyle = GoogleFonts.poppins(
         textStyle: TextStyle(
@@ -166,7 +169,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         final navigateTo = (page) =>
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => page,
@@ -194,10 +197,41 @@ class _AssociaBoxState extends State<AssociaBox> {
                             navigateTo(SetAlertPage());
                             break;
                           case 7:
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ScanPage()));
+                             // mark the function as async
+                                    print('tap');
+                                    final value = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ScanPage()),
+                                    );
+                                    setState(() {
+                                      res = value;
+                                    });
+                                    debugPrint("TRMOOOOOOON " + res.toString());
+                                    // Show PopUp
+                                    await Dialogs.materialDialog(
+                                        color: Colors.white,
+                                        msg: res ? 'Associazione box riuscita!' : 'Associazione box fallita, riprova.',
+                                        title: 'Associazione',
+                                        lottieBuilder: Lottie.asset(
+                                          res ? 'assets/success.json' : 'assets/fail.json',
+                                          fit: BoxFit.contain,
+                                        ),
+                                        context: context,
+                                        actions: [
+                                          IconsButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: 'Ok',
+                                            iconData: res ? Icons.done : Icons.error,
+                                            color: Colors.blue,
+                                            textStyle: TextStyle(color: Colors.white),
+                                            iconColor: Colors.white,
+                                          ),
+                                        ],
+                                      );
+                                    bb();
                             break;
                         }
                       },

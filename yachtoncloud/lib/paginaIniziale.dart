@@ -70,7 +70,7 @@ class AssociaBox extends StatefulWidget {
 class _AssociaBoxState extends State<AssociaBox> {
   // ignore: unused_field
   var createGrid;
-
+  bool res = true;
   void bb() {
     print('Clicked Clicked');
 
@@ -308,18 +308,22 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   onTap: () async {
                                     // mark the function as async
                                     print('tap');
-                                    await Navigator.push(
+                                    final value = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ScanPage()),
                                     );
+                                    setState() {
+                                      res = value;
+                                    }
+                                    debugPrint("TRMOOOOOOON " + res.toString());
                                     // Show PopUp
                                     await Dialogs.materialDialog(
                                         color: Colors.white,
-                                        msg: 'Associazione box riuscita!',
+                                        msg: res ? 'Associazione box riuscita!' : 'Associazione box fallita, riprova.',
                                         title: 'Associazione',
                                         lottieBuilder: Lottie.asset(
-                                          'assets/success.json',
+                                          res ? 'assets/success.json' : 'assets/fail.json',
                                           fit: BoxFit.contain,
                                         ),
                                         context: context,
@@ -329,7 +333,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                               Navigator.of(context).pop();
                                             },
                                             text: 'Ok',
-                                            iconData: Icons.done,
+                                            iconData: res ? Icons.done : Icons.error,
                                             color: Colors.blue,
                                             textStyle: TextStyle(color: Colors.white),
                                             iconColor: Colors.white,
