@@ -235,7 +235,7 @@ class _AssociaBoxState extends State<AssociaBox> {
               );
             } else if (snap.hasData && boxesList.length != 0) {
               debugPrint("Non devo più aspettare ${boxesList.length}");
-              return GridView.builder(
+              return Expanded(child: GridView.builder(
                   itemCount: boxesList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
@@ -278,7 +278,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                 builder: (context) => Dashboard()));
                       },
                     );
-                  });
+                  }));
             }
             return Center(
                               child: Card(
@@ -400,7 +400,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                      Expanded(child: _checkGrid())
+                     _checkGrid()
                     ],
                   ),
                 ),
