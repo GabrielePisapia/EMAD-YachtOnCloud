@@ -14,6 +14,7 @@ import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/realTimeVideo.dart';
 import 'package:yachtoncloud/scanpage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
@@ -176,7 +177,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                             ));
                         switch (index) {
                           case 0:
-                            navigateTo(VlcVinfo());
+                            navigateTo(RealTimeVideo());
                             break;
                           case 1:
                             navigateTo(StatusVideocamere());
@@ -197,41 +198,45 @@ class _AssociaBoxState extends State<AssociaBox> {
                             navigateTo(SetAlertPage());
                             break;
                           case 7:
-                             // mark the function as async
-                                    print('tap');
-                                    final value = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ScanPage()),
-                                    );
-                                    setState(() {
-                                      res = value;
-                                    });
-                                    debugPrint("TRMOOOOOOON " + res.toString());
-                                    // Show PopUp
-                                    await Dialogs.materialDialog(
-                                        color: Colors.white,
-                                        msg: res ? 'Associazione box riuscita!' : 'Associazione box fallita, riprova.',
-                                        title: 'Associazione',
-                                        lottieBuilder: Lottie.asset(
-                                          res ? 'assets/success.json' : 'assets/fail.json',
-                                          fit: BoxFit.contain,
-                                        ),
-                                        context: context,
-                                        actions: [
-                                          IconsButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            text: 'Ok',
-                                            iconData: res ? Icons.done : Icons.error,
-                                            color: Colors.blue,
-                                            textStyle: TextStyle(color: Colors.white),
-                                            iconColor: Colors.white,
-                                          ),
-                                        ],
-                                      );
-                                    bb();
+                            // mark the function as async
+                            print('tap');
+                            final value = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ScanPage()),
+                            );
+                            setState(() {
+                              res = value;
+                            });
+                            debugPrint("TRMOOOOOOON " + res.toString());
+                            // Show PopUp
+                            await Dialogs.materialDialog(
+                              color: Colors.white,
+                              msg: res
+                                  ? 'Associazione box riuscita!'
+                                  : 'Associazione box fallita, riprova.',
+                              title: 'Associazione',
+                              lottieBuilder: Lottie.asset(
+                                res
+                                    ? 'assets/success.json'
+                                    : 'assets/fail.json',
+                                fit: BoxFit.contain,
+                              ),
+                              context: context,
+                              actions: [
+                                IconsButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  text: 'Ok',
+                                  iconData: res ? Icons.done : Icons.error,
+                                  color: Colors.blue,
+                                  textStyle: TextStyle(color: Colors.white),
+                                  iconColor: Colors.white,
+                                ),
+                              ],
+                            );
+                            bb();
                             break;
                         }
                       },

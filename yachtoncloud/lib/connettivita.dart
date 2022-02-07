@@ -35,73 +35,81 @@ class DetailsConnettivita extends StatefulWidget {
 }
 
 class _DetailsConnettivitaState extends State<DetailsConnettivita> {
-    var nomeRete = "";
-    var statusRete = true;
-    final TextEditingController reteController = new TextEditingController();
-    Future<DocumentSnapshot<Map<String, dynamic>>>? _connData;
+  var nomeRete = "";
+  var statusRete = true;
+  final TextEditingController reteController = new TextEditingController();
+  Future<DocumentSnapshot<Map<String, dynamic>>>? _connData;
 
-    ScrollController _controller = ScrollController();
+  ScrollController _controller = ScrollController();
 
-     Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
-        debugPrint("Ma almeno ci arrivo qua?");
-        final uid = FirebaseAuth.instance.currentUser!.uid;
-        CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-        nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
-        statusRete = snap.data()!['boxes'][0]['box']['router']['attivo'];
-        isSwitched = statusRete;
-        debugPrint(nomeRete);
-        return await snap;
+  Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
+    debugPrint("Ma almeno ci arrivo qua?");
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
+    var snap =
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+
+    nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
+    statusRete = snap.data()!['boxes'][0]['box']['router']['attivo'];
+    isSwitched = statusRete;
+    debugPrint(nomeRete);
+    return await snap;
+  }
+
+  Future<String> UpdateRouterStateDB() async {
+    String esito = "";
+    try {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('Utenti');
+      var snap =
+          await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+      final data = snap.data();
+      final boxes =
+          data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
+      final box = boxes[0]['box'];
+      debugPrint(box.toString());
+      final router = box['router'];
+
+      if (reteController != "") {
+        router['nomeRete'] = reteController.text;
       }
+      router['attivo'] = statusRete;
 
-      Future<String> UpdateRouterStateDB() async {
-      String esito = "";
-        try {  
-          final uid = FirebaseAuth.instance.currentUser!.uid;
-          CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-          var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-          final data = snap.data();
-          final boxes = data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
-          final box = boxes[0]['box'];
-          debugPrint(box.toString());
-          final router = box['router'];
-
-          if(reteController != "") {
-            router['nomeRete'] = reteController.text;
-          }
-          router['attivo'] = statusRete;
-
-        await FirebaseFirestore.instance.collection('Utenti').doc(uid).update(data);
-            esito = 'Ok';
-            return esito;
-        } catch(ex) {
-          debugPrint(ex.toString());
-          return ex.toString();
-        }
+      await FirebaseFirestore.instance
+          .collection('Utenti')
+          .doc(uid)
+          .update(data);
+      esito = 'Ok';
+      return esito;
+    } catch (ex) {
+      debugPrint(ex.toString());
+      return ex.toString();
     }
+  }
 
-    _scrollListener() {
-      if (_controller.offset >= _controller.position.maxScrollExtent &&
-          !_controller.position.outOfRange) {
-        setState(() {
-          //you can do anything here
-        });
-      }
-      if (_controller.offset <= _controller.position.minScrollExtent &&
-          !_controller.position.outOfRange) {
-        setState(() {
-          //you can do anything here
-        });
-      }
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        //you can do anything here
+      });
     }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        //you can do anything here
+      });
+    }
+  }
 
-    @override
+  @override
   void initState() {
-      _controller = ScrollController();
-      _controller.addListener(_scrollListener);
-      _connData = getConnData(); //the listener for up and down.
-      super.initState();
-    }
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    _connData = getConnData(); //the listener for up and down.
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,263 +124,278 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
               colors: [backgroundColor2, backgroundColor1]),
         ),
         child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                future: _connData,
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-                if(snap.connectionState == ConnectionState.waiting) {
-                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
-                } else if(snap.hasData) {
-                    debugPrint("Non devo più aspettare");
-                    
-          return SingleChildScrollView(
-          child: Padding(
-              padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
-              child: Column(children: [
-                Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          nomeRete.toString(),
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: textColor,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold)),
-                        ))),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        'Status rete',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    )),
-                Container(
-                    height: 100,
-                    //width: double.infinity,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              cardsColor1,
-                              cardsColor2,
-                            ]),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: shadowCard.withOpacity(0.01),
-                            spreadRadius: 5,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          ),
-                        ]),
-                    child: Column(children: [
-                      Padding(
-                          padding:
-                              EdgeInsets.only(top: 20, left: 20, right: 20),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                    child: Image.asset(
-                                  isSwitched
-                                      ? 'assets/wifiON.png'
-                                      : 'assets/wifiOFF.png',
-                                  height: 50,
-                                  width: 50,
-                                )),
-                                Expanded(
-                                    child: Column(children: [
-                                  Center(
-                                      child: Text(
-                                    "Status: " +
-                                        (isSwitched ? "Attivo" : "Disattivo"),
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            color: textColor,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal)),
-                                  )),
-                                  Switch(
-                                    value: isSwitched,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isSwitched = value;
-                                        statusRete = value;
-                                        debugPrint(isSwitched.toString() + " " + statusRete.toString());
-                                      });
-                                    },
-                                    activeTrackColor: Colors.lightGreenAccent,
-                                    activeColor: Colors.green,
-                                  ),
-                                ]))
-                              ]))
-                    ])),
-                SizedBox(
-                  height: 15,
-                ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 7),
-                      child: Text(
-                        'Nome e password',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    )),
-                Container(
-                  height: 160,
-                  //width: double.infinity,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            cardsColor1,
-                            cardsColor2,
-                          ]),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowCard.withOpacity(0.01),
-                          spreadRadius: 5,
-                          blurRadius: 3,
-                          // changes position of shadow
-                        ),
-                      ]),
-                  child: Column(
-                    children: [
-                      Padding(
-                          padding:
-                              EdgeInsets.only(top: 20, left: 20, right: 20),
-                          child: Container(
+            future: _connData,
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+              if (snap.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(color: appBarColor1),
+                );
+              } else if (snap.hasData) {
+                debugPrint("Non devo più aspettare");
+
+                return SingleChildScrollView(
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
+                      child: Column(children: [
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  nomeRete.toString(),
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          color: textColor,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold)),
+                                ))),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 7),
+                              child: Text(
+                                'Status rete',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )),
+                        Container(
+                            height: 100,
                             //width: double.infinity,
-                            height: 50,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: TextFormField(
-                              controller: reteController,
-                              decoration: InputDecoration(
-                                hintText: nomeRete,
-                                fillColor: listElementColor,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      cardsColor1,
+                                      cardsColor2,
+                                    ]),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: shadowCard.withOpacity(0.01),
+                                    spreadRadius: 5,
+                                    blurRadius: 3,
+                                    // changes position of shadow
+                                  ),
+                                ]),
+                            child: Column(children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                            child: Image.asset(
+                                          isSwitched
+                                              ? 'assets/wifiON.png'
+                                              : 'assets/wifiOFF.png',
+                                          height: 50,
+                                          width: 50,
+                                        )),
+                                        Expanded(
+                                            child: Column(children: [
+                                          Center(
+                                              child: Text(
+                                            "Status: " +
+                                                (isSwitched
+                                                    ? "Attivo"
+                                                    : "Disattivo"),
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    color: textColor,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal)),
+                                          )),
+                                          Switch(
+                                            value: isSwitched,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isSwitched = value;
+                                                statusRete = value;
+                                                debugPrint(
+                                                    isSwitched.toString() +
+                                                        " " +
+                                                        statusRete.toString());
+                                              });
+                                            },
+                                            activeTrackColor:
+                                                Colors.lightGreenAccent,
+                                            activeColor: Colors.green,
+                                          ),
+                                        ]))
+                                      ]))
+                            ])),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 7),
+                              child: Text(
+                                'Nome e password',
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: textColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
                               ),
-                            ),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          child: Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: TextFormField(
-                              autocorrect: false,
-                              obscureText: _obscureText,
-                              initialValue: 'Password',
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                    icon: Icon(_obscureText
-                                        ? Icons.visibility
-                                        : Icons.visibility_off),
-                                    onPressed: () {
-                                      setState(() {
-                                        debugPrint('prechange: ' +
-                                            _obscureText.toString());
-                                        _obscureText = !_obscureText;
-                                        debugPrint('postchange: ' +
-                                            _obscureText.toString());
-                                      });
-                                    }),
-                                hintText: 'Password',
-                                fillColor: listElementColor,
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
+                            )),
+                        Container(
+                          height: 160,
+                          //width: double.infinity,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    cardsColor1,
+                                    cardsColor2,
+                                  ]),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowCard.withOpacity(0.01),
+                                  spreadRadius: 5,
+                                  blurRadius: 3,
+                                  // changes position of shadow
+                                ),
+                              ]),
+                          child: Column(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 20, left: 20, right: 20),
+                                  child: Container(
+                                    //width: double.infinity,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: TextFormField(
+                                      controller: reteController,
+                                      decoration: InputDecoration(
+                                        hintText: nomeRete,
+                                        fillColor: listElementColor,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide.none,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                      ),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 250,
-                  height: 50,
-                  margin: EdgeInsets.symmetric(vertical: 1),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    side: BorderSide(color: buttonColor)))),
-                    onPressed: () {
-                      var esito = "";
-                        UpdateRouterStateDB().then((val) {
-                          esito = val;
-                          print(esito);
-                          if (esito == "Ok") {
-                            debugPrint(esito);
-                          } else {
-                            debugPrint(esito);
-                          }
-                        });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Conferma modifiche',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: textColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                            ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: TextFormField(
+                                      autocorrect: false,
+                                      obscureText: _obscureText,
+                                      initialValue: 'Password',
+                                      decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                            icon: Icon(_obscureText
+                                                ? Icons.visibility
+                                                : Icons.visibility_off),
+                                            onPressed: () {
+                                              setState(() {
+                                                debugPrint('prechange: ' +
+                                                    _obscureText.toString());
+                                                _obscureText = !_obscureText;
+                                                debugPrint('postchange: ' +
+                                                    _obscureText.toString());
+                                              });
+                                            }),
+                                        hintText: 'Password',
+                                        fillColor: listElementColor,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide.none,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                      ),
+                                    ),
+                                  )),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              ])),
-        );} else {
-                        return Center( child: Text(
-                              "${snap.error}",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: textColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))) );
-       }}));
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 250,
+                          height: 50,
+                          margin: EdgeInsets.symmetric(vertical: 1),
+                          child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(buttonColor),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        side: BorderSide(color: buttonColor)))),
+                            onPressed: () {
+                              var esito = "";
+                              UpdateRouterStateDB().then((val) {
+                                esito = val;
+                                print(esito);
+                                if (esito == "Ok") {
+                                  debugPrint(esito);
+                                } else {
+                                  debugPrint(esito);
+                                }
+                              });
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Conferma modifiche',
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              color: textColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ])),
+                );
+              } else {
+                return Center(
+                    child: Text("${snap.error}",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold))));
+              }
+            }));
   }
 }
 
@@ -395,23 +418,26 @@ class _ConnettivitaState extends State<Connettivita> {
     List<ChartData> chartData = [];
 
     Future<DocumentSnapshot<Map<String, dynamic>>> getConnData() async {
-        debugPrint("Ma almeno ci arrivo qua?");
-        final uid = FirebaseAuth.instance.currentUser!.uid;
-        CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-        nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
-        giga = snap.data()!['boxes'][0]['box']['router']['giga'];
-        provider = snap.data()!['boxes'][0]['box']['router']['provider'];
-        nomePromozione = snap.data()!['boxes'][0]['box']['router']['promozione'];
-        consumati = snap.data()!['boxes'][0]['box']['router']['consumati'];
-        _myList = snap.data()!['boxes'][0]['box']['router']['dispositivi'];
-        restanti = giga - consumati;
-        chartData = [
-          ChartData('Consumati', int.parse(consumati.toString()), chartColor1),
-          ChartData('Restanti', int.parse(restanti.toString()), chartColor2),];
-        debugPrint("VALORI: " + consumati.toString() + " " + restanti.toString());
-        return await snap;
-      }
+      debugPrint("Ma almeno ci arrivo qua?");
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('Utenti');
+      var snap =
+          await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+      nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
+      giga = snap.data()!['boxes'][0]['box']['router']['giga'];
+      provider = snap.data()!['boxes'][0]['box']['router']['provider'];
+      nomePromozione = snap.data()!['boxes'][0]['box']['router']['promozione'];
+      consumati = snap.data()!['boxes'][0]['box']['router']['consumati'];
+      _myList = snap.data()!['boxes'][0]['box']['router']['dispositivi'];
+      restanti = giga - consumati;
+      chartData = [
+        ChartData('Consumati', int.parse(consumati.toString()), chartColor1),
+        ChartData('Restanti', int.parse(restanti.toString()), chartColor2),
+      ];
+      debugPrint("VALORI: " + consumati.toString() + " " + restanti.toString());
+      return await snap;
+    }
 
     final List<Color> gradientColors = [
       chartColor1,
@@ -452,31 +478,34 @@ class _ConnettivitaState extends State<Connettivita> {
               colors: [backgroundColor2, backgroundColor1]),
         ),
         child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                future: getConnData(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-                if(snap.connectionState == ConnectionState.waiting) {
-                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
-                } else if(snap.hasData) {
-                    debugPrint("Non devo più aspettare");
-            return SingleChildScrollView(
-                child: Padding(
-          padding: EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 0.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      nomeRete.toString(),
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              color: textColor,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold)),
-                    )),
-              ),
-              /*SizedBox(
+            future: getConnData(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
+              if (snap.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(color: appBarColor1),
+                );
+              } else if (snap.hasData) {
+                debugPrint("Non devo più aspettare");
+                return SingleChildScrollView(
+                    child: Padding(
+                  padding: EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 0.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              nomeRete.toString(),
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      color: textColor,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold)),
+                            )),
+                      ),
+                      /*SizedBox(
                 height: 10,
               ),
               Padding(
@@ -636,249 +665,289 @@ class _ConnettivitaState extends State<Connettivita> {
               SizedBox(
                 height: 15,
               ),*/
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10, bottom: 7),
-                      child: Text(
-                        'Dispositivi connessi',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    )),
-                Container(
-                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                  width: (size.width - 40),
-                  height: 160,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            cardsColor2,
-                            cardsColor1,
-                          ]),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowCard.withOpacity(0.01),
-                          spreadRadius: 10,
-                          blurRadius: 3,
-                          // changes position of shadow
-                        ),
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 25, right: 25, top: 20, bottom: 5),
-                    child: Column(
-                      //mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                                height: 114,
-                                child: CustomScrollView(
-                                  controller: _controller,
-                                  slivers: [
-                                    SliverList(
-                                        delegate: SliverChildBuilderDelegate(
-                                      (context, index) {
-                                        return SizedBox(
-                                            height: 45,
-                                            width: (size.width - 10) / 2,
-                                            child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(50.0),
-                                              ),
-                                              child: ListTile(
-                                                visualDensity: VisualDensity(
-                                                    horizontal: -3,
-                                                    vertical: -4),
-                                                leading: Container(
-                                                  height: double.infinity,
-                                                  child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0.0),
-                                                      child: Icon(
-                                                          Icons.smartphone,
-                                                          size: 19.0,
-                                                          color: textColor)),
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0)),
-                                                tileColor: listElementColor,
-                                                title: Text(_myList[index],
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle: TextStyle(
-                                                            color: textColor,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal))),
-                                                //subtitle: Text('${person.age}'),
-                                              ),
-                                            ));
-                                      },
-                                      childCount: _myList.length,
-                                    ))
-                                  ],
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10, bottom: 7),
-                      child: Text(
-                        'Consumi',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    )),
-                Container(
-                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                  width: (size.width - 40),
-                  height: 150,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            cardsColor2,
-                            cardsColor1,
-                          ]),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowCard.withOpacity(0.01),
-                          spreadRadius: 10,
-                          blurRadius: 3,
-                          // changes position of shadow
-                        ),
-                      ]),
-                  child: Column(
-                    //mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height: 140,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10, bottom: 7),
+                                  child: Text(
+                                    'Dispositivi connessi',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            color: textColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                )),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 5, right: 5, bottom: 5),
                               width: (size.width - 40),
-                              child: SfCircularChart(
-                                  legend: Legend(
-                                      toggleSeriesVisibility: false,
-                                      isVisible: true,
-                                      textStyle: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              color: textColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.normal))),
-                                  series: <CircularSeries>[
-                                    // Renders doughnut chart
-                                    DoughnutSeries<ChartData, String>(
-                                        dataSource: chartData,
-                                        pointColorMapper: (ChartData data, _) =>
-                                            data.color,
-                                        xValueMapper: (ChartData data, _) =>
-                                            data.x,
-                                        yValueMapper: (ChartData data, _) =>
-                                            data.y,
-                                        dataLabelSettings: DataLabelSettings(
-                                          isVisible: true,
-                                          textStyle: GoogleFonts.poppins(
+                              height: 160,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        cardsColor2,
+                                        cardsColor1,
+                                      ]),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: shadowCard.withOpacity(0.01),
+                                      spreadRadius: 10,
+                                      blurRadius: 3,
+                                      // changes position of shadow
+                                    ),
+                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 25, right: 25, top: 20, bottom: 5),
+                                child: Column(
+                                  //mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                            height: 114,
+                                            child: CustomScrollView(
+                                              controller: _controller,
+                                              slivers: [
+                                                SliverList(
+                                                    delegate:
+                                                        SliverChildBuilderDelegate(
+                                                  (context, index) {
+                                                    return SizedBox(
+                                                        height: 45,
+                                                        width:
+                                                            (size.width - 10) /
+                                                                2,
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        50.0),
+                                                          ),
+                                                          child: ListTile(
+                                                            visualDensity:
+                                                                VisualDensity(
+                                                                    horizontal:
+                                                                        -3,
+                                                                    vertical:
+                                                                        -4),
+                                                            leading: Container(
+                                                              height: double
+                                                                  .infinity,
+                                                              child: Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          0.0),
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .smartphone,
+                                                                      size:
+                                                                          19.0,
+                                                                      color:
+                                                                          textColor)),
+                                                            ),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30.0)),
+                                                            tileColor:
+                                                                listElementColor,
+                                                            title: Text(
+                                                                _myList[index],
+                                                                style: GoogleFonts.poppins(
+                                                                    textStyle: TextStyle(
+                                                                        color:
+                                                                            textColor,
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.normal))),
+                                                            //subtitle: Text('${person.age}'),
+                                                          ),
+                                                        ));
+                                                  },
+                                                  childCount: _myList.length,
+                                                ))
+                                              ],
+                                            ))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 10, bottom: 7),
+                                  child: Text(
+                                    'Consumi',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                            color: textColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                )),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 5, right: 5, bottom: 5),
+                              width: (size.width - 40),
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        cardsColor2,
+                                        cardsColor1,
+                                      ]),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: shadowCard.withOpacity(0.01),
+                                      spreadRadius: 10,
+                                      blurRadius: 3,
+                                      // changes position of shadow
+                                    ),
+                                  ]),
+                              child: Column(
+                                //mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                          height: 140,
+                                          width: (size.width - 40),
+                                          child: SfCircularChart(
+                                              legend: Legend(
+                                                  toggleSeriesVisibility: false,
+                                                  isVisible: true,
+                                                  textStyle: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          color: textColor,
+                                                          fontSize: 13,
+                                                          fontWeight: FontWeight
+                                                              .normal))),
+                                              series: <CircularSeries>[
+                                                // Renders doughnut chart
+                                                DoughnutSeries<ChartData,
+                                                        String>(
+                                                    dataSource: chartData,
+                                                    pointColorMapper:
+                                                        (ChartData data, _) =>
+                                                            data.color,
+                                                    xValueMapper:
+                                                        (ChartData data, _) =>
+                                                            data.x,
+                                                    yValueMapper:
+                                                        (ChartData data, _) =>
+                                                            data.y,
+                                                    dataLabelSettings:
+                                                        DataLabelSettings(
+                                                      isVisible: true,
+                                                      textStyle: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
+                                                              color: textColor,
+                                                              fontSize: 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal)),
+                                                      // Positioning the data label
+                                                      labelPosition:
+                                                          ChartDataLabelPosition
+                                                              .outside,
+                                                    ))
+                                              ]))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: 250,
+                              height: 50,
+                              margin: EdgeInsets.symmetric(vertical: 1),
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(buttonColor),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                            side: BorderSide(
+                                                color: buttonColor)))),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailsConnettivita()),
+                                  );
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 5,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Impostazioni connettività',
+                                          style: GoogleFonts.poppins(
                                               textStyle: TextStyle(
                                                   color: textColor,
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                      FontWeight.normal)),
-                                          // Positioning the data label
-                                          labelPosition:
-                                              ChartDataLabelPosition.outside,
-                                        ))
-                                  ]))
-                        ],
-                      )
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ]),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 250,
-                  height: 50,
-                  margin: EdgeInsets.symmetric(vertical: 1),
-                  child: TextButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    side: BorderSide(color: buttonColor)))),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailsConnettivita()),
-                      );
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 5,
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Impostazioni connettività',
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: textColor,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ]),
-            ],
-          ),
-        )); } else {
-          return Center( child: Text(
-                              "${snap.error}",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: textColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))));
-        }}));
+                ));
+              } else {
+                return Center(
+                    child: Text("${snap.error}",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold))));
+              }
+            }));
   }
 }
 

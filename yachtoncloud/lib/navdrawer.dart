@@ -177,7 +177,7 @@ class navdrawerTest extends StatelessWidget {
         break;
       case 3:
         navigateTo(
-            SetAlertPage()); //Rimandare l'utente al menu box per cambiarla
+            PaginaIniziale()); //Rimandare l'utente al menu box per cambiarla
         break;
       case 4:
         //navigateTo(AssociaBox(creaGrid: 1));
