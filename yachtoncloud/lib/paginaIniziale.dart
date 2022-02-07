@@ -95,6 +95,12 @@ class _AssociaBoxState extends State<AssociaBox> {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         boxesList = querySnapshot.data()!['boxes'];
         print("query ${querySnapshot.data()}");
+        if(boxesList.length != 0) {
+            createGrid = 1;
+        } else {
+           createGrid = 0;
+        }
+        debugPrint(createGrid);
       }
     });
     return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
@@ -227,7 +233,7 @@ class _AssociaBoxState extends State<AssociaBox> {
               return Center(
                 child: CircularProgressIndicator(color: appBarColor1),
               );
-            } else if (snap.hasData) {
+            } else if (snap.hasData && boxesList.length != 0) {
               debugPrint("Non devo più aspettare ${boxesList.length}");
               return GridView.builder(
                   itemCount: boxesList.length,
@@ -275,12 +281,66 @@ class _AssociaBoxState extends State<AssociaBox> {
                   });
             }
             return Center(
-                child: Text("Non so perchè: ${snap.error}",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))));
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                elevation: 60,
+                                child: InkWell(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/qr-code.png",
+                                        width: 200,
+                                        height: 150,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Associa box",
+                                        style: cardTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () async {
+                                    // mark the function as async
+                                    print('tap');
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ScanPage()),
+                                    );
+                                    // Show PopUp
+                                    await Dialogs.materialDialog(
+                                        color: Colors.white,
+                                        msg: 'Associazione box riuscita!',
+                                        title: 'Associazione',
+                                        lottieBuilder: Lottie.asset(
+                                          'assets/success.json',
+                                          fit: BoxFit.contain,
+                                        ),
+                                        context: context,
+                                        actions: [
+                                          IconsButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: 'Ok',
+                                            iconData: Icons.done,
+                                            color: Colors.blue,
+                                            textStyle: TextStyle(color: Colors.white),
+                                            iconColor: Colors.white,
+                                          ),
+                                        ],
+                                      );
+                                    bb();
+                                  },
+                                ),
+                              ),
+                            );
           });
     }
 
@@ -340,116 +400,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                      createGrid ==
-                              1 //sostituire con createGrid perché cosi esce sempre la dashboard
-                          ? Expanded(child: _checkGrid())
-                          : Center(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 60,
-                                child: InkWell(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/qr-code.png",
-                                        width: 200,
-                                        height: 150,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Associa box",
-                                        style: cardTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                  /*onTap: ()async {
-                                  showDialog(context: context, builder: builder)
-                                  bb();
-                                },*/
-                                  onTap: () async {
-                                    // mark the function as async
-                                    print('tap');
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ScanPage()),
-                                    );
-                                    // Show PopUp
-                                    await Dialogs.materialDialog(
-                                        color: Colors.white,
-                                        msg: 'Associazione box riuscita!',
-                                        title: 'Associazione',
-                                        lottieBuilder: Lottie.asset(
-                                          'assets/success.json',
-                                          fit: BoxFit.contain,
-                                        ),
-                                        context: context,
-                                        actions: [
-                                          IconsButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            text: 'Ok',
-                                            iconData: Icons.done,
-                                            color: Colors.blue,
-                                            textStyle: TextStyle(color: Colors.white),
-                                            iconColor: Colors.white,
-                                          ),
-                                        ],
-                                      );
-                                    // await the dialog
-                                    /*await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Container(
-                                              height: 18,
-                                              width: 50,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                      child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        "Associazione box riuscita ${widget.creaGrid}",
-                                                        style: cardTextStyle),
-                                                  )),
-                                                ],
-                                              )),
-                                          actions: [
-                                            /* Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [*/
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
-                                                "assets/check.png",
-                                                width: 80,
-                                                height: 80,
-                                              ),
-                                            ),
-                                            //   ],
-                                            //   ),
-                                          ],
-                                        );
-                                      },
-                                      // Doesn't run
-                                    );*/
-
-                                    bb();
-                                  },
-                                ),
-                              ),
-                            ),
+                      Expanded(child: _checkGrid())
                     ],
                   ),
                 ),

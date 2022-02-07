@@ -174,7 +174,7 @@ class _ScanPageState extends State<ScanPage> {
         result = scanData.code ?? '';
         ;
       });
-      debugPrint("QUESTO FUNZIONA " + result);
+      //debugPrint("QUESTO FUNZIONA " + result);
       await addBox(jsonDecode(result));
       Navigator.pop(context);
     });
