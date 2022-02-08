@@ -32,12 +32,26 @@ Workmanager wm = Workmanager();
 Widget homepage = WelcomePage();
 
 void callbackDispatcher() {
+  
 // this method will be called every hour
 
   wm.executeTask((task, inputdata) async {
+            WidgetsFlutterBinding.ensureInitialized();
+        await Firebase.initializeApp();
+    print('Execute task');
+    print('TASK: '+ task);
     switch (task) {
       case myTask:
-        print("this method was called from native!");
+        print('TASK 1');
+        WidgetsFlutterBinding.ensureInitialized();
+        await Firebase.initializeApp();
+        String uidUser = inputdata!['string'];
+        print('UID NEL TASK: '+ uidUser);
+       var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
+       print('SNAP: '+snap.toString());
+        var currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+        print('%%%%%%%%%%%%%%%%%%%%'+currentPos.toString());
 
         break;
 
@@ -46,8 +60,14 @@ void callbackDispatcher() {
         break;
 
       case task2:
-        String uidUser = inputdata!['uid'];
-        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
+        WidgetsFlutterBinding.ensureInitialized();
+        await Firebase.initializeApp();
+        print('CASO 2');
+        print(inputdata);
+        String uidUser = inputdata!['string'];
+        print('UID NEL TASK: '+ uidUser);
+       var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
+       print('SNAP: '+snap.toString());
         var currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
                       snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
         print('%%%%%%%%%%%%%%%%%%%%'+currentPos.toString());
@@ -74,33 +94,22 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
-  //Firebase messaging
-
   wm.initialize(callbackDispatcher);
 
-  await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString("uid");
+  print("######### prima dell'if"+uid.toString());
   if(uid!= null){
     print('############'+uid);
-    wm.registerOneOffTask("1", task2, initialDelay: Duration(seconds: 1),inputData: {'string':uid.toString()});
+    wm.registerOneOffTask("1", myTask, initialDelay: Duration(seconds: 1),inputData: {'string':uid.toString()});
+    //wm.registerPeriodicTask("2",task2,inputData: {'string':uid.toString()},);
     homepage = new PaginaIniziale();
   }
 
   
 
   
-  wm.registerPeriodicTask(
-      "2",
-      // use the same task name used in callbackDispatcher function for identifying the task
-      // Each task must have a unique name if you want to add multiple tasks;
-      myTask,
-      // When no frequency is provided the default 15 minutes is set.
-      // Minimum frequency is 15 min. 
-      // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
-       // change duration according to your needs
-  );
+  
 
 
   runApp(MyApp());

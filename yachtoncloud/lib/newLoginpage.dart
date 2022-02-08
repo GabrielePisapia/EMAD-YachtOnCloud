@@ -23,7 +23,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>{
   
   
-
+static Future <void> setUpPreferences(String uid) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('uid', uid);
+}
 
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
@@ -36,6 +39,9 @@ class _LoginPageState extends State<LoginPage>{
           .signInWithEmailAndPassword(email: email, password: pass);
       esito = "Ok";
      
+     var user = FirebaseAuth.instance.currentUser;
+     print("USER UID: "+user!.uid.toString());
+     setUpPreferences(user!.uid);
       print("TRY RIUSCITO, VALORE DI ESITO: " + esito);
       return esito;
     } on FirebaseAuthException catch (e) {
