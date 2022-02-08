@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +10,7 @@ import 'package:yachtoncloud/PushNotification.dart';
 import 'package:yachtoncloud/backupPaginaIniziale.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/newSignup.dart';
@@ -44,9 +46,13 @@ void callbackDispatcher() {
         break;
 
       case task2:
-        if (100 < 101) {
-          print('yes it is');
-        }
+        String uidUser = inputdata!['uid'];
+        var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
+        var currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
+                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+        print('%%%%%%%%%%%%%%%%%%%%'+currentPos.toString());
+        
+        break;
     }
 
     //Return true when the task executed successfully or not
@@ -55,6 +61,7 @@ void callbackDispatcher() {
 }
 
 Future<void> main() async {
+
   
   print('qua eseguo main');
   DateTime now = DateTime.now();
@@ -73,10 +80,17 @@ Future<void> main() async {
   wm.initialize(callbackDispatcher);
 
   await Firebase.initializeApp();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uid = prefs.getString("uid");
+  if(uid!= null){
+    print('############'+uid);
+    wm.registerOneOffTask("1", task2, initialDelay: Duration(seconds: 1),inputData: {'string':uid.toString()});
+    homepage = new PaginaIniziale();
+  }
 
-  wm.registerOneOffTask("1", task2, initialDelay: Duration(seconds: 10));
+  
 
-  /*
+  
   wm.registerPeriodicTask(
       "2",
       // use the same task name used in callbackDispatcher function for identifying the task
@@ -86,13 +100,9 @@ Future<void> main() async {
       // Minimum frequency is 15 min. 
       // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
        // change duration according to your needs
-  );*/
+  );
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uid = prefs.getString("uid");
-  if(uid!= null){
-    homepage = new SignUpPage();
-  }
+
   runApp(MyApp());
 }
 

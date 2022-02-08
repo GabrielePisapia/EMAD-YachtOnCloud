@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'Widget/bezierContainer.dart';
 import 'Widget/customClipper.dart';
@@ -16,7 +17,7 @@ class SignUpPage extends StatefulWidget {
   String? error2;
 
   @override
-  _SignUpPageState createState() => _SignUpPageState(error2!);
+  _SignUpPageState createState() => _SignUpPageState('');
 }
 
 class _SignUpPageState extends State<SignUpPage> {
@@ -60,6 +61,11 @@ class _SignUpPageState extends State<SignUpPage> {
     return "Ok";
   }
 
+static Future <void> setUpPreferences(String uid) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('uid', uid);
+}
+
   Future<String> SignUp(
     String email,
     String pass,
@@ -76,6 +82,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .createUserWithEmailAndPassword(email: email, password: pass);
         var firebaseUser = FirebaseAuth.instance.currentUser;
         UserSetup(uid: firebaseUser!.uid).updateUserData(nome, cognome);
+        setUpPreferences(firebaseUser.uid);
         print(firebaseUser.uid + " " + nome + " " + cognome);
         esito = "Ok";
         print("TRY RIUSCITO, VALORE DI ESITO: " + esito);

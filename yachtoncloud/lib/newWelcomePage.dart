@@ -5,6 +5,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/facebook_sign_in.dart';
 import 'package:yachtoncloud/main.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
@@ -204,6 +205,7 @@ class _WelcomePageState extends State<WelcomePage> {
             );
             final facebookAuthCredential =
                 FacebookAuthProvider.credential(result.accessToken!.token);
+                
             await FirebaseAuth.instance
                 .signInWithCredential(facebookAuthCredential);
             String nome_cognome = requestdata["name"];
