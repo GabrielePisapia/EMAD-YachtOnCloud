@@ -71,7 +71,7 @@ class _AssociaBoxState extends State<AssociaBox> {
   // ignore: unused_field
   var createGrid;
   bool res = true;
-  
+
   void bb() {
     print('Clicked Clicked');
 
@@ -82,6 +82,12 @@ class _AssociaBoxState extends State<AssociaBox> {
     });
   }
   //TODO: Creare dashboard copiando associabox afammok a mammt
+
+  @override
+  initState() {
+    createGrid = 0;
+    super.initState();
+  }
 
   List boxesList = [];
   Future<DocumentSnapshot<Map<String, dynamic>>> getBoxes() async {
@@ -96,10 +102,10 @@ class _AssociaBoxState extends State<AssociaBox> {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         boxesList = querySnapshot.data()!['boxes'];
         print("query ${querySnapshot.data()}");
-        if(boxesList.length != 0) {
-            createGrid = 1;
+        if (boxesList.length != 0) {
+          createGrid = 1;
         } else {
-           createGrid = 0;
+          createGrid = 0;
         }
         debugPrint(createGrid);
       }
@@ -235,117 +241,121 @@ class _AssociaBoxState extends State<AssociaBox> {
                 child: CircularProgressIndicator(color: appBarColor1),
               );
             } else if (snap.hasData && boxesList.length != 0) {
-              debugPrint("Non devo più aspettare ${boxesList.length}");
-              return Expanded(child: GridView.builder(
-                  itemCount: boxesList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        //videolist[index]["thumb_url"] nel caso di dati da db
-                                        boxesList[index]['box']['img']),
-                                    fit: BoxFit.cover,
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              boxesList[index]['box']['nome'].toString(),
-                              style: cardTextStyle,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Dashboard()));
-                      },
-                    );
-                  }));
-            }
-            return Center(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 60,
-                                child: InkWell(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/qr-code.png",
-                                        width: 200,
-                                        height: 150,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Associa box",
-                                        style: cardTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () async {
-                                    // mark the function as async
-                                    print('tap');
-                                    final value = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ScanPage()),
-                                    );
-                                    setState() {
-                                      res = value;
-                                    }
-                                    debugPrint("TRMOOOOOOON " + res.toString());
-                                    // Show PopUp
-                                    await Dialogs.materialDialog(
-                                        color: Colors.white,
-                                        msg: res ? 'Associazione box riuscita!' : 'Associazione box fallita, riprova.',
-                                        title: 'Associazione',
-                                        lottieBuilder: Lottie.asset(
-                                          res ? 'assets/success.json' : 'assets/fail.json',
-                                          fit: BoxFit.contain,
-                                        ),
-                                        context: context,
-                                        actions: [
-                                          IconsButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            text: 'Ok',
-                                            iconData: res ? Icons.done : Icons.error,
-                                            color: Colors.blue,
-                                            textStyle: TextStyle(color: Colors.white),
-                                            iconColor: Colors.white,
-                                          ),
-                                        ],
-                                      );
-                                    bb();
-                                  },
+              debugPrint(
+                  "Non devo più aspettare lunghezza ${boxesList.length}");
+              return Expanded(
+                  child: GridView.builder(
+                      itemCount: boxesList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            elevation: 10,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            //videolist[index]["thumb_url"] nel caso di dati da db
+                                            boxesList[index]['box']['img']),
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
-                              ),
-                            );
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  boxesList[index]['box']['nome'].toString(),
+                                  style: cardTextStyle,
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Dashboard()));
+                          },
+                        );
+                      }));
+            }
+            debugPrint("sono fuori");
+            return Center(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 60,
+                child: InkWell(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/qr-code.png",
+                        width: 200,
+                        height: 150,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Associa box",
+                        style: cardTextStyle,
+                      ),
+                    ],
+                  ),
+                  onTap: () async {
+                    // mark the function as async
+                    print('tap');
+                    final value = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ScanPage()),
+                    );
+                    setState() {
+                      res = value;
+                    }
+
+                    debugPrint("TRMOOOOOOON " + res.toString());
+                    // Show PopUp
+                    await Dialogs.materialDialog(
+                      color: Colors.white,
+                      msg: res
+                          ? 'Associazione box riuscita!'
+                          : 'Associazione box fallita, riprova.',
+                      title: 'Associazione',
+                      lottieBuilder: Lottie.asset(
+                        res ? 'assets/success.json' : 'assets/fail.json',
+                        fit: BoxFit.contain,
+                      ),
+                      context: context,
+                      actions: [
+                        IconsButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          text: 'Ok',
+                          iconData: res ? Icons.done : Icons.error,
+                          color: Colors.blue,
+                          textStyle: TextStyle(color: Colors.white),
+                          iconColor: Colors.white,
+                        ),
+                      ],
+                    );
+                    bb();
+                  },
+                ),
+              ),
+            );
           });
     }
 
@@ -405,7 +415,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ],
                         ),
                       ),
-                     _checkGrid()
+                      _checkGrid()
                     ],
                   ),
                 ),

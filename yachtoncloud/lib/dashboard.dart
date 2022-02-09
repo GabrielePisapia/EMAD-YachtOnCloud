@@ -43,13 +43,13 @@ class Dashboard extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const AssociaBox(creaGrid: 1),
+          home: const DashboardBox(creaGrid: 1),
         ),
       );
 }
 
-class AssociaBox extends StatefulWidget {
-  const AssociaBox({Key? key, required this.creaGrid}) : super(key: key);
+class DashboardBox extends StatefulWidget {
+  const DashboardBox({Key? key, required this.creaGrid}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -63,10 +63,10 @@ class AssociaBox extends StatefulWidget {
   final int creaGrid;
 
   @override
-  State<AssociaBox> createState() => _AssociaBoxState();
+  State<DashboardBox> createState() => _DashboardBoxState();
 }
 
-class _AssociaBoxState extends State<AssociaBox> {
+class _DashboardBoxState extends State<DashboardBox> {
   // ignore: unused_field
   var createGrid;
 
@@ -131,26 +131,30 @@ class _AssociaBoxState extends State<AssociaBox> {
     ];
 
     getWidget(bool res) {
-      if(res) {
+      if (res) {
         return <Widget>[
-                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown),
-                  Text('Associazione box riuscita!',
-                  style:  GoogleFonts.poppins(textStyle: TextStyle(
-                                         color: textColor,
-                                         fontSize: 17,
-                                          fontWeight: FontWeight.normal))),
+          Lottie.asset('assets/success.json', fit: BoxFit.scaleDown),
+          Text('Associazione box riuscita!',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal))),
         ];
       } else {
         return <Widget>[
-                  Container(width: 200, height: 150, child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-                  Text('Associazione box fallita, riprova.',
-                  style:  GoogleFonts.poppins(textStyle: TextStyle(
-                                         color: textColor,
-                                         fontSize: 17,
-                                          fontWeight: FontWeight.normal))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+          Text('Associazione box fallita, riprova.',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal))),
         ];
       }
-
     }
 
     Future<void> _showMyDialog(bool res) async {
@@ -159,58 +163,57 @@ class _AssociaBoxState extends State<AssociaBox> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-             shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             backgroundColor: cardsColor1,
             title: Text('Associazione',
-            style:  GoogleFonts.poppins(textStyle: TextStyle(
-                                         color: textColor,
-                                         fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
             content: SingleChildScrollView(
-              child: ListBody(
-                children: getWidget(res),
+                child: ListBody(
+              children: getWidget(res),
             )),
             actions: <Widget>[
-              Center( child: Container(
-                              width: 200,
-                              height: 50,
-                              margin: EdgeInsets.symmetric(vertical: 1),
-                              child: TextButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(buttonColor),
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                            side: BorderSide(
-                                                color: buttonColor)))),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Expanded(
-                                      flex: 5,
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Ok',
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  color: textColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.normal)),
-                                        ),
-                                      ),
-                                    ),
-                              ),
-                            )),
+              Center(
+                  child: Container(
+                width: 200,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Ok',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      ),
+                    ),
+                  ),
+                ),
+              )),
             ],
           );
         },
       );
     }
+
     _gridView() {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           future: getBoxes(),

@@ -7,7 +7,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/PushNotification.dart';
-import 'package:yachtoncloud/backupPaginaIniziale.dart';
+
+import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/google_sign_in.dart';
 import 'package:latlong2/latlong.dart';
@@ -15,6 +16,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/newSignup.dart';
 import 'package:yachtoncloud/newWelcomePage.dart';
+import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -32,26 +34,29 @@ Workmanager wm = Workmanager();
 Widget homepage = WelcomePage();
 
 void callbackDispatcher() {
-  
 // this method will be called every hour
 
   wm.executeTask((task, inputdata) async {
-            WidgetsFlutterBinding.ensureInitialized();
-        await Firebase.initializeApp();
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
     print('Execute task');
-    print('TASK: '+ task);
+    print('TASK: ' + task);
     switch (task) {
       case myTask:
         print('TASK 1');
         WidgetsFlutterBinding.ensureInitialized();
         await Firebase.initializeApp();
         String uidUser = inputdata!['string'];
-        print('UID NEL TASK: '+ uidUser);
-       var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
-       print('SNAP: '+snap.toString());
-        var currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
-                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
-        print('%%%%%%%%%%%%%%%%%%%%'+currentPos.toString());
+        print('UID NEL TASK: ' + uidUser);
+        var snap = await FirebaseFirestore.instance
+            .collection('Utenti')
+            .doc(uidUser)
+            .get();
+        print('SNAP: ' + snap.toString());
+        var currentPos = LatLng(
+            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
+            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+        print('%%%%%%%%%%%%%%%%%%%%' + currentPos.toString());
 
         break;
 
@@ -65,13 +70,17 @@ void callbackDispatcher() {
         print('CASO 2');
         print(inputdata);
         String uidUser = inputdata!['string'];
-        print('UID NEL TASK: '+ uidUser);
-       var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uidUser).get();
-       print('SNAP: '+snap.toString());
-        var currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
-                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
-        print('%%%%%%%%%%%%%%%%%%%%'+currentPos.toString());
-        
+        print('UID NEL TASK: ' + uidUser);
+        var snap = await FirebaseFirestore.instance
+            .collection('Utenti')
+            .doc(uidUser)
+            .get();
+        print('SNAP: ' + snap.toString());
+        var currentPos = LatLng(
+            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
+            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+        print('%%%%%%%%%%%%%%%%%%%%' + currentPos.toString());
+
         break;
     }
 
@@ -81,8 +90,6 @@ void callbackDispatcher() {
 }
 
 Future<void> main() async {
-
-  
   print('qua eseguo main');
   DateTime now = DateTime.now();
   print(now.hour.toString() +
@@ -98,30 +105,23 @@ Future<void> main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString("uid");
-  print("######### prima dell'if"+uid.toString());
-  if(uid!= null){
-    print('############'+uid);
-    wm.registerOneOffTask("1", myTask, initialDelay: Duration(seconds: 1),inputData: {'string':uid.toString()});
+  print("######### prima dell'if" + uid.toString());
+  if (uid != null) {
+    print('############' + uid);
+    wm.registerOneOffTask("1", myTask,
+        initialDelay: Duration(seconds: 1),
+        inputData: {'string': uid.toString()});
     //wm.registerPeriodicTask("2",task2,inputData: {'string':uid.toString()},);
-    homepage = new PaginaIniziale();
+    homepage = AssociaBox(creaGrid: 0);
+    print("Homepage  ${homepage}");
   }
-
-  
-
-  
-  
-
 
   runApp(MyApp());
 }
 
-
-
-
 class MyApp extends StatelessWidget {
-   MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
   final storage = new FlutterSecureStorage();
-  
 
   // This widget is the root of your application.
   /*
