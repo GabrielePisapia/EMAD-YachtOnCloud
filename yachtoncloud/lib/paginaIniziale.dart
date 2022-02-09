@@ -241,8 +241,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                 child: CircularProgressIndicator(color: appBarColor1),
               );
             } else if (snap.hasData && boxesList.length != 0) {
-              debugPrint(
-                  "Non devo più aspettare lunghezza ${boxesList.length}");
+              debugPrint("Non devo più aspettare lunghezza ${boxesList}");
               return Expanded(
                   child: GridView.builder(
                       itemCount: boxesList.length,
@@ -281,10 +280,12 @@ class _AssociaBoxState extends State<AssociaBox> {
                             ),
                           ),
                           onTap: () {
+                            debugPrint("Indice${index}");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Dashboard()));
+                                    builder: (context) =>
+                                        DashboardBox(indice: index)));
                           },
                         );
                       }));

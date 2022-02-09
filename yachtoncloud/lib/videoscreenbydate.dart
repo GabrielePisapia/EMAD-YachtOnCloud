@@ -68,7 +68,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     //await FirebaseFirestore.instance.collection('Utenti').doc(uid).collection('storico').doc('04-02-2022').get();
     //DocumentReference docRef = FirebaseFirestore.instance.doc(string);
     videoList = snap.data()!['videos'];
-    debugPrint("mammt ${snap.data()!['videos'].toString()}");
+    debugPrint("mammt si ${snap.data()!['videos'].toString()}");
 
     return await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
   }
@@ -457,7 +457,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
               child: CircularProgressIndicator(color: appBarColor1),
             );
           } else if (snap.hasData) {
-            debugPrint("Non devo più aspettare");
+            debugPrint("Non devo più aspettare video ${videoList.length}");
             return ListView.builder(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
@@ -477,6 +477,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   );
                 });
           }
+
           return Center(
               child: Text("Non ci sono video per questa data",
                   style: GoogleFonts.poppins(

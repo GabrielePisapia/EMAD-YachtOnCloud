@@ -43,13 +43,13 @@ class Dashboard extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const DashboardBox(creaGrid: 1),
+          home: const DashboardBox(indice: 0),
         ),
       );
 }
 
 class DashboardBox extends StatefulWidget {
-  const DashboardBox({Key? key, required this.creaGrid}) : super(key: key);
+  const DashboardBox({Key? key, required this.indice}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -60,7 +60,7 @@ class DashboardBox extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final int creaGrid;
+  final int indice;
 
   @override
   State<DashboardBox> createState() => _DashboardBoxState();
@@ -68,15 +68,14 @@ class DashboardBox extends StatefulWidget {
 
 class _DashboardBoxState extends State<DashboardBox> {
   // ignore: unused_field
-  var createGrid;
+  var indic;
 
   void bb() {
     print('Clicked Clicked');
-
+    indic = widget.indice;
     setState(() {
-      createGrid = widget.creaGrid;
       print("siu");
-      print(createGrid);
+      print(indic);
     });
   }
   //TODO: Creare dashboard copiando associabox afammok a mammt
@@ -92,7 +91,9 @@ class _DashboardBoxState extends State<DashboardBox> {
         .then((querySnapshot) {
       if (querySnapshot.data()!.containsKey("boxes")) {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
-        boxesList = querySnapshot.data()!['boxes'];
+        debugPrint(
+            "Indice dash ${querySnapshot.data()!['boxes'][widget.indice]}");
+        boxesList = querySnapshot.data()!['boxes'][widget.indice];
         print("query ${querySnapshot.data()}");
       }
     });
