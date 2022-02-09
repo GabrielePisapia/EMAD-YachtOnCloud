@@ -130,6 +130,87 @@ class _AssociaBoxState extends State<AssociaBox> {
       "qr-code.png"
     ];
 
+    getWidget(bool res) {
+      if(res) {
+        return <Widget>[
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown),
+                  Text('Associazione box riuscita!',
+                  style:  GoogleFonts.poppins(textStyle: TextStyle(
+                                         color: textColor,
+                                         fontSize: 17,
+                                          fontWeight: FontWeight.normal))),
+        ];
+      } else {
+        return <Widget>[
+                  Container(width: 200, height: 150, child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+                  Text('Associazione box fallita, riprova.',
+                  style:  GoogleFonts.poppins(textStyle: TextStyle(
+                                         color: textColor,
+                                         fontSize: 17,
+                                          fontWeight: FontWeight.normal))),
+        ];
+      }
+
+    }
+
+    Future<void> _showMyDialog(bool res) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+             shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+            backgroundColor: cardsColor1,
+            title: Text('Associazione',
+            style:  GoogleFonts.poppins(textStyle: TextStyle(
+                                         color: textColor,
+                                         fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: getWidget(res),
+            )),
+            actions: <Widget>[
+              Center( child: Container(
+                              width: 200,
+                              height: 50,
+                              margin: EdgeInsets.symmetric(vertical: 1),
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(buttonColor),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                            side: BorderSide(
+                                                color: buttonColor)))),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Expanded(
+                                      flex: 5,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Ok',
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  color: textColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.normal)),
+                                        ),
+                                      ),
+                                    ),
+                              ),
+                            )),
+            ],
+          );
+        },
+      );
+    }
     _gridView() {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           future: getBoxes(),
@@ -210,7 +291,8 @@ class _AssociaBoxState extends State<AssociaBox> {
                             });
                             debugPrint("TRMOOOOOOON " + res.toString());
                             // Show PopUp
-                            await Dialogs.materialDialog(
+                            await _showMyDialog(res);
+                            /*await Dialogs.materialDialog(
                               color: Colors.white,
                               msg: res
                                   ? 'Associazione box riuscita!'
@@ -235,7 +317,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   iconColor: Colors.white,
                                 ),
                               ],
-                            );
+                            );*/
                             bb();
                             break;
                         }
