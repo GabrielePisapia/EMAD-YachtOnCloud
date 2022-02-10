@@ -473,9 +473,13 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                           esito = val;
                           print(esito);
                           if (esito == "Ok") {
-                            debugPrint(esito);
+                            var res = true;
+                            debugPrint(esito + " " + res.toString());
+                            Navigator.pop(context, res);
                           } else {
-                            debugPrint(esito);
+                            var res = false;
+                            debugPrint(esito + " " + res.toString());
+                            Navigator.pop(context, res);
                           }
                         });
                       },

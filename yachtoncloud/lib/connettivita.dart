@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
       debugPrint(box.toString());
       final router = box['router'];
 
-      if (reteController != "") {
+      if (reteController.text != "") {
         router['nomeRete'] = reteController.text;
       }
       router['attivo'] = statusRete;
@@ -358,9 +359,13 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                 esito = val;
                                 print(esito);
                                 if (esito == "Ok") {
-                                  debugPrint(esito);
+                                  var res = true;
+                                  debugPrint(esito + " " + res.toString());
+                                  Navigator.pop(context, res);
                                 } else {
-                                  debugPrint(esito);
+                                  var res = false;
+                                  debugPrint(esito + " " + res.toString());
+                                  Navigator.pop(context, res);
                                 }
                               });
                             },
@@ -408,6 +413,7 @@ class _ConnettivitaState extends State<Connettivita> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var res = true;
     var nomeRete = "";
     var nomePromozione = "";
     var provider = "";
@@ -468,6 +474,151 @@ class _ConnettivitaState extends State<Connettivita> {
     }
 
     var size = MediaQuery.of(context).size;
+
+    getWidget(bool res) {
+      if (res) {
+        return <Widget>[
+          Padding( 
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+          child:Text('Dati connettività',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding( 
+            padding: EdgeInsets.all(20),
+            child: Text('Modifiche avvenute con successo!',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal)))),
+                      Center(
+                  child: Container(
+                width: 200,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Ok',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ];
+      } else {
+        return <Widget>[
+           Padding( 
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+          child: Text('Dati connettività',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+          Padding( 
+            padding: EdgeInsets.all(20),
+            child: Text('Modifiche fallite, riprova.',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal)))),
+                      Center(
+                  child: Container(
+                width: 200,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Ok',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ];
+      }
+    }
+
+    Future<void> _showMyDialog(bool res) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            content: Container(
+        padding: const EdgeInsets.all(12.0),
+        decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [dialogColor1, dialogColor2],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
+                      borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: shadowCard.withOpacity(0.01),
+                                    spreadRadius: 5,
+                                    blurRadius: 3,
+                                  ),
+                                ]),
+              child: SingleChildScrollView(
+                child: ListBody(
+                children: getWidget(res),
+              )),
+            ),
+            contentPadding: EdgeInsets.all(0.0),
+          );
+        },
+      );
+    }
 
     return Template(
         appBarTitle: "Yacht on Cloud",
@@ -906,13 +1057,18 @@ class _ConnettivitaState extends State<Connettivita> {
                                                 BorderRadius.circular(30.0),
                                             side: BorderSide(
                                                 color: buttonColor)))),
-                                onPressed: () {
-                                  Navigator.push(
+                                onPressed: () async {
+                                  var value = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DetailsConnettivita()),
                                   );
+                                  setState(() {
+                                    res = value;
+                                  });
+                                  debugPrint("HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                                  await _showMyDialog(res);
                                 },
                                 child: Row(
                                   children: <Widget>[

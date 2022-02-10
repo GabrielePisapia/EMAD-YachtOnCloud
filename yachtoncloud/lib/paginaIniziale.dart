@@ -143,6 +143,151 @@ class _AssociaBoxState extends State<AssociaBox> {
       "qr-code.png"
     ];
 
+    getWidget(bool res) {
+      if (res) {
+        return <Widget>[
+          Padding( 
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+          child:Text('Associazione',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding( 
+            padding: EdgeInsets.all(20),
+            child: Text('Associazione box riuscita!',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal)))),
+                      Center(
+                  child: Container(
+                width: 200,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Ok',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ];
+      } else {
+        return <Widget>[
+           Padding( 
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+          child: Text('Associazione',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+          Padding( 
+            padding: EdgeInsets.all(20),
+            child: Text('Associazione box fallita, riprova.',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.normal)))),
+                      Center(
+                  child: Container(
+                width: 200,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Ok',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                      ),
+                    ),
+                  ),
+                ),
+              ))
+        ];
+      }
+    }
+
+    Future<void> _showMyDialog(bool res) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            content: Container(
+        padding: const EdgeInsets.all(12.0),
+        decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [dialogColor1, dialogColor2],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
+                      borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: shadowCard.withOpacity(0.01),
+                                    spreadRadius: 5,
+                                    blurRadius: 3,
+                                  ),
+                                ]),
+              child: SingleChildScrollView(
+                child: ListBody(
+                children: getWidget(res),
+              )),
+            ),
+            contentPadding: EdgeInsets.all(0.0),
+          );
+        },
+      );
+    }
+
     _gridView() {
       return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           future: getBoxes(),
@@ -328,30 +473,7 @@ class _AssociaBoxState extends State<AssociaBox> {
 
                     debugPrint("TRMOOOOOOON " + res.toString());
                     // Show PopUp
-                    await Dialogs.materialDialog(
-                      color: Colors.white,
-                      msg: res
-                          ? 'Associazione box riuscita!'
-                          : 'Associazione box fallita, riprova.',
-                      title: 'Associazione',
-                      lottieBuilder: Lottie.asset(
-                        res ? 'assets/success.json' : 'assets/fail.json',
-                        fit: BoxFit.contain,
-                      ),
-                      context: context,
-                      actions: [
-                        IconsButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          text: 'Ok',
-                          iconData: res ? Icons.done : Icons.error,
-                          color: Colors.blue,
-                          textStyle: TextStyle(color: Colors.white),
-                          iconColor: Colors.white,
-                        ),
-                      ],
-                    );
+                    await _showMyDialog(res);
                     bb();
                   },
                 ),
