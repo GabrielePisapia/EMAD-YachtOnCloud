@@ -34,6 +34,70 @@ const myTask = "syncWithTheBackEnd";
 const task2 = "task";
 Workmanager wm = Workmanager();
 Widget homepage = WelcomePage();
+ const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true);
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('A Background message just showed up :  ${message.messageId}');
+}
+void callNotification() async{
+
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+
+ 
+
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+   await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription : channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_lancher',
+              ),
+            ));
+      }
+    });
+
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new messageopen app event was published');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+     
+    });
+        print('ok');
+
+  }
+
+  
 
 void callbackDispatcher() {
 // this method will be called every hour
@@ -66,11 +130,12 @@ void callbackDispatcher() {
         print('MIGLIA ALERT: '+ migliaAlert.toString());
         print('LATITUDINEYYY: ' + currentPos.latitude.toString()+' LONGITUDINE:  '+currentPos.longitude.toString());
         print('LATITUDINEXXXX: ' + lastPos.latitude.toString()+' LONGITUDINE:  '+lastPos.longitude.toString());
+
         
         var miglia_To_Km = migliaAlert * 1.852;
         // funzione di calcolo
-        currentPos.longitude =13.949012;
-        currentPos.latitude =40.752122;
+        currentPos.longitude =14.949012;
+        currentPos.latitude =41.752122;
         var p = 0.017453292519943295;
         var c = cos;
         var a = 0.5 - c((currentPos.latitude - lastPos.latitude) * p)/2 + 
@@ -78,13 +143,22 @@ void callbackDispatcher() {
           (1 - c((currentPos.longitude - lastPos.longitude) * p))/2;
         var result = 12742 * asin(sqrt(a));
         print('ATTESO 1138, RISULTATO: '+result.toString());
-
-        if(result >= miglia_To_Km){
-          print('Accort andò s stann futtenn a barc');
+        if (result>=migliaAlert){
+        callNotification();
+                flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing ",
+        "ANDOOOO A BARCCC",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                importance: Importance.high,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')));
         }else{
-          print('Tutt appost andò');
+          print('tuttok ok');
         }
-
         break;
 
       case Workmanager.iOSBackgroundTask:

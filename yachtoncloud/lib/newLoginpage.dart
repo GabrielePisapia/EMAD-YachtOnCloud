@@ -41,7 +41,7 @@ static Future <void> setUpPreferences(String uid) async{
      
      var user = FirebaseAuth.instance.currentUser;
      print("USER UID: "+user!.uid.toString());
-     setUpPreferences(user!.uid);
+     setUpPreferences(user.uid);
       print("TRY RIUSCITO, VALORE DI ESITO: " + esito);
       return esito;
     } on FirebaseAuthException catch (e) {
