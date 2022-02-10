@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -52,11 +54,36 @@ void callbackDispatcher() {
             .collection('Utenti')
             .doc(uidUser)
             .get();
-        print('SNAP: ' + snap.toString());
+        
+        var lastPos =LatLng(
+            snap.data()!['boxes'][0]['box']['gps']['positionAlert']['lat'],
+            snap.data()!['boxes'][0]['box']['gps']['positionAlert']['long']);
         var currentPos = LatLng(
             snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
-            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
-        print('%%%%%%%%%%%%%%%%%%%%' + currentPos.toString());
+            snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']); //positionAlert posizione precedente
+        var migliaAlert =snap.data()!['boxes'][0]['box']['gps']['migliaAlert'];
+            
+        print('MIGLIA ALERT: '+ migliaAlert.toString());
+        print('LATITUDINEYYY: ' + currentPos.latitude.toString()+' LONGITUDINE:  '+currentPos.longitude.toString());
+        print('LATITUDINEXXXX: ' + lastPos.latitude.toString()+' LONGITUDINE:  '+lastPos.longitude.toString());
+        
+        var miglia_To_Km = migliaAlert * 1.852;
+        // funzione di calcolo
+        currentPos.longitude =13.949012;
+        currentPos.latitude =40.752122;
+        var p = 0.017453292519943295;
+        var c = cos;
+        var a = 0.5 - c((currentPos.latitude - lastPos.latitude) * p)/2 + 
+          c(lastPos.latitude * p) * c(currentPos.latitude * p) * 
+          (1 - c((currentPos.longitude - lastPos.longitude) * p))/2;
+        var result = 12742 * asin(sqrt(a));
+        print('ATTESO 1138, RISULTATO: '+result.toString());
+
+        if(result >= miglia_To_Km){
+          print('Accort andò s stann futtenn a barc');
+        }else{
+          print('Tutt appost andò');
+        }
 
         break;
 
