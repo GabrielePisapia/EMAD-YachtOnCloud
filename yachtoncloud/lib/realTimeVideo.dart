@@ -134,7 +134,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
                                   textStyle: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))),
                         ),
