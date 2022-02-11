@@ -49,6 +49,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   }
 
   String dataSource = '';
+  List videoListTemp = [];
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -62,7 +63,16 @@ class RealTimeVideoState extends State<RealTimeVideo> {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         print(
             "mammt ${querySnapshot.data()!['boxes'][0]['box']['videocamere']}");
-        videoList = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
+        videoListTemp = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
+        //videoList = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
+
+        videoList = [
+          for (var e in videoListTemp)
+            if (e['attivo']) e
+        ];
+
+        print("LISTA NUOVA ${videoList}");
+
         print("query mammt ${querySnapshot.data()}");
       }
     });
@@ -150,11 +160,28 @@ class RealTimeVideoState extends State<RealTimeVideo> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          cardsColor1,
+                          cardsColor2,
+                        ]),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowCard.withOpacity(0.01),
+                        spreadRadius: 5,
+                        blurRadius: 3,
+                        // changes position of shadow
+                      ),
+                    ]),
+                /*decoration: BoxDecoration(
                   color: boxVideoColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(70),
                   ),
-                ),
+                ),*/
                 child: Column(
                   children: [
                     SizedBox(
@@ -169,7 +196,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                           "Videocamere",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)),
                         ),
@@ -178,7 +205,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                           children: [
                             InkWell(
                               child: Icon(Icons.settings,
-                                  size: 30, color: Colors.black),
+                                  size: 30, color: Colors.white),
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => StatusVideocamere()));
@@ -293,7 +320,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                   Text(videoList[index]['nomeCamera'].toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              color: textColorDashboard,
+                              color: textColor,
                               fontSize: 17,
                               fontWeight:
                                   FontWeight.bold))) //videoList[index]["title"]
@@ -304,7 +331,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                     child: Text(DateFormat('dd-MM-yyyy').format(date),
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Colors.grey,
+                                color: textColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.normal))),
                   ) //videoList[index]["time"]
@@ -442,7 +469,6 @@ class RealTimeVideoState extends State<RealTimeVideo> {
             );
           } else if (snap.hasData) {
             debugPrint("Non devo più aspettare ${videoList}");
-
             return ListView.builder(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 8),

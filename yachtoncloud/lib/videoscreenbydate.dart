@@ -118,7 +118,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                             height: 56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: fieldTextColor,
+                              color: Colors.white,
                               boxShadow: kElevationToShadow[6],
                             ),
                             child: Row(
@@ -194,12 +194,29 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   color: boxVideoColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(70),
                   ),
-                ),
+                ),*/
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          cardsColor1,
+                          cardsColor2,
+                        ]),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowCard.withOpacity(0.01),
+                        spreadRadius: 5,
+                        blurRadius: 3,
+                        // changes position of shadow
+                      ),
+                    ]),
                 child: Column(
                   children: [
                     SizedBox(
@@ -214,7 +231,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                           "Video più recenti",
                           style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)),
                         ),
@@ -223,7 +240,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                           children: [
                             InkWell(
                               child: Icon(Icons.settings,
-                                  size: 30, color: Colors.black),
+                                  size: 30, color: Colors.white),
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => StatusVideocamere()));
@@ -312,7 +329,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                   Text(videoList[index]['camera'].toString(),
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              color: textColorDashboard,
+                              color: textColor,
                               fontSize: 17,
                               fontWeight:
                                   FontWeight.bold))) //videoList[index]["title"]
@@ -323,7 +340,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                     child: Text(DateFormat('dd-MM-yyyy').format(date),
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Colors.grey,
+                                color: textColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.normal))),
                   ) //videoList[index]["time"]
@@ -482,7 +499,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
               child: Text("Non ci sono video per questa data",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: Colors.black,
+                          color: textColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold))));
         });

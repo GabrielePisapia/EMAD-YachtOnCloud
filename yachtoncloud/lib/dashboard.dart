@@ -21,9 +21,13 @@ import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:yachtoncloud/theme/colors.dart';
+
 import 'package:yachtoncloud/trackingpage.dart';
 import 'package:yachtoncloud/videoscreenbydate.dart';
 import 'package:yachtoncloud/vlc_screen.dart';
+
+import 'theme/colors.dart';
+import 'theme/colors.dart';
 
 void main() {
   runApp(const Dashboard());
@@ -134,111 +138,112 @@ class _DashboardBoxState extends State<DashboardBox> {
     getWidgetAssocia(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Associazione box',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Associazione box',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Associazione box riuscita!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Associazione box riuscita!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Associazione box',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Associazione box',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Associazione box fallita, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Associazione box fallita, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
@@ -246,223 +251,225 @@ class _DashboardBoxState extends State<DashboardBox> {
     getWidgetConn(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Dati connettività',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati connettività',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Modifiche avvenute con successo!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Modifiche avvenute con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Dati connettività',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati connettività',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Modifiche fallite, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Modifiche fallite, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
 
-     getWidgetAlert(bool res) {
+    getWidgetAlert(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Impostazione notifica',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazione notifica',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Notifica impostata con successo!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Notifica impostata con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Impostazione notifica',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazione notifica',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Impostazione della notifica fallita, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Impostazione della notifica fallita, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
@@ -470,122 +477,130 @@ class _DashboardBoxState extends State<DashboardBox> {
     getWidgetCamera(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Dati videocamere',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati videocamere',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('I dati delle videocamere sono stati modificati con successo!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                  'I dati delle videocamere sono stati modificati con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Dati videocamere',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati videocamere',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Modifica ai dati delle videocamere fallita, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                  'Modifica ai dati delle videocamere fallita, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
 
     List<Widget> getWidget(int c, bool res) {
-      switch(c) {
-        case 1: return getWidgetAssocia(res);
-        case 2: return getWidgetConn(res);
-        case 3: return getWidgetAlert(res);
-        case 4: return getWidgetCamera(res);
-        default: return [Center()];
+      switch (c) {
+        case 1:
+          return getWidgetAssocia(res);
+        case 2:
+          return getWidgetConn(res);
+        case 3:
+          return getWidgetAlert(res);
+        case 4:
+          return getWidgetCamera(res);
+        default:
+          return [Center()];
       }
     }
 
@@ -595,24 +610,25 @@ class _DashboardBoxState extends State<DashboardBox> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             content: Container(
-        padding: const EdgeInsets.all(12.0),
-        decoration: new BoxDecoration(
+              padding: const EdgeInsets.all(12.0),
+              decoration: new BoxDecoration(
                   gradient: new LinearGradient(
                       colors: [dialogColor1, dialogColor2],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter),
-                      borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: shadowCard.withOpacity(0.01),
-                                    spreadRadius: 5,
-                                    blurRadius: 3,
-                                  ),
-                                ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                    ),
+                  ]),
               child: SingleChildScrollView(
-                child: ListBody(
+                  child: ListBody(
                 children: getWidget(c, res),
               )),
             ),
@@ -672,7 +688,7 @@ class _DashboardBoxState extends State<DashboardBox> {
                             navigateTo(RealTimeVideo());
                             break;
                           case 1:
-                          final value = await Navigator.push(
+                            final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StatusVideocamere()),
@@ -689,7 +705,7 @@ class _DashboardBoxState extends State<DashboardBox> {
                             navigateTo(Connettivita());
                             break;
                           case 4:
-                          final value = await Navigator.push(
+                            final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DetailsConnettivita()),
@@ -697,13 +713,13 @@ class _DashboardBoxState extends State<DashboardBox> {
                             setState(() {
                               res = value;
                             });
-                             await _showMyDialog(res, 2);
+                            await _showMyDialog(res, 2);
                             break;
                           case 5:
                             navigateTo(TrackingPage());
                             break;
                           case 6:
-                          final value = await Navigator.push(
+                            final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SetAlertPage()),
