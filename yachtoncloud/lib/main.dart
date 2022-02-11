@@ -30,6 +30,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:workmanager/workmanager.dart';
 
+import 'NotificationApi.dart';
+
 const myTask = "syncWithTheBackEnd";
 const task2 = "task";
 Workmanager wm = Workmanager();
@@ -97,14 +99,19 @@ void callNotification() async{
 
   }
 
-  
-
+void listenNotification() =>  NotificationApi.onNotifications.stream.listen(onClickedNotification);
+void onClickedNotification(String? payload) => print('Notifica cliccata');
 void callbackDispatcher() {
 // this method will be called every hour
+  NotificationApi.init();
+  listenNotification();
 
   wm.executeTask((task, inputdata) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
+    NotificationApi.init();
+    listenNotification();
+   
     print('Execute task');
     print('TASK: ' + task);
     switch (task) {
@@ -144,18 +151,9 @@ void callbackDispatcher() {
         var result = 12742 * asin(sqrt(a));
         print('ATTESO 1138, RISULTATO: '+result.toString());
         if (result>=migliaAlert){
-        callNotification();
-                flutterLocalNotificationsPlugin.show(
-        0,
-        "Testing ",
-        "ANDOOOO A BARCCC",
-        NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
-                importance: Importance.high,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher')));
+        //callNotification();
+         listenNotification();
+        NotificationApi.showNotification(title: 'Testing 2',body: 'Weee',payload: 'Payload');
         }else{
           print('tuttok ok');
         }
@@ -200,6 +198,7 @@ Future<void> main() async {
       now.second.toString());
   //wm.registerPeriodicTask("Tester", taskName, frequency: Duration(minutes:1 ),inputData:{"data1":"hello"} );
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationApi.init();
 
   await Firebase.initializeApp();
   wm.initialize(callbackDispatcher);
@@ -222,7 +221,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final storage = new FlutterSecureStorage();
 
   // This widget is the root of your application.
   /*
