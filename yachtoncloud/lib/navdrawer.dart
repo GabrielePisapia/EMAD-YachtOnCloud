@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
+import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/data/drawer_items.dart';
 import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
@@ -162,10 +164,11 @@ class navdrawerTest extends StatelessWidget {
     );
   }
 
-  void selectItem(BuildContext context, int index) {
+  Future<void> selectItem(BuildContext context, int index) async {
     final navigateTo = (page) => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => page,
         ));
+
     switch (index) {
       case 0:
         navigateTo(Connettivita());
@@ -186,14 +189,19 @@ class navdrawerTest extends StatelessWidget {
         //    MaterialPageRoute(builder: (context) => AssociaBox(creaGrid: 1)));
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => AssociaBox(creaGrid: 1)),
+            MaterialPageRoute(builder: (BuildContext context) => Dashboard()),
             ModalRoute.withName('/'));
         break;
       case 5:
-        navigateTo(LoginPage(
-          title: 'Login',
-        ));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('uid', "");
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage(
+                      title: "Login",
+                    )),
+            ModalRoute.withName('/'));
         break;
     }
   }

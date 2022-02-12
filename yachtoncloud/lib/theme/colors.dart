@@ -30,6 +30,8 @@ const Color inactiveTickColor = Color(0xFF002952);
 const Color macchiaColor1 = Color(0xfffbb448);
 const Color macchiaColor2 = Color(0xffe46b10);
 
+const Color macchia1 = Color(0xfff1d302);
+
 const Color dashboardBackground1 = Color(0xffe46b10);
 const Color dashboardBackground2 = Color(0xfffbb448);
 

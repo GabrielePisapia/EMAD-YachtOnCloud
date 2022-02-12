@@ -478,6 +478,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                     onTap: () {
                       _onTapVideo(index);
                       debugPrint(index.toString());
+
                       setState(() {
                         if (_playArea == false) {
                           _playArea = true;

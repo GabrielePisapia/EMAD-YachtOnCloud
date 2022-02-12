@@ -20,7 +20,8 @@ import 'theme/colors.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
     playSound: true);
 
@@ -33,18 +34,19 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('A Background message just showed up :  ${message.messageId}');
 }
 
-Future<void> welcome()async{
+Future<void> welcome() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-   await flutterLocalNotificationsPlugin
+  await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
 }
+
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key? key, this.title}) : super(key: key);
 
@@ -71,7 +73,7 @@ class _WelcomePageState extends State<WelcomePage> {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
-                channelDescription : channel.description,
+                channelDescription: channel.description,
                 color: Colors.blue,
                 playSound: true,
                 icon: '@mipmap/ic_lancher',
@@ -79,7 +81,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ));
       }
     });
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new messageopen app event was published');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -99,9 +101,9 @@ class _WelcomePageState extends State<WelcomePage> {
             });
       }
     });
-   
-      print('ok');
-        flutterLocalNotificationsPlugin.show(
+
+    print('ok');
+    flutterLocalNotificationsPlugin.show(
         0,
         "Testing ",
         "This is an Flutter Push Notification",
@@ -126,7 +128,6 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: buttonColor)))),
         onPressed: () async {
-          
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => LoginPage(title: '')));
         },
@@ -205,7 +206,7 @@ class _WelcomePageState extends State<WelcomePage> {
             );
             final facebookAuthCredential =
                 FacebookAuthProvider.credential(result.accessToken!.token);
-                
+
             await FirebaseAuth.instance
                 .signInWithCredential(facebookAuthCredential);
             String nome_cognome = requestdata["name"];

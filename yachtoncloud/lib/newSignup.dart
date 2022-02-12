@@ -61,10 +61,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return "Ok";
   }
 
-static Future <void> setUpPreferences(String uid) async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('uid', uid);
-}
+  static Future<void> setUpPreferences(String uid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', uid);
+  }
 
   Future<String> SignUp(
     String email,
@@ -160,7 +160,7 @@ static Future <void> setUpPreferences(String uid) async{
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: fieldTextColor,
+                  fillColor: boxVideoColor.withOpacity(0.7), //fieldtext
                   filled: true))
         ],
       ),

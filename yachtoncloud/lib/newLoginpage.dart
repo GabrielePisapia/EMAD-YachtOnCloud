@@ -7,26 +7,22 @@ import 'package:yachtoncloud/theme/colors.dart';
 import 'newSignup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import 'Widget/bezierContainer.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
-  
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
-  
-  
-static Future <void> setUpPreferences(String uid) async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('uid', uid);
-}
+class _LoginPageState extends State<LoginPage> {
+  static Future<void> setUpPreferences(String uid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('uid', uid);
+  }
 
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
@@ -38,10 +34,10 @@ static Future <void> setUpPreferences(String uid) async{
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
       esito = "Ok";
-     
-     var user = FirebaseAuth.instance.currentUser;
-     print("USER UID: "+user!.uid.toString());
-     setUpPreferences(user.uid);
+
+      var user = FirebaseAuth.instance.currentUser;
+      print("USER UID: " + user!.uid.toString());
+      setUpPreferences(user.uid);
       print("TRY RIUSCITO, VALORE DI ESITO: " + esito);
       return esito;
     } on FirebaseAuthException catch (e) {
@@ -108,7 +104,7 @@ static Future <void> setUpPreferences(String uid) async{
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: fieldTextColor,
+                  fillColor: boxVideoColor.withOpacity(0.9), //textfieldColor
                   filled: true))
         ],
       ),
