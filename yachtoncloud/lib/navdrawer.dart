@@ -194,7 +194,7 @@ class navdrawerTest extends StatelessWidget {
         break;
       case 5:
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('uid', null);
+        prefs.clear();
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
