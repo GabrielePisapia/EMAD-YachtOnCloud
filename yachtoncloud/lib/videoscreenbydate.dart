@@ -49,6 +49,12 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     super.dispose();
   }
 
+  late Future<DocumentSnapshot<Map<String, dynamic>>> dataFrom;
+
+  initState() {
+    getData();
+  }
+
   String test = "";
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
@@ -466,7 +472,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   _listView() {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: getData(),
+        future: getData(), //getData(),
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
           if (snap.connectionState == ConnectionState.waiting) {
