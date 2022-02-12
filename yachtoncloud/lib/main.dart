@@ -214,8 +214,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString("uid");
   print("######### prima dell'if" + uid.toString());
-  if (uid != "") {
-    print('############' + uid!);
+  if (uid != null) {
     wm.registerOneOffTask("1", myTask,
         initialDelay: Duration(seconds: 1),
         inputData: {'string': uid.toString()});
