@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:flutter_map/flutter_map.dart' as Marker;
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +47,7 @@ class _MyHomePageState extends State<TrackingPage_> {
   late LatLng currentPos;
   late LatLng visionPos;
   late Timer timer;
+  bool res = true;
 
   @override
   void initState() {
@@ -90,6 +93,153 @@ class _MyHomePageState extends State<TrackingPage_> {
                     backgroundColor: Colors.transparent
                   );
 
+    getWidget(bool res) {
+      if (res) {
+        return <Widget>[
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazione notifica',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Notifica impostata con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                ),
+              ),
+            ),
+          ))
+        ];
+      } else {
+        return <Widget>[
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazione notifica',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Impostazione della notifica fallita, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                ),
+              ),
+            ),
+          ))
+        ];
+      }
+    }
+
+    Future<void> _showMyDialog(bool res) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            content: Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [dialogColor1, dialogColor2],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                    ),
+                  ]),
+              child: SingleChildScrollView(
+                  child: ListBody(
+                children: getWidget(res),
+              )),
+            ),
+            contentPadding: EdgeInsets.all(0.0),
+          );
+        },
+      );
+    }
+
     return Template(
       appBarTitle: "Yacht on Cloud",
       child: new Stack(
@@ -127,7 +277,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                           openSeaMarks,
                           MarkerLayerOptions(
                             markers: [
-                              Marker(
+                              Marker.Marker(
                                 width: 20.0,
                                 height: 20.0,
                                 point: currentPos,
@@ -167,11 +317,17 @@ class _MyHomePageState extends State<TrackingPage_> {
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: buttonColor)))),
-        onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SetAlertPage()),
-                );
+        onPressed: () async {
+                final value = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SetAlertPage()),
+                            );
+                            setState(() {
+                              res = value;
+                            });
+                            debugPrint("MA CHE SUCCEDE SCUSA");
+                            await _showMyDialog(res);
               },
         child: Row(
           children: <Widget>[

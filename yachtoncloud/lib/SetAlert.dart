@@ -88,7 +88,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
     esito = 'Ok';
       return esito;
   } catch(ex) {
-    debugPrint(ex.toString());
+    debugPrint("esito " + ex.toString());
     return ex.toString();
   }
 }
