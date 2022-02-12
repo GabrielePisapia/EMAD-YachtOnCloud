@@ -48,6 +48,12 @@ class RealTimeVideoState extends State<RealTimeVideo> {
     setState(() {});
   }
 
+  late Future<DocumentSnapshot<Map<String, dynamic>>> dataFrom;
+
+  initState() {
+    dataFrom = getData();
+  }
+
   String dataSource = '';
   List videoListTemp = [];
 
@@ -460,7 +466,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
 
   _listView() {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: getData(),
+        future: dataFrom, //getData(),
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
           if (snap.connectionState == ConnectionState.waiting) {
