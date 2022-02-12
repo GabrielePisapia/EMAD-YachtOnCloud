@@ -161,7 +161,7 @@ void callbackDispatcher() {
           //callNotification();
           listenNotification();
           NotificationApi.showNotification(
-              title: 'Testing 2', body: 'Weee', payload: 'Payload');
+              title: 'ATTENZIONE', body: "L'imbarcazione ha superato il limite selezionato!", payload: 'Payload');
         } else {
           print('tuttok ok');
         }

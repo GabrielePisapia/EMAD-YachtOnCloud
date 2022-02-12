@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -8,11 +10,17 @@ class NotificationApi {
   static final onNotifications = BehaviorSubject<String?>();
 
   static Future notificationDetails() async {
+    
+    
     return NotificationDetails(
+      
       android: AndroidNotificationDetails(
         'channel id',
         'channel name',
         importance: Importance.max,
+        largeIcon: DrawableResourceAndroidBitmap('logo'),
+        color: const Color.fromARGB(236, 248, 13, 1),
+        
       ),
       iOS: IOSNotificationDetails(),
     );
@@ -20,7 +28,7 @@ class NotificationApi {
 
   static Future init() async {
     print('HO CHIAMATO INIT DI NOTIFICATION API');
-    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    final android = AndroidInitializationSettings('@mipmap/ic_stat_onesignal_default');
     final ios = IOSInitializationSettings();
     final initsetting = InitializationSettings(android: android, iOS: ios);
     final details = await notifications.getNotificationAppLaunchDetails();
