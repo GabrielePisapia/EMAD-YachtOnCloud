@@ -314,9 +314,10 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                         borderRadius: BorderRadius.circular(30.0),
                         side: BorderSide(color: buttonColor)))),
             onPressed: () {
-              //Navigator.of(context).pop();
-              Navigator.pop(context,
-                  MaterialPageRoute(builder: (context) => RealTimeVideo()));
+              Navigator.of(context).pop();
+
+              /*Navigator.pop(context,
+                  MaterialPageRoute(builder: (context) => RealTimeVideo()));*/
               //Navigator.pop(context, true);
             },
             child: Expanded(
