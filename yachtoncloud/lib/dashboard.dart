@@ -125,14 +125,14 @@ class _DashboardBoxState extends State<DashboardBox> {
       "Associa nuova box"
     ];
     var assetsList = [
-      "video-camera.png",
-      "setting.png",
-      "list.png",
-      "smartphone.png",
-      "settingwifi.png",
-      "compass.png",
-      "job.png",
-      "qr-code.png"
+      "camer.png",
+      "setti.png",
+      "storico.png",
+      "wifismart.png",
+      "wifi.png",
+      "tracking.png",
+      "notifications.png",
+      "qrc.png"
     ];
 
     getWidgetAssocia(bool res) {
@@ -662,10 +662,13 @@ class _DashboardBoxState extends State<DashboardBox> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              "assets/${assetsList[index]}",
-                              width: 100,
-                              height: 100,
+                            Transform.scale(
+                              scale: 1.5,
+                              child: Image.asset(
+                                "assets/${assetsList[index]}",
+                                width: 100,
+                                height: 100,
+                              ),
                             ),
                             SizedBox(
                               height: 20,

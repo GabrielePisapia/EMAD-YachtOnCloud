@@ -140,117 +140,118 @@ class _AssociaBoxState extends State<AssociaBox> {
       "settingwifi.png",
       "compass.png",
       "job.png",
-      "qr-code.png"
+      "qrc.png"
     ];
 
     getWidget(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Associazione',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Associazione',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Associazione box riuscita!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Associazione box riuscita!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Associazione',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Associazione',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Associazione box fallita, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Associazione box fallita, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
@@ -261,24 +262,25 @@ class _AssociaBoxState extends State<AssociaBox> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             content: Container(
-        padding: const EdgeInsets.all(12.0),
-        decoration: new BoxDecoration(
+              padding: const EdgeInsets.all(12.0),
+              decoration: new BoxDecoration(
                   gradient: new LinearGradient(
                       colors: [dialogColor1, dialogColor2],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter),
-                      borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: shadowCard.withOpacity(0.01),
-                                    spreadRadius: 5,
-                                    blurRadius: 3,
-                                  ),
-                                ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                    ),
+                  ]),
               child: SingleChildScrollView(
-                child: ListBody(
+                  child: ListBody(
                 children: getWidget(res),
               )),
             ),
@@ -447,7 +449,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/qr-code.png",
+                        "assets/qrc.png",
                         width: 200,
                         height: 150,
                       ),

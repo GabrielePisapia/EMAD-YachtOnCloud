@@ -5,12 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yachtoncloud/template.dart';
 import 'colorsVideosorveglianza.dart';
+import 'connettivita.dart';
 import 'theme/colors.dart';
 import 'package:intl/intl.dart';
 
@@ -56,7 +58,6 @@ class RealTimeVideoState extends State<RealTimeVideo> {
 
   String dataSource = '';
   List videoListTemp = [];
-
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
@@ -98,6 +99,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
 
   @override
   Widget build(BuildContext context) {
+    var res = true;
     return Template(
       appBarTitle: 'Yacht on Cloud',
       boxDecoration: BoxDecoration(
@@ -212,9 +214,19 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                             InkWell(
                               child: Icon(Icons.settings,
                                   size: 30, color: Colors.white),
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => StatusVideocamere()));
+                              onTap: () async {
+                                final value = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          StatusVideocamere()),
+                                );
+                                setState(() {
+                                  res = value;
+                                });
+                                await _showMyDialog(res, 1);
+                                /*Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => StatusVideocamere()));*/
                               },
                             ),
                             SizedBox(
@@ -265,6 +277,164 @@ class RealTimeVideoState extends State<RealTimeVideo> {
       print(videoList.length);
     });*/
   //getData(result);
+  getWidgetCamera(bool res) {
+    if (res) {
+      return <Widget>[
+        Padding(
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+            child: Text('Dati videocamere',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+        Container(
+            width: 200,
+            height: 150,
+            child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+        Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+                'I dati delle videocamere sono stati modificati con successo!',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 17,
+                        fontWeight: FontWeight.normal)))),
+        Center(
+            child: Container(
+          width: 200,
+          height: 50,
+          margin: EdgeInsets.symmetric(vertical: 1),
+          child: TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(buttonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        side: BorderSide(color: buttonColor)))),
+            onPressed: () {
+              //Navigator.of(context).pop();
+              Navigator.pop(context,
+                  MaterialPageRoute(builder: (context) => RealTimeVideo()));
+              //Navigator.pop(context, true);
+            },
+            child: Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Ok',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
+                ),
+              ),
+            ),
+          ),
+        ))
+      ];
+    } else {
+      return <Widget>[
+        Padding(
+            padding: EdgeInsets.only(top: 7, bottom: 7),
+            child: Text('Dati videocamere',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)))),
+        Container(
+            width: 200,
+            height: 150,
+            child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+        Padding(
+            padding: EdgeInsets.all(20),
+            child: Text('Modifica ai dati delle videocamere fallita, riprova.',
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: textColor,
+                        fontSize: 17,
+                        fontWeight: FontWeight.normal)))),
+        Center(
+            child: Container(
+          width: 200,
+          height: 50,
+          margin: EdgeInsets.symmetric(vertical: 1),
+          child: TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(buttonColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        side: BorderSide(color: buttonColor)))),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Expanded(
+              flex: 5,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Ok',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
+                ),
+              ),
+            ),
+          ),
+        ))
+      ];
+    }
+  }
+
+  Future<void> _showMyDialog(bool res, int c) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          content: Container(
+            padding: const EdgeInsets.all(12.0),
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                    colors: [dialogColor1, dialogColor2],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowCard.withOpacity(0.01),
+                    spreadRadius: 5,
+                    blurRadius: 3,
+                  ),
+                ]),
+            child: SingleChildScrollView(
+                child: ListBody(
+              children: getWidget(c, res),
+            )),
+          ),
+          contentPadding: EdgeInsets.all(0.0),
+        );
+      },
+    );
+  }
+
+  List<Widget> getWidget(int c, bool res) {
+    switch (c) {
+      case 1:
+        return getWidgetCamera(res);
+      default:
+        return [Center()];
+    }
+  }
 
   Widget _playView(BuildContext context) {
     final controller = _controller;
