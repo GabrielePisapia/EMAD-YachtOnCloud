@@ -154,19 +154,19 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                             ),*/
                   ),
               SizedBox(
-                width: 30,
+                width: 20,
               ),
               Image.asset(
                 status ? 'assets/camera.png' : 'assets/no-camera.png',
-                height: 30,
-                width: 30,
-                color: status ? Colors.green : Colors.red,
+                height: 50,
+                width: 50,
               ),
               SizedBox(
                 height: 20,
                 child: Switch(
-                  activeColor: Colors.green,
-                  inactiveThumbColor: Colors.red,
+                  activeTrackColor:
+                    activeTrackLight,
+                  activeColor: activeTrackDark,
                   value: status,
                   onChanged: (val2) {
                     //debugPrint(status.toString() + " " + val2.toString());

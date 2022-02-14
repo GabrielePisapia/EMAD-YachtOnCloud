@@ -490,7 +490,7 @@ class _AssociaBoxState extends State<AssociaBox> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [dashboardBackground1, dashboardBackground2]),
+                colors: [backgroundColor1, backgroundColor2]),
           ),
           child: Stack(
             children: [
@@ -505,7 +505,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [backgroundColor1, backgroundColor2]),
+                      colors: [dashboardBackground1, dashboardBackground2]),
                   borderRadius: new BorderRadius.vertical(
                       bottom: new Radius.elliptical(
                           MediaQuery.of(context).size.width, 100.0)),

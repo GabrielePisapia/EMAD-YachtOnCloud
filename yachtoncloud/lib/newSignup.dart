@@ -160,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: boxVideoColor.withOpacity(0.7), //fieldtext
+                  fillColor: fieldTextColor,
                   filled: true))
         ],
       ),
@@ -339,18 +339,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: height * .1),
+                    SizedBox(height: height * .11),
                     //_title(),
                     _logo(),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     _emailPasswordWidget(),
                     SizedBox(
                       height: 20,
                     ),
                     _submitButton(),
-                    SizedBox(height: height * .09), //era .14
+                    SizedBox(height: height * .05), //era .14
                     _loginAccountLabel(),
                   ],
                 ),

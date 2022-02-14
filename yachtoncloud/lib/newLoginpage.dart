@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  fillColor: boxVideoColor.withOpacity(0.9), //textfieldColor
+                  fillColor: fieldTextColor,
                   filled: true))
         ],
       ),

@@ -662,14 +662,14 @@ class _DashboardBoxState extends State<DashboardBox> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Transform.scale(
-                              scale: 1.5,
-                              child: Image.asset(
+                           // Transform.scale(
+                             // scale: 1.5,
+                              /*child:*/ Image.asset(
                                 "assets/${assetsList[index]}",
                                 width: 100,
-                                height: 100,
+                                height: 90,
                               ),
-                            ),
+                            //),
                             SizedBox(
                               height: 20,
                             ),
@@ -725,7 +725,7 @@ class _DashboardBoxState extends State<DashboardBox> {
                             final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SetAlertPage()),
+                                  builder: (context) => SetAlertPage_(title: "peppe")),
                             );
                             setState(() {
                               res = value;
@@ -769,7 +769,7 @@ class _DashboardBoxState extends State<DashboardBox> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [dashboardBackground1, dashboardBackground2]),
+                colors: [backgroundColor1, backgroundColor2]),
           ),
           child: Stack(
             children: [
@@ -784,7 +784,7 @@ class _DashboardBoxState extends State<DashboardBox> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [backgroundColor1, backgroundColor2]),
+                      colors: [dashboardBackground1, dashboardBackground2]),
                   borderRadius: new BorderRadius.vertical(
                       bottom: new Radius.elliptical(
                           MediaQuery.of(context).size.width, 100.0)),

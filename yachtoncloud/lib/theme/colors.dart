@@ -14,7 +14,8 @@ Arancione: 0xFFFF8600
 
 const Color textColor = Colors.white;
 const Color textColorDashboard = Colors.black;
-const Color fieldTextColor = Color(0xFFFFB60A);
+//const Color fieldTextColor = Color(0xFFFFB60A);
+var fieldTextColor = Colors.grey.shade200.withOpacity(0.4);
 
 const Color activeColorRadio = Color(0xfffbb448);
 
@@ -28,7 +29,10 @@ const Color activeTickColor = Color(0xfffbb448);
 const Color inactiveTickColor = Color(0xFF002952);
 
 const Color macchiaColor1 = Color(0xfffbb448);
-const Color macchiaColor2 = Color(0xffe46b10);
+const Color macchiaColor2 = Color(0xFFFF852F);
+
+const Color activeTrackLight = Color(0xfffbb448);
+const Color activeTrackDark =  Color(0xFFFF852F);
 
 const Color macchia1 = Color(0xfff1d302);
 
@@ -37,6 +41,7 @@ const Color dashboardBackground2 = Color(0xfffbb448);
 
 const Color appBarColor1 = Color(0xfffbb448);
 const Color appBarColor2 = Color(0xffe46b10);
+
 
 const Color backgroundColor1 = Color(0xFF508FF7);
 const Color backgroundColor2 = Color(0xFFA8EFFF);

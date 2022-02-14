@@ -52,16 +52,16 @@ class _MyHomePageState extends State<TrackingPage_> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 20), (Timer t) { getLatLong(); this.setState(() {
+    //timer = Timer.periodic(Duration(seconds: 20), (Timer t) { getLatLong(); this.setState(() {
       
-    });});
+   // });});
   }
   
   @override
-  void dispose() {
+  /*void dispose() {
     timer.cancel();
     super.dispose();
-  }
+  }*/
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getLatLong() async {
     debugPrint("Ma almeno ci arrivo qua?");
@@ -94,6 +94,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                   );
 
     getWidget(bool res) {
+      debugPrint("getwidget " + res.toString());
       if (res) {
         return <Widget>[
           Padding(
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                           borderRadius: BorderRadius.circular(30.0),
                           side: BorderSide(color: buttonColor)))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).maybePop();
               },
               child: Expanded(
                 flex: 5,
@@ -184,7 +185,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                           borderRadius: BorderRadius.circular(30.0),
                           side: BorderSide(color: buttonColor)))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).maybePop();
               },
               child: Expanded(
                 flex: 5,
@@ -208,6 +209,7 @@ class _MyHomePageState extends State<TrackingPage_> {
 
     Future<void> _showMyDialog(bool res) async {
       return showDialog<void>(
+        useRootNavigator: false,
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
@@ -278,8 +280,8 @@ class _MyHomePageState extends State<TrackingPage_> {
                           MarkerLayerOptions(
                             markers: [
                               Marker.Marker(
-                                width: 20.0,
-                                height: 20.0,
+                                width: 25.0,
+                                height: 25.0,
                                 point: currentPos,
                                 builder: (ctx) =>
                                 Container(
@@ -321,10 +323,11 @@ class _MyHomePageState extends State<TrackingPage_> {
                 final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SetAlertPage()),
+                                  builder: (context) => SetAlertPage_(title: "peppe")),
                             );
                             setState(() {
                               res = value;
+                              debugPrint("help " + res.toString());
                             });
                             debugPrint("MA CHE SUCCEDE SCUSA");
                             await _showMyDialog(res);

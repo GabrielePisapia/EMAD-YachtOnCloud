@@ -275,13 +275,13 @@ Widget _entryField(String title, TextEditingController controller,
             esito = val;
             print(esito);
             if (esito == "Ok") {
-              var res = true;
+              bool res = true;
               debugPrint(esito + " " + res.toString());
-              Navigator.pop(context, res);
+              Navigator.maybePop(context, res);
             } else {
-              var res = false;
+              bool res = false;
               debugPrint(esito + " " + res.toString());
-              Navigator.pop(context, res);
+              Navigator.maybePop(context, res);
             }
           });
 

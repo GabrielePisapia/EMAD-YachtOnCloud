@@ -187,7 +187,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                             child: Column(children: [
                               Padding(
                                   padding: EdgeInsets.only(
-                                      top: 20, left: 20, right: 20),
+                                      top: 25, left: 20, right: 20),
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -197,8 +197,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                           isSwitched
                                               ? 'assets/wifiON.png'
                                               : 'assets/wifiOFF.png',
-                                          height: 50,
-                                          width: 50,
+                                          height: 70,
+                                          width: 70,
                                         )),
                                         Expanded(
                                             child: Column(children: [
@@ -228,8 +228,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                               });
                                             },
                                             activeTrackColor:
-                                                Colors.lightGreenAccent,
-                                            activeColor: Colors.green,
+                                                activeTrackLight,
+                                            activeColor: activeTrackDark,
                                           ),
                                         ]))
                                       ]))
@@ -285,7 +285,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                       controller: reteController,
                                       decoration: InputDecoration(
                                         hintText: nomeRete,
-                                        fillColor: listElementColor,
+                                        fillColor:  fieldTextColor,
                                         filled: true,
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide.none,
@@ -324,7 +324,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                               });
                                             }),
                                         hintText: 'Password',
-                                        fillColor: listElementColor,
+                                        fillColor: fieldTextColor,
                                         filled: true,
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide.none,
