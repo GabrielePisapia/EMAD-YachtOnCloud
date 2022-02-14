@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.normal)),
                 ),
               ),
             ),

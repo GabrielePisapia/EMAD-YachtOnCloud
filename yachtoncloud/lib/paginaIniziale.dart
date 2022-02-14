@@ -403,19 +403,25 @@ class _AssociaBoxState extends State<AssociaBox> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                              "assets/box.png",
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 35),
+                                  child: Transform.scale(
+                                    scale: 1.5,
+                                    child: Image.asset(
+                                      "assets/box.png",
+                                      width: 100,
+                                      height: 100,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 Text(
                                   boxesList[index]['box']['nome'].toString(),
                                   style: cardTextStyle,
                                   textAlign: TextAlign.center,
-                                )
+                                ),
                               ],
                             ),
                           ),

@@ -142,7 +142,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         textStyle: TextStyle(
                             color: textColor,
                             fontSize: 18,
-                            fontWeight: FontWeight.bold))),
+                            fontWeight: FontWeight.normal))),
               ),
             ),
           ],
@@ -177,7 +177,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         textStyle: TextStyle(
                             color: textColor,
                             fontSize: 18,
-                            fontWeight: FontWeight.bold))),
+                            fontWeight: FontWeight.normal))),
               ),
             ),
           ],
@@ -238,7 +238,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         textStyle: TextStyle(
                             color: textColor,
                             fontSize: 18,
-                            fontWeight: FontWeight.bold))),
+                            fontWeight: FontWeight.normal))),
               ),
             ),
           ],
@@ -306,7 +306,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         textStyle: TextStyle(
                             color: textColor,
                             fontSize: 18,
-                            fontWeight: FontWeight.bold))),
+                            fontWeight: FontWeight.normal))),
               ),
             ),
           ],

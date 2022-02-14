@@ -52,10 +52,11 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
   late Future<DocumentSnapshot<Map<String, dynamic>>> dataFrom;
 
   initState() {
-    getData();
+    dataFrom = getData();
   }
 
   String test = "";
+  String data = "";
   Future<DocumentSnapshot<Map<String, dynamic>>> getData() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
@@ -63,7 +64,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
     DateTime dat = DateTime(now.year, now.month, now.day);
     var formatter = new DateFormat('dd-MM-yyyy');
     DateTime d = dat.subtract(Duration(days: 1));
-    String data = formatter.format(d).toString();
+    data = formatter.format(d).toString();
     print("Mmmat ${formatter.format(d)}");
     var snap = await FirebaseFirestore.instance
         .collection('Utenti')
@@ -169,6 +170,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                       onTap: () {
                                         setState(() {
                                           _folded = !_folded;
+                                          dataFrom = getData();
                                           print(myController.text);
                                         });
                                       },
@@ -239,7 +241,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                               textStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
+                                  fontWeight: FontWeight.normal)),
                         ),
                         Expanded(child: Container()),
                         Row(
@@ -472,7 +474,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
 
   _listView() {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: getData(), //getData(),
+        future: dataFrom, //getData(),
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
           if (snap.connectionState == ConnectionState.waiting) {
@@ -502,12 +504,15 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
           }
 
           return Center(
-              child: Text("Non ci sono video per questa data",
+              child: Text(
+                  myController.text.isEmpty
+                      ? "Non ci sono video per il " + data.toString()
+                      : "Non ci sono video per il " + myController.text,
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold))));
+                          fontWeight: FontWeight.normal))));
         });
   }
 

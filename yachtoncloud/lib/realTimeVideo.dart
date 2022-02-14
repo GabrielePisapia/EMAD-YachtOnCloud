@@ -54,6 +54,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
 
   initState() {
     dataFrom = getData();
+    super.initState();
   }
 
   String dataSource = '';
@@ -206,7 +207,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                               textStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
+                                  fontWeight: FontWeight.normal)),
                         ),
                         Expanded(child: Container()),
                         Row(
@@ -315,6 +316,14 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                         side: BorderSide(color: buttonColor)))),
             onPressed: () {
               Navigator.of(context).pop();
+              setState(() {
+                dataFrom = getData();
+              });
+              //Nel caso mettiamo solo pop se accadono cose strane
+              /*Navigator.of(context)
+                  .push(new MaterialPageRoute(
+                      builder: (context) => RealTimeVideo()))
+                  .then((value) => setState(() => {}));*/
 
               /*Navigator.pop(context,
                   MaterialPageRoute(builder: (context) => RealTimeVideo()));*/
@@ -499,8 +508,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                           textStyle: TextStyle(
                               color: textColor,
                               fontSize: 17,
-                              fontWeight:
-                                  FontWeight.bold))) //videoList[index]["title"]
+                              fontWeight: FontWeight
+                                  .normal))) //videoList[index]["title"]
                   ,
                   SizedBox(height: 10),
                   Padding(
@@ -646,6 +655,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
             );
           } else if (snap.hasData) {
             debugPrint("Non devo più aspettare ${videoList}");
+
             return ListView.builder(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
