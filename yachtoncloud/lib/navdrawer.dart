@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/SetAlert.dart';
@@ -7,6 +8,7 @@ import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/data/drawer_items.dart';
 import 'package:yachtoncloud/newLoginpage.dart';
 import 'package:yachtoncloud/main.dart';
+import 'package:yachtoncloud/newWelcomePage.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/realTimeVideo.dart';
 import 'package:yachtoncloud/theme/colors.dart';
@@ -195,13 +197,15 @@ class navdrawerTest extends StatelessWidget {
       case 5:
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.clear();
-        Navigator.pushAndRemoveUntil(
+        Get.offAll(WelcomePage());
+        //Nel caso torniamo come prima
+        /*Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => LoginPage(
                       title: "Login",
                     )),
-            ModalRoute.withName('/'));
+            ModalRoute.withName('/'));*/
         break;
     }
   }
