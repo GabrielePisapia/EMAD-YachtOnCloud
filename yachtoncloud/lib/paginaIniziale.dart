@@ -403,21 +403,14 @@ class _AssociaBoxState extends State<AssociaBox> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            //videolist[index]["thumb_url"] nel caso di dati da db
-                                            boxesList[index]['box']['img']),
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                Image.asset(
+                              "assets/box.png",
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                                 Text(
                                   boxesList[index]['box']['nome'].toString(),
                                   style: cardTextStyle,
