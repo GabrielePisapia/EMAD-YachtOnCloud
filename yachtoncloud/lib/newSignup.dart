@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yachtoncloud/introduction.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 import 'Widget/bezierContainer.dart';
 import 'Widget/customClipper.dart';
@@ -191,8 +192,8 @@ class _SignUpPageState extends State<SignUpPage> {
             print("Esito in then: " + esito);
 
             if (esito == "Ok") {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AssociaBox(creaGrid: 0)));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => OnboardingPage()));
             } else {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SignUpPage(

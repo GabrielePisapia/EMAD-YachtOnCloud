@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/theme/colors.dart';
@@ -51,11 +52,13 @@ class OnboardingPageState extends State<OnboardingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            Lottie.asset(urlImage,
+                fit: BoxFit.scaleDown, width: double.infinity, repeat: false),
+            /*Image.asset(
               urlImage,
               fit: BoxFit.cover,
               width: double.infinity,
-            ),
+            ),*/
             const SizedBox(
               height: 30,
             ),
@@ -91,19 +94,19 @@ class OnboardingPageState extends State<OnboardingPage> {
           children: [
             buildPage(
                 color: appBarColor1,
-                urlImage: 'assets/qrcodes.png',
+                urlImage: 'assets/qrscan.json',
                 title: "Associa il box ",
                 subtitle:
                     "Collega in modo semplice il box scansionando il codice qr cosi da poter utilizzare subito l'applicazione e collegare tutti i dispositivi e sensori!"),
             buildPage(
                 color: Colors.amber,
-                urlImage: 'assets/videou.png',
+                urlImage: 'assets/videos.json',
                 title: "Visualizza video real time",
                 subtitle:
                     "Utilizza le videocamere di sorveglianza per poter controllare la tua imbarcazione da remoto e in tempo reale oppure utilizza lo storico per visualizzare video dei giorni precedenti"),
             buildPage(
                 color: Colors.amber,
-                urlImage: 'assets/locations.png',
+                urlImage: 'assets/track.json',
                 title: "Tracciamento real time",
                 subtitle:
                     "Utilizza il tracking gps per poter essere sempre aggiornato sulla posizione della tua imbarcazione oppure imposta una notifica per poter essere avvisato in tempo reale su eventuali spostamenti"),
