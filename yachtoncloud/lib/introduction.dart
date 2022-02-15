@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yachtoncloud/paginaIniziale.dart';
+import 'package:yachtoncloud/theme/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,7 +42,12 @@ class OnboardingPageState extends State<OnboardingPage> {
     required String subtitle,
   }) =>
       Container(
-        color: color,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.center,
+              colors: [appBarColor2, appBarColor1]),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,23 +57,21 @@ class OnboardingPageState extends State<OnboardingPage> {
               width: double.infinity,
             ),
             const SizedBox(
-              height: 64,
+              height: 30,
             ),
             Text(
               title,
               style: TextStyle(
-                  color: Colors.teal.shade700,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold),
+                  color: textColor, fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 24,
+              height: 20,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
+              padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Text(
                 subtitle,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(fontSize: 15, color: Colors.black),
               ),
             )
           ],
@@ -86,23 +90,23 @@ class OnboardingPageState extends State<OnboardingPage> {
           controller: controller,
           children: [
             buildPage(
-                color: Colors.amber,
+                color: appBarColor1,
                 urlImage: 'assets/qrcodes.png',
-                title: "Scansiona il qr code",
+                title: "Associa il box ",
                 subtitle:
-                    "Collega in modo semplice il box scansionando il codice qr cosi da poter utilizzare subito l'applicazione!"),
+                    "Collega in modo semplice il box scansionando il codice qr cosi da poter utilizzare subito l'applicazione e collegare tutti i dispositivi e sensori!"),
             buildPage(
                 color: Colors.amber,
-                urlImage: 'assets/qrcodes.png',
-                title: "Scansiona il qr code",
+                urlImage: 'assets/videou.png',
+                title: "Visualizza video real time",
                 subtitle:
-                    "Collega in modo semplice il box scansionando il codice qr cosi da poter utilizzare subito l'applicazione!"),
+                    "Utilizza le videocamere di sorveglianza per poter controllare la tua imbarcazione da remoto e in tempo reale oppure utilizza lo storico per visualizzare video dei giorni precedenti"),
             buildPage(
                 color: Colors.amber,
-                urlImage: 'assets/qrcodes.png',
-                title: "Scansiona il qr code",
+                urlImage: 'assets/locations.png',
+                title: "Tracciamento real time",
                 subtitle:
-                    "Collega in modo semplice il box scansionando il codice qr cosi da poter utilizzare subito l'applicazione!"),
+                    "Utilizza il tracking gps per poter essere sempre aggiornato sulla posizione della tua imbarcazione oppure imposta una notifica per poter essere avvisato in tempo reale su eventuali spostamenti"),
           ],
         ),
       ),
@@ -112,7 +116,7 @@ class OnboardingPageState extends State<OnboardingPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(1)),
                   primary: Colors.white,
-                  backgroundColor: Colors.teal.shade700,
+                  backgroundColor: backgroundColor1,
                   minimumSize: Size.fromHeight(80)),
               onPressed: () async {
                 Navigator.of(context).pushReplacement(
@@ -124,12 +128,14 @@ class OnboardingPageState extends State<OnboardingPage> {
               ))
           : Container(
               height: 80,
-              padding: const EdgeInsets.symmetric(horizontal: 1),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                      child: Text("SKIP"),
+                      child: Text(
+                        "SKIP",
+                      ),
                       onPressed: () => controller.jumpToPage(2)),
                   Center(
                     child: SmoothPageIndicator(
@@ -137,8 +143,8 @@ class OnboardingPageState extends State<OnboardingPage> {
                       count: 3,
                       effect: WormEffect(
                           spacing: 16,
-                          dotColor: Colors.amber,
-                          activeDotColor: Colors.amber.shade100),
+                          dotColor: appBarColor1,
+                          activeDotColor: appBarColor2),
                       onDotClicked: (index) => controller.animateToPage(index,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeIn),
