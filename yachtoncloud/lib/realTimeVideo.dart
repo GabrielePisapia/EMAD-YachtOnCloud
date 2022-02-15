@@ -701,19 +701,19 @@ class RealTimeVideoState extends State<RealTimeVideo> {
               Text("Clicca per uscire",
                   style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          color: Colors.white,
+                          color: textColor,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold))),
+                          fontWeight: FontWeight.normal))),
               TextButton(
                 onPressed: () {
                   setState(() {
                     _playArea = false;
                   });
                 },
-                child: Icon(
-                  Icons.videocam_off_outlined,
-                  size: 30,
-                  color: videoIconsColor,
+                child: Image.asset(
+                  'assets/undo.png',
+                  height: 25,
+                  width: 25,
                 ),
               ),
             ],

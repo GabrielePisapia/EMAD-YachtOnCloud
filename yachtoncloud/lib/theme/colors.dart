@@ -53,8 +53,8 @@ const Color buttonColor = Color(0xFF002952);
 const Color cardsColor1 = Color(0xFF295EB6);
 const Color cardsColor2 = Color(0xFF508FF7);
 
-const Color dialogColor1 = Color(0xFF295EB6);
-const Color dialogColor2 = Color(0xFF508FF7);
+const Color dialogColor2 = Color(0xFFFF8600);
+const Color dialogColor1 = Color(0xFFFFB60A);
 
 const Color chartColor1 = Color(0xFFFFB60A);
 const Color chartColor2 = Color(0xFFFF8600);

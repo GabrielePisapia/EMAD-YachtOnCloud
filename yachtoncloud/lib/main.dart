@@ -321,17 +321,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     print('ok');
-    flutterLocalNotificationsPlugin.show(
-        0,
-        "Testing ",
-        "This is an Flutter Push Notification",
-        NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
-                importance: Importance.high,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher')));
   }
 
   @override
