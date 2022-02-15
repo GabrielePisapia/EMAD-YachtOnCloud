@@ -344,7 +344,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                       textStyle: TextStyle(
                           color: textColor,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.normal)),
                 ),
               ),
             ),

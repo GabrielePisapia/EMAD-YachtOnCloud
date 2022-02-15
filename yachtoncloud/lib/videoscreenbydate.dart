@@ -125,7 +125,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                             height: 56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Colors.white,
+                              color: buttonColor,
                               boxShadow: kElevationToShadow[6],
                             ),
                             child: Row(
@@ -164,7 +164,7 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                           _folded
                                               ? Icons.search_outlined
                                               : Icons.close,
-                                          color: Colors.black,
+                                          color: textColor
                                         ),
                                       ),
                                       onTap: () {

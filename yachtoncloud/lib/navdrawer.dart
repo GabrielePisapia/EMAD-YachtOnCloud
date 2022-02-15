@@ -42,8 +42,8 @@ class navdrawerTest extends StatelessWidget {
               end: Alignment.bottomLeft,
               colors: [
                 //Color(0Xff7cdedc),
-                appBarColor1,
                 appBarColor2,
+                appBarColor1,
               ],
             )),
             child: Column(

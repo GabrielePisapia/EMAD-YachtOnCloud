@@ -65,13 +65,13 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
+              child: Icon(Icons.keyboard_arrow_left, color: textColor),
             ),
             Text('Back',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: textColor,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold)))
           ],
         ),
@@ -90,9 +90,9 @@ class _LoginPageState extends State<LoginPage> {
             title,
             style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                    color: Colors.black,
+                    color: textColor,
                     fontSize: 15,
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.normal)),
           ),
           SizedBox(
             height: 10,
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
             Text('Non sei registrato?',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
+                        color: textColor,
                         fontSize: 16,
                         fontWeight: FontWeight.normal))),
             SizedBox(
@@ -222,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
             Text('Registrati',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
+                        color: textColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold))),
           ],
@@ -245,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                 text: 'tOnC',
                 style: GoogleFonts.poppins(
                   textStyle: TextStyle(
-                      color: Colors.black,
+                      color: textColor,
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
                 )),
@@ -325,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(' Password dimenticata?',
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Colors.black,
+                                color: textColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal))),
                   ),

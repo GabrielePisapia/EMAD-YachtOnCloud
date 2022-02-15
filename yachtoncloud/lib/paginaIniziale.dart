@@ -404,7 +404,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 35),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: Transform.scale(
                                     scale: 1.5,
                                     child: Image.asset(

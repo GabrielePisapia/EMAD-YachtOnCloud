@@ -121,13 +121,13 @@ class _SignUpPageState extends State<SignUpPage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-              child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
+              child: Icon(Icons.keyboard_arrow_left, color: textColor),
             ),
             Text('Back',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                        color: textColor,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold)))
           ],
         ),
@@ -146,9 +146,9 @@ class _SignUpPageState extends State<SignUpPage> {
             title,
             style: GoogleFonts.poppins(
                 textStyle: TextStyle(
-                    color: Colors.black,
+                    color: textColor,
                     fontSize: 15,
-                    fontWeight: FontWeight.bold)),
+                    fontWeight: FontWeight.normal)),
           ),
           SizedBox(
             height: 10,
@@ -237,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text('Hai già un account?',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
+                        color: textColor,
                         fontSize: 15,
                         fontWeight: FontWeight.normal))),
             SizedBox(
@@ -246,7 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text('Accedi',
                 style: GoogleFonts.poppins(
                     textStyle: TextStyle(
-                        color: Colors.black,
+                        color: textColor,
                         fontSize: 15,
                         fontWeight: FontWeight.bold))),
           ],
@@ -350,7 +350,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     _submitButton(),
-                    SizedBox(height: height * .05), //era .14
+                    SizedBox(height: height * .03), //era .14
                     _loginAccountLabel(),
                   ],
                 ),

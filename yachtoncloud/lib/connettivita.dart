@@ -151,6 +151,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold)),
                                 ))),
+                                SizedBox(height: 13,),
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -161,7 +162,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                     textStyle: TextStyle(
                                         color: textColor,
                                         fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.normal)),
                               ),
                             )),
                         Container(
@@ -235,7 +236,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                       ]))
                             ])),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Align(
                             alignment: Alignment.centerLeft,
@@ -247,7 +248,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                     textStyle: TextStyle(
                                         color: textColor,
                                         fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.normal)),
                               ),
                             )),
                         Container(
@@ -337,7 +338,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 17,
                         ),
                         Container(
                           width: 250,
@@ -381,7 +382,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                           textStyle: TextStyle(
                                               color: textColor,
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold)),
+                                              fontWeight: FontWeight.normal)),
                                     ),
                                   ),
                                 ),
@@ -812,10 +813,10 @@ class _ConnettivitaState extends State<Connettivita> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: 15,
-              ),*/
+              ),
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -829,7 +830,7 @@ class _ConnettivitaState extends State<Connettivita> {
                                         textStyle: TextStyle(
                                             color: textColor,
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.normal)),
                                   ),
                                 )),
                             Container(
@@ -944,7 +945,7 @@ class _ConnettivitaState extends State<Connettivita> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
                             Align(
                                 alignment: Alignment.centerLeft,
@@ -956,7 +957,7 @@ class _ConnettivitaState extends State<Connettivita> {
                                         textStyle: TextStyle(
                                             color: textColor,
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.normal)),
                                   ),
                                 )),
                             Container(
@@ -1040,7 +1041,7 @@ class _ConnettivitaState extends State<Connettivita> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 17,
                             ),
                             Container(
                               width: 250,
@@ -1082,7 +1083,7 @@ class _ConnettivitaState extends State<Connettivita> {
                                               textStyle: TextStyle(
                                                   color: textColor,
                                                   fontSize: 17,
-                                                  fontWeight: FontWeight.bold)),
+                                                  fontWeight: FontWeight.normal)),
                                         ),
                                       ),
                                     ),
