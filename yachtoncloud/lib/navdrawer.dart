@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +22,7 @@ import 'package:yachtoncloud/vlc_screen.dart';
 import 'videosorveglianza.dart';
 import 'drawer_item.dart';
 import 'navigation_provider.dart';
+import 'indice.dart';
 
 class navdrawerTest extends StatelessWidget {
   const navdrawerTest({Key? key}) : super(key: key);
@@ -167,6 +170,8 @@ class navdrawerTest extends StatelessWidget {
   }
 
   Future<void> selectItem(BuildContext context, int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     final navigateTo = (page) => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => page,
         ));
@@ -176,7 +181,9 @@ class navdrawerTest extends StatelessWidget {
         navigateTo(Connettivita());
         break;
       case 1:
-        navigateTo(RealTimeVideo());
+        navigateTo(RealTimeVideo(
+          indice: 0,
+        ));
         break;
       case 2:
         navigateTo(TrackingPage());
