@@ -101,8 +101,9 @@ class _AssociaBoxState extends State<AssociaBox> {
       if (querySnapshot.data()!.containsKey("boxes")) {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         boxesList = querySnapshot.data()!['boxes'];
-        print("query ${querySnapshot.data()}");
+        print("query " + boxesList[0].toString());
         if (boxesList.length != 0) {
+          boxesList.add({ 'box': {'nome': 'Impostazioni boxes' }});
           createGrid = 1;
         } else {
           createGrid = 0;
@@ -395,7 +396,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
                       itemBuilder: (context, index) {
-                        return GestureDetector(
+                          return GestureDetector(
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -408,7 +409,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   child: Transform.scale(
                                     scale: 1.5,
                                     child: Image.asset(
-                                      "assets/box.png",
+                                      index < boxesList.length - 1 ? "assets/box.png" : "assets/settingbox.png",
                                       width: 100,
                                       height: 100,
                                     ),
@@ -434,7 +435,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                         DashboardBox(indice: index)));
                           },
                         );
-                      }));
+                        }));
             }
             debugPrint("sono fuori");
             return Center(
@@ -447,11 +448,13 @@ class _AssociaBoxState extends State<AssociaBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(
+                      Padding( 
+                        padding: EdgeInsets.only(top: 15, left: 20, right:20),
+                        child:Image.asset(
                         "assets/qrc.png",
-                        width: 200,
-                        height: 150,
-                      ),
+                        width: 100,
+                        height: 100,
+                      )),
                       SizedBox(
                         height: 10,
                       ),
