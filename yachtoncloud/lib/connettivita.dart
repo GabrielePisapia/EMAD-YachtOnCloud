@@ -8,6 +8,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gradients/flutter_gradients.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class DetailsConnettivita extends StatefulWidget {
 class _DetailsConnettivitaState extends State<DetailsConnettivita> {
   var nomeRete = "";
   var statusRete = true;
+  var indic;
   final TextEditingController reteController = new TextEditingController();
   Future<DocumentSnapshot<Map<String, dynamic>>>? _connData;
 
@@ -49,6 +51,11 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+
+    //ECCO IL TUO INDICE
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    indic = prefs.getInt('indice');
+    print("INDEX connettivita ${indic}");
 
     nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
     statusRete = snap.data()!['boxes'][0]['box']['router']['attivo'];
@@ -151,7 +158,9 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold)),
                                 ))),
-                                SizedBox(height: 13,),
+                        SizedBox(
+                          height: 13,
+                        ),
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -228,8 +237,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                                         statusRete.toString());
                                               });
                                             },
-                                            activeTrackColor:
-                                                activeTrackLight,
+                                            activeTrackColor: activeTrackLight,
                                             activeColor: activeTrackDark,
                                           ),
                                         ]))
@@ -286,7 +294,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                       controller: reteController,
                                       decoration: InputDecoration(
                                         hintText: nomeRete,
-                                        fillColor:  fieldTextColor,
+                                        fillColor: fieldTextColor,
                                         filled: true,
                                         border: OutlineInputBorder(
                                             borderSide: BorderSide.none,
@@ -431,6 +439,10 @@ class _ConnettivitaState extends State<Connettivita> {
           FirebaseFirestore.instance.collection('Utenti');
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+      //ECCO IL TUO INDICE
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.getInt('indice');
+      print("INDICE CONNETTIVITA DUE ${prefs.getInt('indice')}");
       nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
       giga = snap.data()!['boxes'][0]['box']['router']['giga'];
       provider = snap.data()!['boxes'][0]['box']['router']['provider'];
@@ -479,111 +491,112 @@ class _ConnettivitaState extends State<Connettivita> {
     getWidget(bool res) {
       if (res) {
         return <Widget>[
-          Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child:Text('Dati connettività',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati connettività',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
-              child: Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Modifiche avvenute con successo!',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Modifiche avvenute con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       } else {
         return <Widget>[
-           Padding( 
-            padding: EdgeInsets.only(top: 7, bottom: 7),
-          child: Text('Dati connettività',
-                style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)))),
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Dati connettività',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
           Container(
               width: 200,
               height: 150,
               child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
-          Padding( 
-            padding: EdgeInsets.all(20),
-            child: Text('Modifiche fallite, riprova.',
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                      color: textColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal)))),
-                      Center(
-                  child: Container(
-                width: 200,
-                height: 50,
-                margin: EdgeInsets.symmetric(vertical: 1),
-                child: TextButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: buttonColor)))),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Ok',
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: textColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                    ),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Modifiche fallite, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ))
         ];
       }
     }
@@ -594,24 +607,25 @@ class _ConnettivitaState extends State<Connettivita> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             content: Container(
-        padding: const EdgeInsets.all(12.0),
-        decoration: new BoxDecoration(
+              padding: const EdgeInsets.all(12.0),
+              decoration: new BoxDecoration(
                   gradient: new LinearGradient(
                       colors: [dialogColor1, dialogColor2],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter),
-                      borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: shadowCard.withOpacity(0.01),
-                                    spreadRadius: 5,
-                                    blurRadius: 3,
-                                  ),
-                                ]),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                    ),
+                  ]),
               child: SingleChildScrollView(
-                child: ListBody(
+                  child: ListBody(
                 children: getWidget(res),
               )),
             ),
@@ -814,9 +828,9 @@ class _ConnettivitaState extends State<Connettivita> {
                   ),
                 ),
               ),*/
-              SizedBox(
-                height: 15,
-              ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -1068,7 +1082,8 @@ class _ConnettivitaState extends State<Connettivita> {
                                   setState(() {
                                     res = value;
                                   });
-                                  debugPrint("HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                                  debugPrint(
+                                      "HELP MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                                   await _showMyDialog(res);
                                 },
                                 child: Row(
@@ -1083,7 +1098,8 @@ class _ConnettivitaState extends State<Connettivita> {
                                               textStyle: TextStyle(
                                                   color: textColor,
                                                   fontSize: 17,
-                                                  fontWeight: FontWeight.normal)),
+                                                  fontWeight:
+                                                      FontWeight.normal)),
                                         ),
                                       ),
                                     ),

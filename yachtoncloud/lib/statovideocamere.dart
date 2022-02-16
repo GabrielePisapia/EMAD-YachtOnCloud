@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    //ECCO IL TUO INDICE
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getInt('indice');
     return await snap.data()!['boxes'][0]['box']['videocamere'];
     /*switchValues = [];
         for(int i = 0; i < cameras.length; i++) {
@@ -80,6 +84,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
       final data = snap.data();
+      //ECCO IL TUO INDICE
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.getInt('indice');
       final boxes =
           data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
       final box = boxes[0]['box'];
@@ -140,9 +147,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15))),
                           fillColor: fieldTextColor,
-                          filled:
-                              true))
-                  ),
+                          filled: true))),
               SizedBox(
                 width: 20,
               ),
@@ -154,8 +159,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
               SizedBox(
                 height: 20,
                 child: Switch(
-                  activeTrackColor:
-                    activeTrackLight,
+                  activeTrackColor: activeTrackLight,
                   activeColor: activeTrackDark,
                   value: status,
                   onChanged: (val2) {
@@ -177,10 +181,10 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
       for (int i = 0; i < cameras.length; i++) {
         nameController.add(new TextEditingController());
         list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i));
-        if(i != cameras.length - 1) {
+        if (i != cameras.length - 1) {
           list.add(SizedBox(
-        height: 10,
-      ));
+            height: 10,
+          ));
         }
       }
       list.add(SizedBox(
@@ -224,7 +228,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold)),
                                 ))),
-                                SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -237,7 +243,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                           fontWeight: FontWeight.normal))),
                             )),
                         Container(
-                          height:330,
+                          height: 330,
                           //width: double.infinity,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -256,11 +262,14 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                   // changes position of shadow
                                 ),
                               ]),
-                          child: SingleChildScrollView( child: Column(
-                            children:createList(), 
+                          child: SingleChildScrollView(
+                              child: Column(
+                            children: createList(),
                           )),
                         ),
-                        SizedBox(height: 13,),
+                        SizedBox(
+                          height: 13,
+                        ),
                         Padding(
                             padding: EdgeInsets.only(top: 15),
                             child: Container(

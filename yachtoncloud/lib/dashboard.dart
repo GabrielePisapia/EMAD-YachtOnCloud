@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
@@ -28,6 +29,7 @@ import 'package:yachtoncloud/vlc_screen.dart';
 
 import 'theme/colors.dart';
 import 'theme/colors.dart';
+import 'indice.dart';
 
 void main() {
   runApp(const Dashboard());
@@ -73,6 +75,7 @@ class DashboardBox extends StatefulWidget {
 class _DashboardBoxState extends State<DashboardBox> {
   // ignore: unused_field
   var indic;
+  Indice indx = Indice();
 
   void bb() {
     print('Clicked Clicked');
@@ -92,11 +95,14 @@ class _DashboardBoxState extends State<DashboardBox> {
         .collection('Utenti')
         .doc(uid)
         .get()
-        .then((querySnapshot) {
+        .then((querySnapshot) async {
       if (querySnapshot.data()!.containsKey("boxes")) {
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         debugPrint(
             "Indice dash ${querySnapshot.data()!['boxes'][widget.indice]}");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setInt('indice', widget.indice);
+        indic = widget.indice;
         boxesList = querySnapshot.data()!['boxes'][widget.indice];
         print("query ${querySnapshot.data()}");
       }
@@ -662,13 +668,13 @@ class _DashboardBoxState extends State<DashboardBox> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           // Transform.scale(
-                             // scale: 1.5,
-                              /*child:*/ Image.asset(
-                                "assets/${assetsList[index]}",
-                                width: 100,
-                                height: 90,
-                              ),
+                            // Transform.scale(
+                            // scale: 1.5,
+                            /*child:*/ Image.asset(
+                              "assets/${assetsList[index]}",
+                              width: 100,
+                              height: 90,
+                            ),
                             //),
                             SizedBox(
                               height: 20,
@@ -688,7 +694,7 @@ class _DashboardBoxState extends State<DashboardBox> {
                             ));
                         switch (index) {
                           case 0:
-                            navigateTo(RealTimeVideo());
+                            navigateTo(RealTimeVideo(indice: indic));
                             break;
                           case 1:
                             final value = await Navigator.push(
@@ -725,7 +731,8 @@ class _DashboardBoxState extends State<DashboardBox> {
                             final value = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SetAlertPage_(title: "peppe")),
+                                  builder: (context) =>
+                                      SetAlertPage_(title: "peppe")),
                             );
                             setState(() {
                               res = value;

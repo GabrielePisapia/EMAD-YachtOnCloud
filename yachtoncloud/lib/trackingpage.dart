@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:flutter_map/flutter_map.dart' as Marker;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/template.dart';
 import 'package:provider/provider.dart';
@@ -48,15 +49,16 @@ class _MyHomePageState extends State<TrackingPage_> {
   late LatLng visionPos;
   late Timer timer;
   bool res = true;
+  var indic;
 
   @override
   void initState() {
     super.initState();
     //timer = Timer.periodic(Duration(seconds: 20), (Timer t) { getLatLong(); this.setState(() {
-      
-   // });});
+
+    // });});
   }
-  
+
   @override
   /*void dispose() {
     timer.cancel();
@@ -67,9 +69,15 @@ class _MyHomePageState extends State<TrackingPage_> {
     debugPrint("Ma almeno ci arrivo qua?");
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    var snap = await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-    currentPos = LatLng(snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'], 
-                      snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+    var snap =
+        await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
+    //ECCO IL TUO INDICE
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    indic = prefs.getInt('indice');
+    print("INDEX tracking ${indic}");
+    currentPos = LatLng(
+        snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
+        snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
     visionPos = currentPos;
     debugPrint(currentPos.toString());
     return await snap;
@@ -77,21 +85,19 @@ class _MyHomePageState extends State<TrackingPage_> {
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
 
     TileLayerOptions openStreetMap = TileLayerOptions(
-                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
-                    attributionBuilder: (_) {
-                      return Text("© OpenSeaMap and OpenStreetMap");
-                    },
-                  );
+      urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      subdomains: ['a', 'b', 'c'],
+      attributionBuilder: (_) {
+        return Text("© OpenSeaMap and OpenStreetMap");
+      },
+    );
 
     TileLayerOptions openSeaMarks = TileLayerOptions(
-                    urlTemplate: "http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
-                    backgroundColor: Colors.transparent
-                  );
+        urlTemplate: "http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+        backgroundColor: Colors.transparent);
 
     getWidget(bool res) {
       debugPrint("getwidget " + res.toString());
@@ -245,115 +251,123 @@ class _MyHomePageState extends State<TrackingPage_> {
     return Template(
       appBarTitle: "Yacht on Cloud",
       child: new Stack(
-          alignment: AlignmentDirectional.topCenter,
-          children: [
-            Positioned( child: Container(
-                   decoration: BoxDecoration(
-                      color: cardsColor1,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowCard.withOpacity(0.01),
-                          spreadRadius: 10,
-                          blurRadius: 3,
-                          // changes position of shadow
-                        ),
-                      ]),
-              width: double.infinity,
-              height: double.infinity,
-              child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        alignment: AlignmentDirectional.topCenter,
+        children: [
+          Positioned(
+              child: Container(
+            decoration: BoxDecoration(
+                color: cardsColor1,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowCard.withOpacity(0.01),
+                    spreadRadius: 10,
+                    blurRadius: 3,
+                    // changes position of shadow
+                  ),
+                ]),
+            width: double.infinity,
+            height: double.infinity,
+            child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                 future: getLatLong(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-                if(snap.connectionState == ConnectionState.waiting) {
-                  return Center( child: CircularProgressIndicator(color: appBarColor1), );
-                } else if(snap.hasData) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                        snap) {
+                  if (snap.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(color: appBarColor1),
+                    );
+                  } else if (snap.hasData) {
                     debugPrint("Non devo più aspettare");
-                  return FlutterMap(
-                        options: MapOptions(
-                          center: visionPos,
-                          zoom: 16,
-                        ),
-                        layers: [
-                          //openSeaMarks,
-                          openStreetMap,
-                          openSeaMarks,
-                          MarkerLayerOptions(
-                            markers: [
-                              Marker.Marker(
-                                width: 25.0,
-                                height: 25.0,
-                                point: currentPos,
-                                builder: (ctx) =>
-                                Container(
-                                  child: Image.asset(
-                                    'assets/yacht.png',
-                                    height: 40,
-                                    width: 40,
-                                  ),
+                    return FlutterMap(
+                      options: MapOptions(
+                        center: visionPos,
+                        zoom: 16,
+                      ),
+                      layers: [
+                        //openSeaMarks,
+                        openStreetMap,
+                        openSeaMarks,
+                        MarkerLayerOptions(
+                          markers: [
+                            Marker.Marker(
+                              width: 25.0,
+                              height: 25.0,
+                              point: currentPos,
+                              builder: (ctx) => Container(
+                                child: Image.asset(
+                                  'assets/yacht.png',
+                                  height: 40,
+                                  width: 40,
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center(
+                        child: Text("${snap.error}",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: textColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold))));
+                  }
+                }),
+          )),
+          // ),
+          //),
+          Positioned(
+              top: size.height - 100,
+              child: Center(
+                  child: Container(
+                width: 250,
+                height: 50,
+                margin: EdgeInsets.symmetric(vertical: 1),
+                child: TextButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(buttonColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: buttonColor)))),
+                  onPressed: () async {
+                    final value = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SetAlertPage_(title: "peppe")),
+                    );
+                    setState(() {
+                      res = value;
+                      debugPrint("help " + res.toString());
+                    });
+                    debugPrint("MA CHE SUCCEDE SCUSA");
+                    await _showMyDialog(res);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Imposta notifica',
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: textColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal)),
                           ),
-                        ],
-                      );} else {
-                        return Center( child: Text(
-                              "${snap.error}",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      color: textColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold))) );
-                      }}),
-                    )),
-                    // ),
-                    //),
-            Positioned( top: size.height - 100, child: Center(
-              child: Container(
-                     width: 250,
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 1),
-      child: TextButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(buttonColor),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: buttonColor)))),
-        onPressed: () async {
-                final value = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SetAlertPage_(title: "peppe")),
-                            );
-                            setState(() {
-                              res = value;
-                              debugPrint("help " + res.toString());
-                            });
-                            debugPrint("MA CHE SUCCEDE SCUSA");
-                            await _showMyDialog(res);
-              },
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 5,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  'Imposta notifica',
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: textColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
+              ))),
+        ],
       ),
-    ))),
-          ],
-        ),
       //),
       boxDecoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -369,4 +383,3 @@ class _MyHomePageState extends State<TrackingPage_> {
     );
   }
 }
-

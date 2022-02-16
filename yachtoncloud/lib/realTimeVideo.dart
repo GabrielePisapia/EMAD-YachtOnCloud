@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
@@ -17,10 +18,12 @@ import 'theme/colors.dart';
 import 'package:intl/intl.dart';
 
 class RealTimeVideo extends StatefulWidget {
-  const RealTimeVideo({Key? key}) : super(key: key);
+  const RealTimeVideo({Key? key, required this.indice}) : super(key: key);
 
   @override
   RealTimeVideoState createState() => RealTimeVideoState();
+
+  final int indice;
 }
 
 class RealTimeVideoState extends State<RealTimeVideo> {
@@ -30,6 +33,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
   bool _disposed = false;
   bool _playArea = false;
   int _isPlayingIndex = 1;
+  var indic;
   /*String dataSource =
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";*/
   /*String dataSource =
@@ -66,8 +70,12 @@ class RealTimeVideoState extends State<RealTimeVideo> {
         .collection('Utenti')
         .doc(uid)
         .get()
-        .then((querySnapshot) {
+        .then((querySnapshot) async {
       if (querySnapshot.data()!.containsKey("boxes")) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        indic = prefs.getInt('indice');
+        //indic = widget.indice;
+        print("INDEX ${indic}");
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         print(
             "mammt ${querySnapshot.data()!['boxes'][0]['box']['videocamere']}");
