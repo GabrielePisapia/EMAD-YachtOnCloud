@@ -32,7 +32,7 @@ class statusBoxes extends StatefulWidget {
 
 class _boxesState extends State<statusBoxes> {
   List<TextEditingController> nameController = [];
-  var boxes = [];
+  var boxesVar = [];
   Future<List>? _futureData;
 
   ScrollController _controller = ScrollController();
@@ -59,12 +59,6 @@ class _boxesState extends State<statusBoxes> {
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
     return await snap.data()!['boxes'];
-    /*switchValues = [];
-        for(int i = 0; i < cameras.length; i++) {
-          switchValues.add(cameras[i]['attivo']);
-        }
-        debugPrint(switchValues.length.toString());*/
-    //return cameras;
   }
 
   Future<String> UpdateBoxesStateDB() async {
@@ -76,16 +70,11 @@ class _boxesState extends State<statusBoxes> {
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
       final data = snap.data();
-      final boxes =
-          data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
-      final box = boxes[0]['box'];
-      debugPrint(box.toString());
-      final videoCamere = box['videocamere'];
+      final boxes = data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
 
-      for (int i = 0; i < cameras.length; i++) {
-        videoCamere[i]['attivo'] = cameras[i]['attivo'];
+      for (int i = 0; i < boxes.length; i++) {
         if (nameController[i].text != "") {
-          videoCamere[i]['nomeCamera'] = nameController[i].text;
+           boxes[i]['box']['nome'] = nameController[i].text;
         }
       }
 
@@ -105,7 +94,7 @@ class _boxesState extends State<statusBoxes> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
-    _futureData = getCameraData();
+    _futureData = getBoxesData();
     super.initState();
   }
 
@@ -113,7 +102,7 @@ class _boxesState extends State<statusBoxes> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    Widget createRow(String nomeCamera, bool status, int i) {
+    Widget createRow(String nomeBox, int i) {
       var index = i;
       return Padding(
           padding: EdgeInsets.only(top: 20, left: 20),
@@ -122,7 +111,7 @@ class _boxesState extends State<statusBoxes> {
               Container(
                   //width: double.infinity,
                   height: 50,
-                  width: 180,
+                  width: 260,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -130,7 +119,7 @@ class _boxesState extends State<statusBoxes> {
                       controller: nameController[i],
                       obscureText: false,
                       decoration: InputDecoration(
-                          hintText: nomeCamera,
+                          hintText: nomeBox,
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius:
@@ -139,41 +128,16 @@ class _boxesState extends State<statusBoxes> {
                           filled:
                               true))
                   ),
-              SizedBox(
-                width: 20,
-              ),
-              Image.asset(
-                status ? 'assets/camera.png' : 'assets/no-camera.png',
-                height: 50,
-                width: 50,
-              ),
-              SizedBox(
-                height: 20,
-                child: Switch(
-                  activeTrackColor:
-                    activeTrackLight,
-                  activeColor: activeTrackDark,
-                  value: status,
-                  onChanged: (val2) {
-                    //debugPrint(status.toString() + " " + val2.toString());
-                    setState(() {
-                      status = val2;
-                      cameras[i]['attivo'] = val2;
-                      //debugPrint(cameras.toString());
-                    });
-                  },
-                ),
-              ),
             ],
           ));
     }
 
     List<Widget> createList() {
       List<Widget> list = [];
-      for (int i = 0; i < cameras.length; i++) {
+      for (int i = 0; i < boxesVar.length; i++) {
         nameController.add(new TextEditingController());
-        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i));
-        if(i != cameras.length - 1) {
+        list.add(createRow(boxesVar[i]['box']['nome'], i));
+        if(i != boxesVar.length - 1) {
           list.add(SizedBox(
         height: 10,
       ));
@@ -197,13 +161,13 @@ class _boxesState extends State<statusBoxes> {
             future: _futureData,
             builder: (BuildContext context, AsyncSnapshot<List> snap) {
               if (!snap.hasData) {
-                debugPrint(snap.toString() + " " + cameras.toString());
+                debugPrint(snap.toString() + " " + boxesVar.toString());
                 return Center(
                   child: CircularProgressIndicator(color: appBarColor1),
                 );
               } else if (snap.hasData) {
                 debugPrint("Non devo più aspettare");
-                cameras = snap.data!;
+                boxesVar = snap.data!;
                 return SingleChildScrollView(
                   child: Padding(
                       padding: EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 5.0),
@@ -213,7 +177,7 @@ class _boxesState extends State<statusBoxes> {
                             child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Impostazioni videocamere",
+                                  "Impostazioni boxes",
                                   style: GoogleFonts.poppins(
                                       textStyle: TextStyle(
                                           color: textColor,
@@ -225,7 +189,7 @@ class _boxesState extends State<statusBoxes> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: EdgeInsets.only(bottom: 7),
-                              child: Text('Nomi e stato',
+                              child: Text('Nomi boxes',
                                   style: GoogleFonts.poppins(
                                       textStyle: TextStyle(
                                           color: textColor,
@@ -276,7 +240,7 @@ class _boxesState extends State<statusBoxes> {
                                                   color: buttonColor)))),
                                   onPressed: () {
                                     var esito = "";
-                                    UpdateCameraStateDB().then((val) {
+                                    UpdateBoxesStateDB().then((val) {
                                       esito = val;
                                       print(esito);
                                       if (esito == "Ok") {
@@ -304,7 +268,7 @@ class _boxesState extends State<statusBoxes> {
                       ])),
                 );
               } else {
-                debugPrint("Non so why " + cameras.toString());
+                debugPrint("Non so why " + boxesVar.toString());
                 return Center(
                     child: Text("Non so perchè: ${snap.error}",
                         style: GoogleFonts.poppins(

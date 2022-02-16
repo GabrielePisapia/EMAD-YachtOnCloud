@@ -16,6 +16,7 @@ import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/nomiBoxes.dart';
 import 'package:yachtoncloud/scanpage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
 import 'package:yachtoncloud/template.dart';
@@ -144,7 +145,7 @@ class _AssociaBoxState extends State<AssociaBox> {
       "qrc.png"
     ];
 
-    getWidget(bool res) {
+    getBoxWidget(bool res) {
       if (res) {
         return <Widget>[
           Padding(
@@ -257,8 +258,122 @@ class _AssociaBoxState extends State<AssociaBox> {
       }
     }
 
-    Future<void> _showMyDialog(bool res) async {
-      return showDialog<void>(
+    getNamesWidget(bool res) {
+      if (res) {
+        return <Widget>[
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazioni boxes',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child:
+                  Lottie.asset('assets/success.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Impostazioni dei boxes aggiornate con successo!',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                ),
+              ),
+            ),
+          ))
+        ];
+      } else {
+        return <Widget>[
+          Padding(
+              padding: EdgeInsets.only(top: 7, bottom: 7),
+              child: Text('Impostazioni boxes',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))),
+          Container(
+              width: 200,
+              height: 150,
+              child: Lottie.asset('assets/fail.json', fit: BoxFit.scaleDown)),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('Aggiornamento fallito, riprova.',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          color: textColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal)))),
+          Center(
+              child: Container(
+            width: 200,
+            height: 50,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(buttonColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(color: buttonColor)))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Expanded(
+                flex: 5,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ok',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: textColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                ),
+              ),
+            ),
+          ))
+        ];
+      }
+    }
+
+    Future<void> _showMyDialog(bool res, int i) async {
+      if(i == 0) {
+        return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
@@ -282,13 +397,46 @@ class _AssociaBoxState extends State<AssociaBox> {
                   ]),
               child: SingleChildScrollView(
                   child: ListBody(
-                children: getWidget(res),
+                children: getBoxWidget(res),
               )),
             ),
             contentPadding: EdgeInsets.all(0.0),
           );
         },
       );
+      } else if(i == 1) {
+        return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            content: Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [dialogColor1, dialogColor2],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowCard.withOpacity(0.01),
+                      spreadRadius: 5,
+                      blurRadius: 3,
+                    ),
+                  ]),
+              child: SingleChildScrollView(
+                  child: ListBody(
+                children: getNamesWidget(res),
+              )),
+            ),
+            contentPadding: EdgeInsets.all(0.0),
+          );
+        },
+      );
+      }
     }
 
     _gridView() {
@@ -426,13 +574,25 @@ class _AssociaBoxState extends State<AssociaBox> {
                               ],
                             ),
                           ),
-                          onTap: () {
+                          onTap: () async {
                             debugPrint("Indice${index}");
-                            Navigator.push(
+                            if(index < boxesList.length -1 ) {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         DashboardBox(indice: index)));
+                            } else {
+                               final value = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        statoBoxes()));
+                                setState(() {
+                                  res = value;
+                                });
+                               await _showMyDialog(res, 1);
+                            }
                           },
                         );
                         }));
@@ -477,7 +637,7 @@ class _AssociaBoxState extends State<AssociaBox> {
 
                     debugPrint("TRMOOOOOOON " + res.toString());
                     // Show PopUp
-                    await _showMyDialog(res);
+                    await _showMyDialog(res, 0);
                     bb();
                   },
                 ),
