@@ -47,8 +47,10 @@ class TrackingPage_ extends StatefulWidget {
 class _MyHomePageState extends State<TrackingPage_> {
   late LatLng currentPos;
   late LatLng visionPos;
+  late LatLng lat, long;
   late Timer timer;
   bool res = true;
+  var circleMarkers;
   var indic;
 
   @override
@@ -78,6 +80,21 @@ class _MyHomePageState extends State<TrackingPage_> {
     currentPos = LatLng(
         snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
         snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+
+    //Possiamo lasciare cosi altrimenti facciamo un calcolo per avere delimitata in base all'alert però va bene anche cosi tanto
+
+    debugPrint("LAT E LONG " + currentPos.toString());
+    circleMarkers = <CircleMarker>[
+      CircleMarker(
+        point: LatLng(currentPos.latitude, currentPos.longitude),
+        color: Colors.red.withOpacity(0),
+        borderStrokeWidth: 2,
+        useRadiusInMeter: true,
+        radius: 100, // 2000 meters | 2 km,
+        borderColor: Colors.red,
+      ),
+    ];
+
     visionPos = currentPos;
     debugPrint(currentPos.toString());
     return await snap;
@@ -288,6 +305,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                         //openSeaMarks,
                         openStreetMap,
                         openSeaMarks,
+                        CircleLayerOptions(circles: circleMarkers),
                         MarkerLayerOptions(
                           markers: [
                             Marker.Marker(

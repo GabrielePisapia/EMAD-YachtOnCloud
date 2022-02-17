@@ -118,6 +118,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
               obscureText: isPassword,
               decoration: InputDecoration(
                   hintText: 'Miglia personalizzate',
+                  //Colore bianco gli donahintStyle: TextStyle(color: textColor),
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),

@@ -104,7 +104,9 @@ class _AssociaBoxState extends State<AssociaBox> {
         boxesList = querySnapshot.data()!['boxes'];
         print("query " + boxesList[0].toString());
         if (boxesList.length != 0) {
-          boxesList.add({ 'box': {'nome': 'Impostazioni boxes' }});
+          boxesList.add({
+            'box': {'nome': 'Impostazioni boxes'}
+          });
           createGrid = 1;
         } else {
           createGrid = 0;
@@ -372,70 +374,70 @@ class _AssociaBoxState extends State<AssociaBox> {
     }
 
     Future<void> _showMyDialog(bool res, int i) async {
-      if(i == 0) {
+      if (i == 0) {
         return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            content: Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [dialogColor1, dialogColor2],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowCard.withOpacity(0.01),
-                      spreadRadius: 5,
-                      blurRadius: 3,
-                    ),
-                  ]),
-              child: SingleChildScrollView(
-                  child: ListBody(
-                children: getBoxWidget(res),
-              )),
-            ),
-            contentPadding: EdgeInsets.all(0.0),
-          );
-        },
-      );
-      } else if(i == 1) {
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              content: Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [dialogColor1, dialogColor2],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowCard.withOpacity(0.01),
+                        spreadRadius: 5,
+                        blurRadius: 3,
+                      ),
+                    ]),
+                child: SingleChildScrollView(
+                    child: ListBody(
+                  children: getBoxWidget(res),
+                )),
+              ),
+              contentPadding: EdgeInsets.all(0.0),
+            );
+          },
+        );
+      } else if (i == 1) {
         return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            content: Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [dialogColor1, dialogColor2],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowCard.withOpacity(0.01),
-                      spreadRadius: 5,
-                      blurRadius: 3,
-                    ),
-                  ]),
-              child: SingleChildScrollView(
-                  child: ListBody(
-                children: getNamesWidget(res),
-              )),
-            ),
-            contentPadding: EdgeInsets.all(0.0),
-          );
-        },
-      );
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              content: Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [dialogColor1, dialogColor2],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowCard.withOpacity(0.01),
+                        spreadRadius: 5,
+                        blurRadius: 3,
+                      ),
+                    ]),
+                child: SingleChildScrollView(
+                    child: ListBody(
+                  children: getNamesWidget(res),
+                )),
+              ),
+              contentPadding: EdgeInsets.all(0.0),
+            );
+          },
+        );
       }
     }
 
@@ -544,7 +546,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2),
                       itemBuilder: (context, index) {
-                          return GestureDetector(
+                        return GestureDetector(
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -557,7 +559,9 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   child: Transform.scale(
                                     scale: 1.5,
                                     child: Image.asset(
-                                      index < boxesList.length - 1 ? "assets/box.png" : "assets/settingbox.png",
+                                      index < boxesList.length - 1
+                                          ? "assets/box.png"
+                                          : "assets/settingbox.png",
                                       width: 100,
                                       height: 100,
                                     ),
@@ -576,26 +580,25 @@ class _AssociaBoxState extends State<AssociaBox> {
                           ),
                           onTap: () async {
                             debugPrint("Indice${index}");
-                            if(index < boxesList.length -1 ) {
+                            if (index < boxesList.length - 1) {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DashboardBox(indice: index)));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DashboardBox(indice: index)));
                             } else {
-                               final value = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        statoBoxes()));
-                                setState(() {
-                                  res = value;
-                                });
-                               await _showMyDialog(res, 1);
+                              final value = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => statusBoxes()));
+                              setState(() {
+                                res = value;
+                              });
+                              await _showMyDialog(res, 1);
                             }
                           },
                         );
-                        }));
+                      }));
             }
             debugPrint("sono fuori");
             return Center(
@@ -608,13 +611,14 @@ class _AssociaBoxState extends State<AssociaBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding( 
-                        padding: EdgeInsets.only(top: 15, left: 20, right:20),
-                        child:Image.asset(
-                        "assets/qrc.png",
-                        width: 100,
-                        height: 100,
-                      )),
+                      Padding(
+                          padding:
+                              EdgeInsets.only(top: 15, left: 20, right: 20),
+                          child: Image.asset(
+                            "assets/qrc.png",
+                            width: 100,
+                            height: 100,
+                          )),
                       SizedBox(
                         height: 10,
                       ),
