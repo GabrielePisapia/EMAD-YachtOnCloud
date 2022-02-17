@@ -126,28 +126,6 @@ class _AssociaBoxState extends State<AssociaBox> {
             color: textColorDashboard,
             fontSize: 12,
             fontWeight: FontWeight.bold));
-    var textList = [
-      "Videosorveglianza",
-      "Impostazioni \nvideosorveglianza",
-      "Storico \nregistrazioni",
-      "Connettività",
-      "Impostazioni \nconnettività",
-      "Tracking GPS",
-      "Notifica di movimento",
-      "Cambia box",
-      "Associa nuova box"
-    ];
-    var assetsList = [
-      "video-camera.png",
-      "setting.png",
-      "list.png",
-      "smartphone.png",
-      "settingwifi.png",
-      "compass.png",
-      "job.png",
-      "box.png",
-      "qrc.png"
-    ];
 
     getBoxWidget(bool res) {
       if (res) {
@@ -441,97 +419,6 @@ class _AssociaBoxState extends State<AssociaBox> {
           },
         );
       }
-    }
-
-    _gridView() {
-      return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          future: getBoxes(),
-          builder: (BuildContext context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(color: appBarColor1),
-              );
-            } else if (snap.hasData) {
-              debugPrint("Non devo più aspettare");
-              return GridView.builder(
-                  itemCount: assetsList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return new GestureDetector(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/${assetsList[index]}",
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              textList[index],
-                              style: cardTextStyle,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        final navigateTo = (page) =>
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => page,
-                            ));
-                        switch (index) {
-                          case 0:
-                            navigateTo(VlcVinfo());
-                            break;
-                          case 1:
-                            navigateTo(StatusVideocamere());
-                            break;
-                          case 2:
-                            navigateTo(VideoInfoBySearch());
-                            break;
-                          case 3:
-                            navigateTo(Connettivita());
-                            break;
-                          case 4:
-                            navigateTo((DetailsConnettivita()));
-                            break;
-                          case 5:
-                            navigateTo(TrackingPage());
-                            break;
-                          case 6:
-                            navigateTo(SetAlertPage());
-                            break;
-                          case 7:
-                            navigateTo(AssociaBox(creaGrid: 1));
-                            break;
-                          case 8:
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ScanPage()));
-                            break;
-                        }
-                      },
-                    );
-                  });
-            }
-            return Center(
-                child: Text("O cazz",
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))));
-          });
     }
 
     _checkGrid() {

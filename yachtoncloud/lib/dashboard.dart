@@ -15,6 +15,7 @@ import 'package:yachtoncloud/SetAlert.dart';
 import 'package:yachtoncloud/connettivita.dart';
 import 'package:yachtoncloud/drawer.dart';
 import 'package:yachtoncloud/navigation_provider.dart';
+import 'package:yachtoncloud/paginaIniziale.dart';
 import 'package:yachtoncloud/realTimeVideo.dart';
 import 'package:yachtoncloud/scanpage.dart';
 import 'package:yachtoncloud/statovideocamere.dart';
@@ -128,6 +129,7 @@ class _DashboardBoxState extends State<DashboardBox> {
       "Impostazioni \nconnettività",
       "Tracking GPS",
       "Notifica di movimento",
+      "Cambia box",
       "Associa nuova box"
     ];
     var assetsList = [
@@ -138,6 +140,7 @@ class _DashboardBoxState extends State<DashboardBox> {
       "wifi.png",
       "tracking.png",
       "notifications.png",
+      "box.png",
       "qrc.png"
     ];
 
@@ -740,6 +743,10 @@ class _DashboardBoxState extends State<DashboardBox> {
                             await _showMyDialog(res, 3);
                             break;
                           case 7:
+                            navigateTo(PaginaIniziale());
+                            break;
+
+                          case 8:
                             // mark the function as async
                             print('tap');
                             final value = await Navigator.push(
