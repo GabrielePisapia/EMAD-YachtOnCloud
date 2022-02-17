@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:yachtoncloud/dashboard.dart';
 import 'package:yachtoncloud/theme/colors.dart';
 
 void main() {
@@ -34,6 +35,7 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
+  var newBox = 0;
   final GlobalKey qrKey = GlobalKey();
   late QRViewController controller;
   String result = "";
@@ -174,21 +176,19 @@ class _ScanPageState extends State<ScanPage> {
         result = scanData.code ?? '';
         ;
       });
-      //debugPrint("QUESTO FUNZIONA " + result);
-      bool res = await addBox(jsonDecode(result));
-      debugPrint("Vediamo se mi ricordo ancora come si fa " + res.toString());
-      Navigator.pop(context, res);
+      debugPrint("QUESTO FUNZIONA " + result);
+      bool resu  = await addBox(jsonDecode(result));
+      debugPrint("Vediamo se mi ricordo ancora come si fa " + resu.toString());
+      //Navigator.pop(context, res);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardBox(indice : newBox, scan : true, res : resu)),
+       );
     });
   }
 
   Future<bool> addBox(Map<String, dynamic> result) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
-    FirebaseFirestore.instance
-        .collection('Utenti')
-        .doc(uid)
-        .get()
-        .then((querySnapshot) {
+    return FirebaseFirestore.instance.collection('Utenti').doc(uid).get().then((querySnapshot) {
       if (!querySnapshot.data()!.containsKey("boxes")) {
         debugPrint("ok, non c'è proprio il campo box " + uid);
         users.doc(uid).update({
@@ -214,6 +214,7 @@ class _ScanPageState extends State<ScanPage> {
         }).then((res) {
           debugPrint("Success!");
           //a quanto pare se metti lo stesso oggetto, ti dà successo a prescindere lmao
+          newBox = result['box']['idBox'];
           return true;
         }).catchError((error) {
           debugPrint("Error!" + error.toString());
@@ -222,7 +223,7 @@ class _ScanPageState extends State<ScanPage> {
       }
       return false;
     });
-    return false;
+    //return false;
     //debugPrint("inserisco la box " + uid);
   }
 

@@ -37,6 +37,7 @@ class StatusVideocamere extends StatefulWidget {
 
 class _StatusVideocamereState extends State<StatusVideocamere> {
   List<TextEditingController> nameController = [];
+  List<TextEditingController> zonaController = [];
   var cameras = [];
   Future<List>? _futureData;
 
@@ -91,6 +92,9 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
         if (nameController[i].text != "") {
           videoCamere[i]['nomeCamera'] = nameController[i].text;
         }
+        if(zonaController[i].text != "") {
+          videoCamere[i]['posizione'] = zonaController[i].text;
+        }
       }
 
       await FirebaseFirestore.instance
@@ -117,70 +121,93 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    Widget createRow(String nomeCamera, bool status, int i, double size) {
+    Widget createRow(String nomeCamera, String zona, bool status, int i, double size) {
       var index = i;
       return Padding(
-          padding: EdgeInsets.only(top: 20, left: 20),
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Container(
             width: size - 70,
-            child: Row(
+            child: Column(
               children: [
-                Container(
-                    //width: double.infinity,
-                    height: 50,
-                    width: 180,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
+                 Container(
+                   height: 50,
+                   width: size - 100,
+                   child: TextField(
+                              controller: nameController[i],
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                  hintText: nomeCamera,
+                                  hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15))),
+                                  fillColor: fieldTextColor,
+                                  filled: true)),
+                 ),
+                 SizedBox(height: 10,),
+                 Row(
+                  children: [
+                    Container(
+                        //width: double.infinity,
+                        height: 50,
+                        width: size - 229,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: TextField(
+                            controller: zonaController[i],
+                            obscureText: false,
+                            decoration: InputDecoration(
+                                hintText: zona,
+                                hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                                fillColor: fieldTextColor,
+                                filled: true))),
+                    SizedBox(
+                      width: 20,
                     ),
-                    child: TextField(
-                        controller: nameController[i],
-                        obscureText: false,
-                        decoration: InputDecoration(
-                            hintText: nomeCamera,
-                            hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            fillColor: fieldTextColor,
-                            filled: true))),
-                SizedBox(
-                  width: 20,
+                    Image.asset(
+                      status ? 'assets/camera.png' : 'assets/no-camera.png',
+                      height: 50,
+                      width: 50,
+                    ),
+                    SizedBox(
+                      height: 20,
+                      child: Switch(
+                        activeTrackColor: activeTrackLight,
+                        activeColor: activeTrackDark,
+                        value: status,
+                        onChanged: (val2) {
+                          //debugPrint(status.toString() + " " + val2.toString());
+                          setState(() {
+                            status = val2;
+                            cameras[i]['attivo'] = val2;
+                            //debugPrint(cameras.toString());
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Image.asset(
-                  status ? 'assets/camera.png' : 'assets/no-camera.png',
-                  height: 50,
-                  width: 50,
-                ),
-                SizedBox(
-                  height: 20,
-                  child: Switch(
-                    activeTrackColor: activeTrackLight,
-                    activeColor: activeTrackDark,
-                    value: status,
-                    onChanged: (val2) {
-                      //debugPrint(status.toString() + " " + val2.toString());
-                      setState(() {
-                        status = val2;
-                        cameras[i]['attivo'] = val2;
-                        //debugPrint(cameras.toString());
-                      });
-                    },
-                  ),
-                ),
-              ],
+                  ],
+                )
             ),
-          ));
+          );
     }
 
     List<Widget> createList(double size) {
       List<Widget> list = [];
       for (int i = 0; i < cameras.length; i++) {
         nameController.add(new TextEditingController());
-        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i, size));
+        zonaController.add(new TextEditingController());
+        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['posizione'], cameras[i]['attivo'], i, size));
         if (i != cameras.length - 1) {
           list.add(SizedBox(
-            height: 10,
+            height: 15,
           ));
         }
       }
@@ -240,7 +267,7 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                                           fontWeight: FontWeight.normal))),
                             )),
                         Container(
-                          height: 330,
+                          height: size.height - 340,
                           //width: double.infinity,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -261,7 +288,6 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               ]),
                           child: SingleChildScrollView(
                               child: Column(
-
                             children: createList(size.width),
                           )),
                         ),

@@ -477,7 +477,7 @@ class _AssociaBoxState extends State<AssociaBox> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DashboardBox(indice: index)));
+                                          DashboardBox(indice: index, scan : false, res : false)));
                             } else {
                               final value = await Navigator.push(
                                   context,
@@ -523,17 +523,10 @@ class _AssociaBoxState extends State<AssociaBox> {
                   onTap: () async {
                     // mark the function as async
                     print('tap');
-                    final value = await Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => ScanPage()),
                     );
-                    setState() {
-                      res = value;
-                    }
-
-                    debugPrint("TRMOOOOOOON " + res.toString());
-                    // Show PopUp
-                    await _showMyDialog(res, 0);
                     bb();
                   },
                 ),

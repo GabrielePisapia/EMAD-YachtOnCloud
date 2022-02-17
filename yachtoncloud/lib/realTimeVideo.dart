@@ -537,7 +537,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
           Row(
             children: [
               Container(
-                width: 80,
+                width: 100,
                 height: 20,
                 decoration: BoxDecoration(
                   color: Color(0XFFeaeefc),
@@ -545,7 +545,7 @@ class RealTimeVideoState extends State<RealTimeVideo> {
                 ),
                 child: Center(
                   child: Text(
-                    "Prua",
+                    videoList[index]['posizione'].toString(),
                     style: TextStyle(color: Color(0XFF839fed)),
                   ),
                 ),

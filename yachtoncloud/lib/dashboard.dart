@@ -50,24 +50,18 @@ class Dashboard extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const DashboardBox(indice: 0),
+          home: const DashboardBox(indice : 0, scan : false, res : false),
         ),
       );
 }
 
 class DashboardBox extends StatefulWidget {
-  const DashboardBox({Key? key, required this.indice}) : super(key: key);
+  const DashboardBox({Key? key, required this.indice, required this.scan, required this.res}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final int indice;
+  final bool scan;
+  final bool res;
 
   @override
   State<DashboardBox> createState() => _DashboardBoxState();
@@ -616,6 +610,7 @@ class _DashboardBoxState extends State<DashboardBox> {
     Future<void> _showMyDialog(bool res, int c) async {
       return showDialog<void>(
         context: context,
+        useRootNavigator: false,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
@@ -777,6 +772,9 @@ class _DashboardBoxState extends State<DashboardBox> {
           });
     }
 
+    Future.delayed(Duration.zero, () { if(widget.scan) { 
+      debugPrint("SCAN RES " + widget.scan.toString()); 
+      _showMyDialog(widget.res, 3); }});
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
