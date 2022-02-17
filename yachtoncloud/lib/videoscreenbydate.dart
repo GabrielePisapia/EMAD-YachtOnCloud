@@ -135,11 +135,12 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                     padding: EdgeInsets.only(left: 16),
                                     child: !_folded
                                         ? TextField(
+                                            style: TextStyle(color: textColor),
                                             controller: myController,
                                             decoration: InputDecoration(
                                                 hintText: 'Digita una data ',
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
+                                                hintStyle:
+                                                    TextStyle(color: textColor),
                                                 border: InputBorder.none),
                                           )
                                         : null,
@@ -161,11 +162,10 @@ class _VideoInfoBySearchState extends State<VideoInfoBySearch> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Icon(
-                                          _folded
-                                              ? Icons.search_outlined
-                                              : Icons.close,
-                                          color: textColor
-                                        ),
+                                            _folded
+                                                ? Icons.search_outlined
+                                                : Icons.close,
+                                            color: Colors.white),
                                       ),
                                       onTap: () {
                                         setState(() {
