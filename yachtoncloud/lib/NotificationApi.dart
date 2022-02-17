@@ -18,7 +18,7 @@ class NotificationApi {
         'channel id',
         'channel name',
         importance: Importance.max,
-        largeIcon: DrawableResourceAndroidBitmap('logo'),
+        largeIcon: DrawableResourceAndroidBitmap('alert'),
         color: const Color.fromARGB(236, 248, 13, 1),
         
       ),
