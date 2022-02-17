@@ -48,6 +48,7 @@ class _MyHomePageState extends State<TrackingPage_> {
   late LatLng currentPos;
   late LatLng visionPos;
   late LatLng lat, long;
+  var stato = true;
   late Timer timer;
   bool res = true;
   var circleMarkers;
@@ -78,20 +79,22 @@ class _MyHomePageState extends State<TrackingPage_> {
     indic = prefs.getInt('indice');
     print("INDEX tracking ${indic}");
     currentPos = LatLng(
-        snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
-        snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+        snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['lat'],
+        snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['long']);
+    var migliaAlert = snap.data()!['boxes'][indic]['box']['gps']['migliaAlert'];
 
-    //Possiamo lasciare cosi altrimenti facciamo un calcolo per avere delimitata in base all'alert però va bene anche cosi tanto
-
-    debugPrint("LAT E LONG " + currentPos.toString());
+    stato = snap.data()!['boxes'][indic]['box']['gps']['attivo'];
+    var migliaMetri = (migliaAlert * 1.60934) * 1000;
+     debugPrint("alert " +migliaAlert.toString());
+    debugPrint("metri " +migliaMetri.toString());
     circleMarkers = <CircleMarker>[
       CircleMarker(
         point: LatLng(currentPos.latitude, currentPos.longitude),
-        color: Colors.red.withOpacity(0),
+        color: appBarColor1.withOpacity(0.15),
         borderStrokeWidth: 2,
         useRadiusInMeter: true,
-        radius: 100, // 2000 meters | 2 km,
-        borderColor: Colors.red,
+        radius: migliaMetri, // 2000 meters | 2 km,
+        borderColor: appBarColor2,       
       ),
     ];
 
@@ -305,7 +308,7 @@ class _MyHomePageState extends State<TrackingPage_> {
                         //openSeaMarks,
                         openStreetMap,
                         openSeaMarks,
-                        CircleLayerOptions(circles: circleMarkers),
+                        stato ? CircleLayerOptions(circles: circleMarkers) : CircleLayerOptions(circles: []),
                         MarkerLayerOptions(
                           markers: [
                             Marker.Marker(

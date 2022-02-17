@@ -134,6 +134,7 @@ class _AssociaBoxState extends State<AssociaBox> {
       "Impostazioni \nconnettività",
       "Tracking GPS",
       "Notifica di movimento",
+      "Cambia box",
       "Associa nuova box"
     ];
     var assetsList = [
@@ -144,6 +145,7 @@ class _AssociaBoxState extends State<AssociaBox> {
       "settingwifi.png",
       "compass.png",
       "job.png",
+      "box.png",
       "qrc.png"
     ];
 
@@ -509,6 +511,9 @@ class _AssociaBoxState extends State<AssociaBox> {
                             navigateTo(SetAlertPage());
                             break;
                           case 7:
+                            navigateTo(AssociaBox(creaGrid: 1));
+                            break;
+                          case 8:
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

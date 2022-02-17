@@ -54,7 +54,7 @@ class _MyHomePageState extends State<SetAlertPage_> {
   }
 
   Future<String> SetAlertDB(String miglia) async {
-    debugPrint(miglia.toString());
+    debugPrint("imposta alert" + miglia.toString());
     final numericRegex = RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
     String esito = "";
     try {
@@ -74,14 +74,14 @@ class _MyHomePageState extends State<SetAlertPage_> {
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
       LatLng currPos = LatLng(
-          snap.data()!['boxes'][0]['box']['gps']['currentPosition']['lat'],
-          snap.data()!['boxes'][0]['box']['gps']['currentPosition']['long']);
+          snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['lat'],
+          snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['long']);
       debugPrint('Qua si prova a fare cose ' + currPos.toString());
 
       final data = snap.data();
       final boxes =
           data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
-      final box = boxes[0]['box'];
+      final box = boxes[indic]['box'];
       debugPrint(box.toString());
       final gps = box['gps'];
 
@@ -107,18 +107,19 @@ class _MyHomePageState extends State<SetAlertPage_> {
     }
   }
 
-  Widget _entryField(String title, TextEditingController controller,
-      {bool isPassword = false}) {
+  Widget _entryField(String title, TextEditingController controller, double size) {
     return Container(
+       height: 50,
+        width: size - 105,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
               controller: controller,
-              obscureText: isPassword,
+              obscureText: false,
               decoration: InputDecoration(
                   hintText: 'Miglia personalizzate',
-                  //Colore bianco gli donahintStyle: TextStyle(color: textColor),
+                  hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -129,8 +130,8 @@ class _MyHomePageState extends State<SetAlertPage_> {
     );
   }
 
-  Widget _migliaWidget() {
-    return _entryField("", migliaController);
+  Widget _migliaWidget(double size) {
+    return _entryField("", migliaController, size);
   }
 
   @override
@@ -215,9 +216,9 @@ class _MyHomePageState extends State<SetAlertPage_> {
                                 padding: EdgeInsets.all(10),
                                 child: Column(children: [
                                   RadioListTile<int>(
-                                    value: 5,
+                                    value: 2,
                                     groupValue: selected,
-                                    title: Text("5 miglia",
+                                    title: Text("0.2 miglia",
                                         style: GoogleFonts.poppins(
                                             textStyle: TextStyle(
                                                 color: textColor,
@@ -228,9 +229,9 @@ class _MyHomePageState extends State<SetAlertPage_> {
                                     activeColor: activeColorRadio,
                                   ),
                                   RadioListTile<int>(
-                                    value: 10,
+                                    value: 3,
                                     groupValue: selected,
-                                    title: Text("10 miglia",
+                                    title: Text("0.3 miglia",
                                         style: GoogleFonts.poppins(
                                             textStyle: TextStyle(
                                                 color: textColor,
@@ -241,9 +242,9 @@ class _MyHomePageState extends State<SetAlertPage_> {
                                     activeColor: activeColorRadio,
                                   ),
                                   RadioListTile<int>(
-                                    value: 15,
+                                    value: 1,
                                     groupValue: selected,
-                                    title: Text("15 miglia",
+                                    title: Text("1 miglio",
                                         style: GoogleFonts.poppins(
                                             textStyle: TextStyle(
                                                 color: textColor,
@@ -269,12 +270,12 @@ class _MyHomePageState extends State<SetAlertPage_> {
                                 ])),
                             Center(
                               child: Container(
-                                  width: size.width - 150,
+                                  width: size.width - 110,
                                   height: 60,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: _migliaWidget()),
+                                  child: _migliaWidget(size.width)),
                             ),
                             SizedBox(height: 20),
                           ],
@@ -297,10 +298,11 @@ class _MyHomePageState extends State<SetAlertPage_> {
                         onPressed: () {
                           print('pressed ' + selected.toString());
                           String valore = "";
-                          if (int.parse(selected.toString()) == -1) {
+                          if (int.parse(selected.toString()) == -1 && (migliaController.text == null || migliaController.text == "")) {
                             valore = "-1";
-                          } else if (migliaController.text == null ||
-                              migliaController.text == "") {
+                          } else if ((migliaController.text == null || migliaController.text == "") && selected.toString() != "1") {
+                            valore = "0." + selected.toString();
+                          } else if((migliaController.text == null || migliaController.text == "") && selected.toString() == "1"){
                             valore = selected.toString();
                           } else {
                             valore = migliaController.text;

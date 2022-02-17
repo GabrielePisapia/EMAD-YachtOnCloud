@@ -57,8 +57,8 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
     indic = prefs.getInt('indice');
     print("INDEX connettivita ${indic}");
 
-    nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
-    statusRete = snap.data()!['boxes'][0]['box']['router']['attivo'];
+    nomeRete = snap.data()!['boxes'][indic]['box']['router']['nomeRete'];
+    statusRete = snap.data()!['boxes'][indic]['box']['router']['attivo'];
     isSwitched = statusRete;
     debugPrint(nomeRete);
     return await snap;
@@ -294,6 +294,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                       controller: reteController,
                                       decoration: InputDecoration(
                                         hintText: nomeRete,
+                                        hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
                                         fillColor: fieldTextColor,
                                         filled: true,
                                         border: OutlineInputBorder(
@@ -320,6 +321,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                       initialValue: 'Password',
                                       decoration: InputDecoration(
                                         suffixIcon: IconButton(
+                                          color: textColor.withOpacity(0.7),
                                             icon: Icon(_obscureText
                                                 ? Icons.visibility
                                                 : Icons.visibility_off),
@@ -333,6 +335,7 @@ class _DetailsConnettivitaState extends State<DetailsConnettivita> {
                                               });
                                             }),
                                         hintText: 'Password',
+                                        hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
                                         fillColor: fieldTextColor,
                                         filled: true,
                                         border: OutlineInputBorder(
@@ -439,16 +442,15 @@ class _ConnettivitaState extends State<Connettivita> {
           FirebaseFirestore.instance.collection('Utenti');
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-      //ECCO IL TUO INDICE
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.getInt('indice');
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+      var indic = prefs.getInt('indice');
       print("INDICE CONNETTIVITA DUE ${prefs.getInt('indice')}");
-      nomeRete = snap.data()!['boxes'][0]['box']['router']['nomeRete'];
-      giga = snap.data()!['boxes'][0]['box']['router']['giga'];
-      provider = snap.data()!['boxes'][0]['box']['router']['provider'];
-      nomePromozione = snap.data()!['boxes'][0]['box']['router']['promozione'];
-      consumati = snap.data()!['boxes'][0]['box']['router']['consumati'];
-      _myList = snap.data()!['boxes'][0]['box']['router']['dispositivi'];
+      nomeRete = snap.data()!['boxes'][indic]['box']['router']['nomeRete'];
+      giga = snap.data()!['boxes'][indic]['box']['router']['giga'];
+      provider = snap.data()!['boxes'][indic]['box']['router']['provider'];
+      nomePromozione = snap.data()!['boxes'][indic]['box']['router']['promozione'];
+      consumati = snap.data()!['boxes'][indic]['box']['router']['consumati'];
+      _myList = snap.data()!['boxes'][indic]['box']['router']['dispositivi'];
       restanti = giga - consumati;
       chartData = [
         ChartData('Consumati', int.parse(consumati.toString()), chartColor1),

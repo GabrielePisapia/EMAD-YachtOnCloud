@@ -58,38 +58,31 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
   }
 
   Future<List> getCameraData() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+      var indic = prefs.getInt('indice');
     debugPrint("Ma almeno ci arrivo qua?");
     final uid = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('Utenti');
     var snap =
         await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
-    //ECCO IL TUO INDICE
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getInt('indice');
-    return await snap.data()!['boxes'][0]['box']['videocamere'];
-    /*switchValues = [];
-        for(int i = 0; i < cameras.length; i++) {
-          switchValues.add(cameras[i]['attivo']);
-        }
-        debugPrint(switchValues.length.toString());*/
-    //return cameras;
+    return await snap.data()!['boxes'][indic]['box']['videocamere'];
   }
 
   Future<String> UpdateCameraStateDB() async {
     String esito = "";
     try {
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+      var indic = prefs.getInt('indice');
       final uid = FirebaseAuth.instance.currentUser!.uid;
       CollectionReference users =
           FirebaseFirestore.instance.collection('Utenti');
       var snap =
           await FirebaseFirestore.instance.collection('Utenti').doc(uid).get();
       final data = snap.data();
-      //ECCO IL TUO INDICE
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.getInt('indice');
+
       final boxes =
           data!['boxes'].map((item) => item as Map<String, dynamic>).toList();
-      final box = boxes[0]['box'];
+      final box = boxes[indic]['box'];
       debugPrint(box.toString());
       final videoCamere = box['videocamere'];
 
@@ -124,63 +117,67 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    Widget createRow(String nomeCamera, bool status, int i) {
+    Widget createRow(String nomeCamera, bool status, int i, double size) {
       var index = i;
       return Padding(
           padding: EdgeInsets.only(top: 20, left: 20),
-          child: Row(
-            children: [
-              Container(
-                  //width: double.infinity,
-                  height: 50,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: TextField(
-                      controller: nameController[i],
-                      obscureText: false,
-                      decoration: InputDecoration(
-                          hintText: nomeCamera,
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                          fillColor: fieldTextColor,
-                          filled: true))),
-              SizedBox(
-                width: 20,
-              ),
-              Image.asset(
-                status ? 'assets/camera.png' : 'assets/no-camera.png',
-                height: 50,
-                width: 50,
-              ),
-              SizedBox(
-                height: 20,
-                child: Switch(
-                  activeTrackColor: activeTrackLight,
-                  activeColor: activeTrackDark,
-                  value: status,
-                  onChanged: (val2) {
-                    //debugPrint(status.toString() + " " + val2.toString());
-                    setState(() {
-                      status = val2;
-                      cameras[i]['attivo'] = val2;
-                      //debugPrint(cameras.toString());
-                    });
-                  },
+          child: Container(
+            width: size - 70,
+            child: Row(
+              children: [
+                Container(
+                    //width: double.infinity,
+                    height: 50,
+                    width: 180,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: TextField(
+                        controller: nameController[i],
+                        obscureText: false,
+                        decoration: InputDecoration(
+                            hintText: nomeCamera,
+                            hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            fillColor: fieldTextColor,
+                            filled: true))),
+                SizedBox(
+                  width: 20,
                 ),
-              ),
-            ],
+                Image.asset(
+                  status ? 'assets/camera.png' : 'assets/no-camera.png',
+                  height: 50,
+                  width: 50,
+                ),
+                SizedBox(
+                  height: 20,
+                  child: Switch(
+                    activeTrackColor: activeTrackLight,
+                    activeColor: activeTrackDark,
+                    value: status,
+                    onChanged: (val2) {
+                      //debugPrint(status.toString() + " " + val2.toString());
+                      setState(() {
+                        status = val2;
+                        cameras[i]['attivo'] = val2;
+                        //debugPrint(cameras.toString());
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ));
     }
 
-    List<Widget> createList() {
+    List<Widget> createList(double size) {
       List<Widget> list = [];
       for (int i = 0; i < cameras.length; i++) {
         nameController.add(new TextEditingController());
-        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i));
+        list.add(createRow(cameras[i]['nomeCamera'], cameras[i]['attivo'], i, size));
         if (i != cameras.length - 1) {
           list.add(SizedBox(
             height: 10,
@@ -264,7 +261,8 @@ class _StatusVideocamereState extends State<StatusVideocamere> {
                               ]),
                           child: SingleChildScrollView(
                               child: Column(
-                            children: createList(),
+
+                            children: createList(size.width),
                           )),
                         ),
                         SizedBox(

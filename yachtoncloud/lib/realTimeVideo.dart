@@ -78,8 +78,8 @@ class RealTimeVideoState extends State<RealTimeVideo> {
         print("INDEX ${indic}");
         //debugPrint("ok, non c'è proprio il campo box " + uid);
         print(
-            "mammt ${querySnapshot.data()!['boxes'][0]['box']['videocamere']}");
-        videoListTemp = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
+            "mammt ${querySnapshot.data()!['boxes'][indic]['box']['videocamere']}");
+        videoListTemp = querySnapshot.data()!['boxes'][indic]['box']['videocamere'];
         //videoList = querySnapshot.data()!['boxes'][0]['box']['videocamere'];
 
         videoList = [

@@ -111,7 +111,7 @@ class _boxesState extends State<statusBoxes> {
               Container(
                   //width: double.infinity,
                   height: 50,
-                  width: 260,
+                  width: size.width - 105,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -120,6 +120,7 @@ class _boxesState extends State<statusBoxes> {
                       obscureText: false,
                       decoration: InputDecoration(
                           hintText: nomeBox,
+                      hintStyle: TextStyle(color: textColor.withOpacity(0.8)),
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius:
