@@ -46,6 +46,7 @@ class TrackingPage_ extends StatefulWidget {
 
 class _MyHomePageState extends State<TrackingPage_> {
   late LatLng currentPos;
+  late LatLng alertPos;
   late LatLng visionPos;
   late LatLng lat, long;
   var stato = true;
@@ -82,14 +83,16 @@ class _MyHomePageState extends State<TrackingPage_> {
         snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['lat'],
         snap.data()!['boxes'][indic]['box']['gps']['currentPosition']['long']);
     var migliaAlert = snap.data()!['boxes'][indic]['box']['gps']['migliaAlert'];
-
+    alertPos = LatLng(
+        snap.data()!['boxes'][indic]['box']['gps']['positionAlert']['lat'],
+        snap.data()!['boxes'][indic]['box']['gps']['positionAlert']['long']);
     stato = snap.data()!['boxes'][indic]['box']['gps']['attivo'];
     var migliaMetri = (migliaAlert * 1.60934) * 1000;
      debugPrint("alert " +migliaAlert.toString());
     debugPrint("metri " +migliaMetri.toString());
     circleMarkers = <CircleMarker>[
       CircleMarker(
-        point: LatLng(currentPos.latitude, currentPos.longitude),
+        point: LatLng(alertPos.latitude, alertPos.longitude),
         color: appBarColor1.withOpacity(0.15),
         borderStrokeWidth: 2,
         useRadiusInMeter: true,
